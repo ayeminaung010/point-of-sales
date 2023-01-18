@@ -15,7 +15,7 @@
                         </div>
                     </div>
                     <div class="table-data__tool-right">
-                        <a href="">
+                        <a href="{{ route('admin#productCreatePage') }}">
                             <button class="au-btn au-btn-icon au-btn--green au-btn--small">
                                 <i class="zmdi zmdi-plus"></i>Add Products
                             </button>
@@ -49,6 +49,7 @@
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     </div>
+
                 @endif --}}
 
                 {{-- end alert  --}}
@@ -74,26 +75,61 @@
                         <h4> <i class="fa-solid fa-database ms-2"></i> - </h4>
                     </div>
                 </div>
+                @if (count($products) !== 0)
                 <div class="table-responsive table-responsive-data2">
                     <table class="table table-data2">
                         <thead>
                             <tr>
-
                                 <th>Image</th>
-                                <th>Name</th>
+                                <th>Product Name</th>
                                 <th>Price</th>
-                                <th>Category</th>
+                                <th>Category Name</th>
                                 <th>View count</th>
-
                             </tr>
                         </thead>
                         <tbody>
 
+                                @foreach ($products as $p )
+                                <tr class="tr-shadow ">
+                                    <td class="col-2 "> <img src="{{ asset('storage/img/'.$p->image) }}" class=" img-thumbnail shadow-sm  "  alt=""> </td>
+                                    <td class="col-3"> {{  $p->name }} </td>
+                                    <td class="col-2"> {{  $p->price }}</td>
+                                    <td class="col-2"> {{  $p->category->name}}</td>
+                                    <td class="col-2"><i class="fa-solid fa-eye"></i> {{  $p->view_count }}</td>
+                                    <td class="col-2">
+                                        <div class="table-data-feature">
+
+                                        <a href="" class="me-2" >
+                                            <button class="item" data-toggle="tooltip" data-placement="top" title="Detail">
+                                                <i class="fa-regular fa-eye"></i>
+                                            </button>
+                                        </a>
+                                        <a href="{{ route('admin#productEditPage',$p->id) }}"  class="me-2">
+                                            <button class="item" data-toggle="tooltip" data-placement="top" title="Edit">
+                                                <i class="zmdi zmdi-edit"></i>
+                                            </button>
+                                        </a>
+                                        <a href="{{ route('admin#productDelete',$p->id) }}" class="me-2">
+                                            <button class="item" data-toggle="tooltip" data-placement="top" title="Delete">
+                                                <i class="zmdi zmdi-delete"></i>
+                                            </button>
+                                        </a>
+
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                @endforeach
+                                <div class=" my-3">
+                                    {{ $products->links() }}
+                                </div>
 
                          </tbody>
                     </table>
                 </div>
-
+                @else
+                    <div class="text-center text-bold fs-4">There is no products </div>
+                @endif
                 <!-- END DATA TABLE -->
             </div>
         </div>

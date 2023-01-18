@@ -30,6 +30,7 @@
                                 <th>id</th>
                                 <th>name</th>
                                 <th>created at</th>
+                                <th>Updated at</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -40,7 +41,7 @@
                                     <span class="block-email text-bold text-dark">{{  $category->name }}</span>
                                 </td>
                                 <td class="desc">{{  $category->created_at->diffForHumans() }}</td>
-
+                                <td class="desc">{{  $category->updated_at->diffForHumans() }}</td>
                                 <td>
                                     <div class="table-data-feature">
                                         <a href="{{ route('admin#categoryEdit',$category->id) }}" class="item" data-toggle="tooltip" data-placement="top" title="Edit">

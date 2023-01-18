@@ -181,6 +181,8 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+        // new added toastr
+        // Yoeunes\Toastr\ToastrServiceProvider::class,
 
         /*
          * Package Service Providers...

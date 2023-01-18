@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 
 class CategoryController extends Controller
 {
@@ -26,7 +24,12 @@ class CategoryController extends Controller
     public function create(CategoryRequest $request){
         $category = new Category();
         $category->name = $request->categoryName;
-        $category->save();
+        $result =  $category->save();
+        if(!$result){
+            toastr()->error('Something wrong error 303');
+        }else{
+            toastr()->success('Product Created Success');
+        }
         return redirect()->route('admin#categoryList');
     }
 
@@ -34,6 +37,14 @@ class CategoryController extends Controller
     public function delete($id){
         $category = Category::find($id);
         $category->delete();
+        $results = Category::where('id', '>', $id)
+                    ->orderBy('id', 'asc')
+                    ->get();
+
+        foreach ($results as $row) {
+                Category::where('id', $row->id)
+                ->update(['id' => $row->id - 1]);
+        }
         return redirect()->route('admin#categoryList')->with('deleteSuccess');
     }
 
@@ -45,10 +56,10 @@ class CategoryController extends Controller
 
     // update
     public function update(CategoryRequest $request, $id){
-        dd($id);
         $category = Category::find($id);
         $category->name = $request->categoryName;
-        // Category::update();
+        $category->update();
+        return redirect()->route('admin#categoryList')->with(['UpdateSuccess'=> 'Updated Successfully']);
     }
 
 
