@@ -11,7 +11,6 @@
                     <div class="table-data__tool-left">
                         <div class="overview-wrap">
                             <h2 class="title-1">Order Lists</h2>
-
                         </div>
                     </div>
 
@@ -24,9 +23,7 @@
                 </div>
 
                 <form action="" method="post">
-
                     @csrf
-
                     <div class="input-group mb-3">
 
                         {{-- <select name="orderStatus" id="orderStatus" class="form-control col-2">

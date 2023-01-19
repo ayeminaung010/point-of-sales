@@ -55,13 +55,13 @@
                 {{-- end alert  --}}
                 <div class="row">
                     <div class="col-3 ">
-                        <h5 class=" text-secondary">Search Key : <span class="text-danger"></span></h5>
+                        <h5 class=" text-secondary">Search : <span class="text-danger">{{ request('search') }}</span></h5>
                     </div>
                     <div class="col-4 offset-8">
-                        <form action="" method="get">
+                        <form action="{{ route('admin#productList') }}" method="get">
                             @csrf
                             <div class="d-flex ">
-                                <input type="text" class="form-control"  value="" placeholder="Search.......">
+                                <input type="text" class="form-control"  value="{{ request('search') }}" name="search" placeholder="Search.......">
                                 <button class="btn btn-dark text-white " type="submit">
                                     <i class="fa-solid fa-magnifying-glass"></i>
                                 </button>
@@ -72,7 +72,7 @@
 
                 <div class="row my-2">
                     <div class="col-1 offset-10 bg-white shadow-sm p-2">
-                        <h4> <i class="fa-solid fa-database ms-2"></i> - </h4>
+                        <h4> <i class="fa-solid fa-database ms-2"></i> - {{ count($products) }} </h4>
                     </div>
                 </div>
                 @if (count($products) !== 0)
@@ -88,7 +88,6 @@
                             </tr>
                         </thead>
                         <tbody>
-
                                 @foreach ($products as $p )
                                 <tr class="tr-shadow ">
                                     <td class="col-2 "> <img src="{{ asset('storage/img/'.$p->image) }}" class=" img-thumbnail shadow-sm  "  alt=""> </td>
@@ -99,7 +98,7 @@
                                     <td class="col-2">
                                         <div class="table-data-feature">
 
-                                        <a href="" class="me-2" >
+                                        <a href="{{ route('admin#productDetail',$p->id) }}" class="me-2" >
                                             <button class="item" data-toggle="tooltip" data-placement="top" title="Detail">
                                                 <i class="fa-regular fa-eye"></i>
                                             </button>

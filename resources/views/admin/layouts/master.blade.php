@@ -63,7 +63,7 @@
                                 <i class="fa-solid fa-pizza-slice"></i> Products</a>
                         </li>
                         <li>
-                            <a href="">
+                            <a href="{{ route('admin#orderList') }}">
                                 <i class="fa-solid fa-list-check"></i> Order List</a>
                         </li>
                         <li>
@@ -120,53 +120,53 @@
                     </div>
                     <div class="account-wrap">
                         <div class="account-item clearfix js-item-menu">
-                            {{-- @if (Auth::user()->image == null)
+                            @if (Auth::user()->image == null)
                                 @if (Auth::user()->gender == 'male')
                                     <div class="image">
                                         <a href="#">
-                                            <img src="{{ asset('image/male_default.jpeg')}}" class=" img-thumbnail rounded" />
+                                            <img src="{{ asset('image/male.png')}}" class=" img-thumbnail rounded" />
                                         </a>
                                     </div>
                                 @else
                                     <div class="image">
                                         <a href="#">
-                                            <img src="{{ asset('image/female_default.jpeg')}}" class=" img-thumbnail rounded" />
+                                            <img src="{{ asset('image/female.jpg')}}" class=" img-thumbnail rounded" />
                                         </a>
                                     </div>
                                 @endif
                             @else
                                 <div class="image">
-                                    <img src="{{ asset('storage/'.Auth::user()->image) }}"  />
+                                    <img src="{{ asset('storage/img/admin/'.Auth::user()->image) }}"  />
                                 </div>
-                            @endif --}}
+                            @endif
 
                             <div class="content">
                                 <a class="js-acc-btn" href="#">{{ Auth::user()->name}} </a>
                             </div>
                             <div class="account-dropdown js-dropdown">
                                 <div class="info clearfix">
-                                    {{-- @if (Auth::user()->image == null)
+                                    @if (Auth::user()->image == null)
 
                                         @if (Auth::user()->gender == 'male')
                                             <div class="image">
                                                 <a href="#">
-                                                    <img src="{{ asset('image/male_default.jpeg')}}" class=" img-thumbnail rounded" />
+                                                    <img src="{{ asset('image/male.png')}}" class=" img-thumbnail rounded" />
                                                 </a>
                                             </div>
                                         @else
                                             <div class="image">
                                                 <a href="#">
-                                                    <img src="{{ asset('image/female_default.jpeg')}}" class=" img-thumbnail rounded" />
+                                                    <img src="{{ asset('image/female.jpg')}}" class=" img-thumbnail rounded" />
                                                 </a>
                                             </div>
                                         @endif
                                     @else
                                         <div class="image">
                                             <a href="#">
-                                                <img src="{{ asset('storage/'.Auth::user()->image) }}"  />
+                                                <img src="{{ asset('storage/img/admin/'.Auth::user()->image) }}"  />
                                             </a>
                                         </div>
-                                    @endif --}}
+                                    @endif
 
                                     <div class="content">
                                         <h5 class="name">
@@ -177,7 +177,7 @@
                                 </div>
                                 <div class="account-dropdown__body">
                                     <div class="account-dropdown__item">
-                                        <a href="">
+                                        <a href="{{ route('admin#account') }}">
                                             <i class="zmdi zmdi-account"></i>Account</a>
                                     </div>
                                     <div class="account-dropdown__item">
@@ -185,7 +185,7 @@
                                             <i class="fa-solid fa-users"></i>Admin Lists</a>
                                     </div>
                                     <div class="account-dropdown__item">
-                                        <a href="">
+                                        <a href="{{ route('admin#changePasswordPage') }}">
                                             <i class="fa-solid fa-key"></i></i>Password Change</a>
                                     </div>
 

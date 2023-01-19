@@ -28,21 +28,23 @@ class CreateNewUser implements CreatesNewUsers
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'phone' => ['required'],
             'address' => ['required'],
+            'gender' => ['required'],
             'password_confirmation' => ['required'],
             'password' => $this->passwordRules(),
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
         ])->validate();
 
         return DB::transaction(function () use ($input) {
+            // dd($input);
             return tap(User::create([
                 'name' => $input['name'],
                 'email' => $input['email'],
                 'password' => Hash::make($input['password']),
                 'phone' => $input['phone'],
+                'gender' => $input['gender'],
                 'address' => $input['address'],
             ]), function (User $user) {
                 $this->createTeam($user);
-
             });
         });
     }
