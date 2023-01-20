@@ -33,7 +33,7 @@
         <div class="row px-xl-5">
             <div class="col-lg-3 d-none d-lg-block">
                 <a href="" class="text-decoration-none">
-                    <span class="h1 text-uppercase text-primary bg-dark px-2">Pizza Shop</span>
+                    <span class="h1 text-uppercase text-primary bg-dark px-2">Your Shop</span>
                 </a>
             </div>
             <div class="col-lg-9">
@@ -49,6 +49,17 @@
                         <div class="navbar-nav mr-auto py-0">
                             <a href="{{ route('user#home')}}" class="nav-item nav-link active">Home</a>
                             <a href="" class="nav-item nav-link">Contact</a>
+                        </div>
+                        {{-- cart and bookmark  --}}
+                        <div class="navbar-nav ml-auto py-0 d-none d-lg-block">
+                            <a href="" class="btn px-0">
+                                <i class="fas fa-heart text-primary"></i>
+                                <span class="badge text-secondary border border-secondary rounded-circle" style="padding-bottom: 2px;">0</span>
+                            </a>
+                            <a href="" class="btn px-0 ml-3">
+                                <i class="fas fa-shopping-cart text-primary"></i>
+                                <span class="badge text-secondary border border-secondary rounded-circle" style="padding-bottom: 2px;">0</span>
+                            </a>
                         </div>
                         <div class="navbar-nav ml-auto py-0 d-none d-lg-block">
                             @if (empty(Auth::user()))
@@ -184,6 +195,9 @@
 
     <!-- Template Javascript -->
     <script src="{{ asset('user/js/main.js') }}"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
 
     <!-- JavaScript Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>

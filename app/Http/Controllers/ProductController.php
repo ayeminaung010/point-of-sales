@@ -35,7 +35,7 @@ class ProductController extends Controller
     public function create(ProductRequest $request){
         $data = $this->requestProductData($request);
         $imgName = uniqid().'_'.$request->file('productImage')->getClientOriginalName();
-        $request->file('productImage')->storeAs('public/img/admin',$imgName);
+        $request->file('productImage')->storeAs('public/img/product/',$imgName);
         $data['image'] = $imgName;
         $result = Product::create($data);
         if(!$result){

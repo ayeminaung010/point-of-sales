@@ -8,8 +8,6 @@
         <div class="col-12">
             <nav class="breadcrumb bg-light mb-30">
                 <a class="breadcrumb-item text-dark" href="#">Home</a>
-                <a class="breadcrumb-item text-dark" href="#">Shop</a>
-                <span class="breadcrumb-item active">Shop List</span>
             </nav>
         </div>
     </div>
@@ -22,6 +20,29 @@
     <div class="row px-xl-5">
         <!-- Shop Sidebar Start -->
         <div class="col-lg-3 col-md-4">
+            <!-- Category Start -->
+            <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Filter by Category</span></h5>
+            <div class="bg-light p-4 mb-30">
+                <form>
+                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+                        <input type="checkbox" value="" class="custom-control-input allCategories" name="all"  id="price-all">
+                        <label class="custom-control-label" for="price-all">All Categories</label>
+                    </div>
+
+                    <form action=""  method="get" >
+                        @foreach ($categories as $category)
+                            <div class="custom-control custom-checkbox d-flex align-items-center justify-content-start gap-3 mb-2 ">
+                                <input type="checkbox" class=" form-check-input checkboxFilter" name="category_id" id="{{ $category->id }}" value="{{ $category->id }}"  >
+                                <span class=" ms-2" for="price-1">{{ $category->name }}</span>
+                            </div>
+                        @endforeach
+                    </form>
+
+
+                </form>
+            </div>
+            <!-- category End -->
+
             <!-- Price Start -->
             <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Filter by price</span></h5>
             <div class="bg-light p-4 mb-30">
@@ -29,115 +50,31 @@
                     <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
                         <input type="checkbox" class="custom-control-input" checked id="price-all">
                         <label class="custom-control-label" for="price-all">All Price</label>
-                        <span class="badge border font-weight-normal">1000</span>
                     </div>
                     <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
                         <input type="checkbox" class="custom-control-input" id="price-1">
                         <label class="custom-control-label" for="price-1">$0 - $100</label>
-                        <span class="badge border font-weight-normal">150</span>
-                    </div>
+                   </div>
                     <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
                         <input type="checkbox" class="custom-control-input" id="price-2">
                         <label class="custom-control-label" for="price-2">$100 - $200</label>
-                        <span class="badge border font-weight-normal">295</span>
-                    </div>
+                   </div>
                     <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
                         <input type="checkbox" class="custom-control-input" id="price-3">
                         <label class="custom-control-label" for="price-3">$200 - $300</label>
-                        <span class="badge border font-weight-normal">246</span>
-                    </div>
+                   </div>
                     <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
                         <input type="checkbox" class="custom-control-input" id="price-4">
                         <label class="custom-control-label" for="price-4">$300 - $400</label>
-                        <span class="badge border font-weight-normal">145</span>
-                    </div>
+                   </div>
                     <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between">
                         <input type="checkbox" class="custom-control-input" id="price-5">
                         <label class="custom-control-label" for="price-5">$400 - $500</label>
-                        <span class="badge border font-weight-normal">168</span>
-                    </div>
+                   </div>
                 </form>
             </div>
             <!-- Price End -->
 
-            <!-- Color Start -->
-            <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Filter by color</span></h5>
-            <div class="bg-light p-4 mb-30">
-                <form>
-                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                        <input type="checkbox" class="custom-control-input" checked id="color-all">
-                        <label class="custom-control-label" for="price-all">All Color</label>
-                        <span class="badge border font-weight-normal">1000</span>
-                    </div>
-                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                        <input type="checkbox" class="custom-control-input" id="color-1">
-                        <label class="custom-control-label" for="color-1">Black</label>
-                        <span class="badge border font-weight-normal">150</span>
-                    </div>
-                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                        <input type="checkbox" class="custom-control-input" id="color-2">
-                        <label class="custom-control-label" for="color-2">White</label>
-                        <span class="badge border font-weight-normal">295</span>
-                    </div>
-                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                        <input type="checkbox" class="custom-control-input" id="color-3">
-                        <label class="custom-control-label" for="color-3">Red</label>
-                        <span class="badge border font-weight-normal">246</span>
-                    </div>
-                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                        <input type="checkbox" class="custom-control-input" id="color-4">
-                        <label class="custom-control-label" for="color-4">Blue</label>
-                        <span class="badge border font-weight-normal">145</span>
-                    </div>
-                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between">
-                        <input type="checkbox" class="custom-control-input" id="color-5">
-                        <label class="custom-control-label" for="color-5">Green</label>
-                        <span class="badge border font-weight-normal">168</span>
-                    </div>
-                </form>
-            </div>
-            <!-- Color End -->
-
-            <!-- Size Start -->
-            <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Filter by size</span></h5>
-            <div class="bg-light p-4 mb-30">
-                <form>
-                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                        <input type="checkbox" class="custom-control-input" checked id="size-all">
-                        <label class="custom-control-label" for="size-all">All Size</label>
-                        <span class="badge border font-weight-normal">1000</span>
-                    </div>
-                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                        <input type="checkbox" class="custom-control-input" id="size-1">
-                        <label class="custom-control-label" for="size-1">XS</label>
-                        <span class="badge border font-weight-normal">150</span>
-                    </div>
-                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                        <input type="checkbox" class="custom-control-input" id="size-2">
-                        <label class="custom-control-label" for="size-2">S</label>
-                        <span class="badge border font-weight-normal">295</span>
-                    </div>
-                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                        <input type="checkbox" class="custom-control-input" id="size-3">
-                        <label class="custom-control-label" for="size-3">M</label>
-                        <span class="badge border font-weight-normal">246</span>
-                    </div>
-                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                        <input type="checkbox" class="custom-control-input" id="size-4">
-                        <label class="custom-control-label" for="size-4">L</label>
-                        <span class="badge border font-weight-normal">145</span>
-                    </div>
-                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between">
-                        <input type="checkbox" class="custom-control-input" id="size-5">
-                        <label class="custom-control-label" for="size-5">XL</label>
-                        <span class="badge border font-weight-normal">168</span>
-                    </div>
-                </form>
-            </div>
-            <div class="">
-                <button class="btn btn btn-warning w-100">Order</button>
-            </div>
-            <!-- Size End -->
         </div>
         <!-- Shop Sidebar End -->
 
@@ -146,11 +83,7 @@
         <div class="col-lg-9 col-md-8">
             <div class="row pb-3">
                 <div class="col-12 pb-1">
-                    <div class="d-flex align-items-center justify-content-between mb-4">
-                        <div>
-                            <button class="btn btn-sm btn-light"><i class="fa fa-th-large"></i></button>
-                            <button class="btn btn-sm btn-light ml-2"><i class="fa fa-bars"></i></button>
-                        </div>
+                    <div class="d-flex align-items-center justify-content-end mb-4">
                         <div class="ml-2">
                             <div class="btn-group">
                                 <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">Sorting</button>
@@ -160,153 +93,201 @@
                                     <a class="dropdown-item" href="#">Best Rating</a>
                                 </div>
                             </div>
-                            <div class="btn-group ml-2">
-                                <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">Showing</button>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="#">10</a>
-                                    <a class="dropdown-item" href="#">20</a>
-                                    <a class="dropdown-item" href="#">30</a>
+                        </div>
+                    </div>
+                </div>
+                @if (count($products) !== 0)
+                    <div class=" d-flex flex-wrap " id="products">
+                        @foreach ($products as $product)
+                        <a href="#" >
+                            <div class="col-lg-4 col-md-6 col-sm-6 pb-1">
+                                <div class="product-item bg-light mb-4">
+                                    <div class="product-img position-relative overflow-hidden">
+                                        <img class="img-fluid w-100 object-cover" style="height: 200px;" src="{{ asset('storage/img/product/'.$product->image) }}" alt="">
+                                        <div class="product-action">
+                                            <a class="btn btn-outline-dark btn-square" href="" ><i class="fa fa-shopping-cart"></i></a>
+                                            <a class="btn btn-outline-dark btn-square" href="" ><i class="far fa-heart"></i></a>
+                                        </div>
+                                    </div>
+                                    <div class="text-center py-4">
+                                        <a class="h6 text-decoration-none text-truncate" href="">{{ $product->name }}</a>
+                                        <div class="d-flex align-items-center justify-content-center mt-2">
+                                        <h5>{{ $product->price }} Kyats</h5><h6 class="text-muted ml-2"><del>25000</del></h6>
+                                        </div>
+                                        <div class="d-flex align-items-center justify-content-center mb-1">
+                                            <small class="fa fa-star text-primary mr-1"></small>
+                                            <small class="fa fa-star text-primary mr-1"></small>
+                                            <small class="fa fa-star text-primary mr-1"></small>
+                                            <small class="fa fa-star text-primary mr-1"></small>
+                                            <small class="fa fa-star text-primary mr-1"></small>
+                                        </div>
+                                        <div class=" mt-3">
+                                            <button class="btn btn-primary">Add to Cart</button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </a>
+                        @endforeach
                     </div>
+                @else
+                <div class="">
+                    <p class="text-center fs-2 p-5">There is no pizza ;'(<i class="fa-solid fa-pizza-slice ms-3"></i> </p>
                 </div>
-                <a href="detail.html">
-                    <div class="col-lg-4 col-md-6 col-sm-6 pb-1">
-                        <div class="product-item bg-light mb-4">
-                            <div class="product-img position-relative overflow-hidden">
-                                <img class="img-fluid w-100" src="https://media-cdn.tripadvisor.com/media/photo-s/1a/62/fb/84/pizza-hut.jpg" alt="">
-                                <!-- <div class="product-action">
-                                    <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
-                                    <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
-                                    <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-sync-alt"></i></a>
-                                    <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-search"></i></a>
-                                </div> -->
-                            </div>
-                            <div class="text-center py-4">
-                                <a class="h6 text-decoration-none text-truncate" href="">Cheesy Pizza</a>
-                                <div class="d-flex align-items-center justify-content-center mt-2">
-                                    <h5>20000 kyats</h5><h6 class="text-muted ml-2"><del>25000</del></h6>
-                                </div>
-                                <div class="d-flex align-items-center justify-content-center mb-1">
-                                    <small class="fa fa-star text-primary mr-1"></small>
-                                    <small class="fa fa-star text-primary mr-1"></small>
-                                    <small class="fa fa-star text-primary mr-1"></small>
-                                    <small class="fa fa-star text-primary mr-1"></small>
-                                    <small class="fa fa-star text-primary mr-1"></small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-                <div class="col-lg-4 col-md-6 col-sm-6 pb-1">
-                    <div class="product-item bg-light mb-4">
-                        <div class="product-img position-relative overflow-hidden">
-                            <img class="img-fluid w-100" src="https://onecms-res.cloudinary.com/image/upload/s--sEfcyVTf--/c_crop%2Ch_717%2Cw_957%2Cx_153%2Cy_771/c_fill%2Cg_auto%2Ch_622%2Cw_830/f_auto%2Cq_auto/v1/mediacorp/cna/image/2022/04/01/final-2.jpeg?itok=urO6AS9r" alt="">
-                            <!-- <div class="product-action">
-                                <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
-                                <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
-                                <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-sync-alt"></i></a>
-                                <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-search"></i></a>
-                            </div> -->
-                        </div>
-                        <div class="text-center py-4">
-                            <a class="h6 text-decoration-none text-truncate" href="">Cheesy Pizza</a>
-                            <div class="d-flex align-items-center justify-content-center mt-2">
-                                <h5>20000 kyats</h5><h6 class="text-muted ml-2"><del>25000</del></h6>
-                            </div>
-                            <div class="d-flex align-items-center justify-content-center mb-1">
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-6 pb-1">
-                    <div class="product-item bg-light mb-4">
-                        <div class="product-img position-relative overflow-hidden">
-                            <img class="img-fluid w-100" src="https://danamic-media.danamic.org/danamic-production/2022/04/12003417/Chicken-Satay-Pizza-Top-1024x1024.jpg" alt="">
-                            <!-- <div class="product-action">
-                                <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
-                                <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
-                                <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-sync-alt"></i></a>
-                                <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-search"></i></a>
-                            </div> -->
-                        </div>
-                        <div class="text-center py-4">
-                            <a class="h6 text-decoration-none text-truncate" href="">Cheesy Pizza</a>
-                            <div class="d-flex align-items-center justify-content-center mt-2">
-                                <h5>20000 kyats</h5><h6 class="text-muted ml-2"><del>25000</del></h6>
-                            </div>
-                            <div class="d-flex align-items-center justify-content-center mb-1">
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-6 pb-1">
-                    <div class="product-item bg-light mb-4">
-                        <div class="product-img position-relative overflow-hidden">
-                            <img class="img-fluid w-100" src="https://d1sag4ddilekf6.azureedge.net/compressed_webp/items/SGITE20200407093514014750/detail/674be39ff1144d6e9f5db2211c92f067_1590056669449973127.webp" alt="">
-                            <!-- <div class="product-action">
-                                <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
-                                <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
-                                <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-sync-alt"></i></a>
-                                <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-search"></i></a>
-                            </div> -->
-                        </div>
-                        <div class="text-center py-4">
-                            <a class="h6 text-decoration-none text-truncate" href="">Cheesy Pizza</a>
-                            <div class="d-flex align-items-center justify-content-center mt-2">
-                                <h5>20000 kyats</h5><h6 class="text-muted ml-2"><del>25000</del></h6>
-                            </div>
-                            <div class="d-flex align-items-center justify-content-center mb-1">
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-6 pb-1">
-                    <div class="product-item bg-light mb-4">
-                        <div class="product-img position-relative overflow-hidden">
-                            <img class="img-fluid w-100" src="https://media-cdn.tripadvisor.com/media/photo-s/1a/62/fb/84/pizza-hut.jpg" alt="">
-                            <!-- <div class="product-action">
-                                <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
-                                <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
-                                <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-sync-alt"></i></a>
-                                <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-search"></i></a>
-                            </div> -->
-                        </div>
-                        <div class="text-center py-4">
-                            <a class="h6 text-decoration-none text-truncate" href="">Cheesy Pizza</a>
-                            <div class="d-flex align-items-center justify-content-center mt-2">
-                                <h5>20000 kyats</h5><h6 class="text-muted ml-2"><del>25000</del></h6>
-                            </div>
-                            <div class="d-flex align-items-center justify-content-center mb-1">
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                @endif
             </div>
         </div>
         <!-- Shop Product End -->
+
     </div>
 </div>
 <!-- Shop End -->
+@endsection
+
+@section('scriptSource')
+ <script>
+
+    const checkboxes = document.querySelectorAll('.checkboxFilter')
+    const formCheckbox = document.querySelector('form');
+    const productList = document.querySelector('#products');
+    const allCategories = document.querySelector('.allCategories');
+
+    let selectedCategoryIds = [];
+    checkboxes.forEach((checkbox) => {
+        checkbox.addEventListener('change',function(){
+            if(checkbox.checked) {
+                selectedCategoryIds.push(checkbox.value);
+            }else{
+                selectedCategoryIds = selectedCategoryIds.filter(id => id !== checkbox.value);
+            }
+
+            if(selectedCategoryIds.length > 0){
+
+                const data = {
+                    'categoryId' : selectedCategoryIds,
+                }
+
+                axios.get('filter/category',  {
+                    params: data
+                  })
+                  .then(function (response) {
+                    productList.classList.remove('justify-content-center','align-items-center');
+                    let list = ``;
+                    for (let i = 0; i <  response.data.length; i++) {
+                        list += `
+                        <div class="col-lg-4 col-md-6 col-sm-6 pb-1">
+                            <div class="product-item bg-light mb-4">
+                                <div class="product-img position-relative overflow-hidden">
+                                    <img class="img-fluid w-100 object-cover" style="height: 200px;" src="{{ asset('storage/img/product/${response.data[i].image}') }}" alt="">
+                                    <div class="product-action">
+                                        <a class="btn btn-outline-dark btn-square" href="" ><i class="fa fa-shopping-cart"></i></a>
+                                        <a class="btn btn-outline-dark btn-square" href="" ><i class="far fa-heart"></i></a>
+                                    </div>
+                                </div>
+                                <div class="text-center py-4">
+                                    <a class="h6 text-decoration-none text-truncate" href="">${response.data[i].name}</a>
+                                    <div class="d-flex align-items-center justify-content-center mt-2">
+                                    <h5>${response.data[i].price} Kyats</h5><h6 class="text-muted ml-2"><del>25000</del></h6>
+                                    </div>
+                                    <div class="d-flex align-items-center justify-content-center mb-1">
+                                        <small class="fa fa-star text-primary mr-1"></small>
+                                        <small class="fa fa-star text-primary mr-1"></small>
+                                        <small class="fa fa-star text-primary mr-1"></small>
+                                        <small class="fa fa-star text-primary mr-1"></small>
+                                        <small class="fa fa-star text-primary mr-1"></small>
+                                    </div>
+                                    <div class=" mt-3">
+                                        <button class="btn btn-primary">Add to Cart</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        `
+                    }
+                    productList.innerHTML = list;
+                  })
+                  .catch(function (error) {
+                    console.log(error);
+                  });
+            }
+
+            if(selectedCategoryIds.length === 0){
+                productList.classList.add('justify-content-center','align-items-center');
+                productList.innerHTML = `<p class="text-center fs-2 p-5">There is no pizza ;'(<i class="fa-solid fa-pizza-slice ms-3"></i> </p>`;
+            }
+
+        })
+    })
+
+
+    allCategories.addEventListener('change',function(){
+        let allSelectCategories = [];
+        // checkboxes.forEach((i) => {
+        //     let result = i.hasAttribute('checked')
+        //     console.log(result);
+        //     if(result === false){
+        //         i.setAttribute('checked',true);
+        //     }
+        // } );
+
+        for (let i = 0; i < checkboxes.length; i++) {
+            let result = checkboxes[i].hasAttribute('checked');
+            console.log(result);
+            checkboxes[i].toggleAttribute('checked')
+            allSelectCategories.push(checkboxes[i].value)
+        }
+
+        const data = {
+            'categoryId' : allSelectCategories,
+        }
+
+        axios.get('filter/category',  {
+            params: data
+          })
+          .then(function (response) {
+            productList.classList.remove('justify-content-center','align-items-center');
+            let list = ``;
+            for (let i = 0; i <  response.data.length; i++) {
+                list += `
+                <div class="col-lg-4 col-md-6 col-sm-6 pb-1">
+                    <div class="product-item bg-light mb-4">
+                        <div class="product-img position-relative overflow-hidden">
+                            <img class="img-fluid w-100 object-cover" style="height: 200px;" src="{{ asset('storage/img/product/${response.data[i].image}') }}" alt="">
+                            <div class="product-action">
+                                <a class="btn btn-outline-dark btn-square" href="" ><i class="fa fa-shopping-cart"></i></a>
+                                <a class="btn btn-outline-dark btn-square" href="" ><i class="far fa-heart"></i></a>
+                            </div>
+                        </div>
+                        <div class="text-center py-4">
+                            <a class="h6 text-decoration-none text-truncate" href="">${response.data[i].name}</a>
+                            <div class="d-flex align-items-center justify-content-center mt-2">
+                            <h5>${response.data[i].price} Kyats</h5><h6 class="text-muted ml-2"><del>25000</del></h6>
+                            </div>
+                            <div class="d-flex align-items-center justify-content-center mb-1">
+                                <small class="fa fa-star text-primary mr-1"></small>
+                                <small class="fa fa-star text-primary mr-1"></small>
+                                <small class="fa fa-star text-primary mr-1"></small>
+                                <small class="fa fa-star text-primary mr-1"></small>
+                                <small class="fa fa-star text-primary mr-1"></small>
+                            </div>
+                            <div class=" mt-3">
+                                <button class="btn btn-primary">Add to Cart</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                `
+            }
+            productList.innerHTML = list;
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+
+    })
+
+</script>
+
+
+
 @endsection

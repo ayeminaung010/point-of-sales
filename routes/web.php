@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -24,9 +25,9 @@ Route::get('/dashboard',[AuthController::class,'dashboard'])->name('dashboard');
 
 // user
 Route::prefix('user')->middleware('user_auth')->group(function () {
-    Route::get('/home', function () {
-        return view('user.home.home');
-    })->name('user#home');
+    Route::get('/home', [UserController::class,'home'])->name('user#home');
+
+    Route::get('/filter/category',[UserController::class,'filterCategory'])->name('user#filterCategory');
 });
 
 
@@ -68,7 +69,15 @@ Route::prefix('admin')->middleware('admin_auth')->group(function () {
         // Route::get('/changePassword',[AdminController::class,'changePasswordPage'])->name('admin#changePasswordPage');
         Route::view('/passwordChange','admin.profile.passwordChange')->name('admin#changePasswordPage');
         Route::post('/passwordUpdate',[AdminController::class,'updatePassword'])->name('admin#updatePassword');
+        Route::get('/adminList',[AdminController::class,'adminList'])->name('admin#adminList');
+        Route::get('/ajax/roleChange',[AdminController::class,'roleChange'])->name('admin#roleChange');
+    });
+
+    Route::prefix('userList')->group(function(){
+        Route::get('/lists',[AdminController::class,'list'])->name('admin#userList');
     });
 
 
 });
+
+

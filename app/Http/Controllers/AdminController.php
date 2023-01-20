@@ -81,4 +81,39 @@ class AdminController extends Controller
         return redirect()->route('admin#changePasswordPage');
 
     }
+
+    //admin List
+    public function adminList(){
+        $admins = User::where('role','admin')->when(request('search'),function($query){
+            $query->where('users.name','like','%'.request('search').'%');
+        })->orderBy('id','asc')->paginate(5);
+        return view('admin.profile.listAdmin',compact('admins'));
+    }
+
+    //axios rolechange
+    public function roleChange(Request $request){
+        $result = User::select('role')->where('id',$request->userId)->update([
+            'role' => $request->role
+        ]);
+        $responseSuccess = [
+            'message' => 'Changes Successfull',
+            'status' => 'success'
+        ];
+        $responseFail = [
+            'message' => 'Changes Failed',
+            'status' => 'Fail'
+        ];
+        if($result){
+            return response()->json($responseSuccess,200);
+        }else{
+            return response()->json($responseFail,400);
+        }
+    }
+
+    //user //lists
+    public function list(){
+        $users = User::where('role','user')->paginate(10);
+        return view('admin.userList.list',compact('users'));
+    }
+
 }

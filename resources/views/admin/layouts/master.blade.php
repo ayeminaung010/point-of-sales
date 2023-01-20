@@ -67,7 +67,7 @@
                                 <i class="fa-solid fa-list-check"></i> Order List</a>
                         </li>
                         <li>
-                            <a href="">
+                            <a href="{{ route('admin#userList') }}">
                                 <i class="fa-solid fa-users"></i> User List</a>
                         </li>
                         <li >
@@ -181,7 +181,7 @@
                                             <i class="zmdi zmdi-account"></i>Account</a>
                                     </div>
                                     <div class="account-dropdown__item">
-                                        <a href="">
+                                        <a href="{{ route('admin#adminList') }}">
                                             <i class="fa-solid fa-users"></i>Admin Lists</a>
                                     </div>
                                     <div class="account-dropdown__item">
@@ -241,6 +241,8 @@
 
     <!-- Main JS-->
     <script src="{{ asset('admin/js/main.js')}}"></script>
+    {{-- <script src="{{ asset('js/script.js')}}" type="module"></script> --}}
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 
 </body>

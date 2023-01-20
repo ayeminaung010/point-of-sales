@@ -24,6 +24,7 @@
                     </div>
                 </div>
                 <div class="table-responsive table-responsive-data2">
+                    @if (count($categories) !== 0)
                     <table class="table table-data2">
                         <thead>
                             <tr>
@@ -59,6 +60,9 @@
                            @endforeach
                         </tbody>
                     </table>
+                    @else
+                    <div class="text-center text-bold fs-4">There is no products </div>
+                    @endif
                 </div>
                 <!-- END DATA TABLE -->
             </div>
