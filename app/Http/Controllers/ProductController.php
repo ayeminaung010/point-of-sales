@@ -60,7 +60,7 @@ class ProductController extends Controller
             $oldImg = Product::where('id',$request->productId)->first();
             $oldImg = $oldImg->image;
             if($oldImg !== null){
-                Storage::delete('public/img/'.$oldImg);
+                Storage::delete('public/img/product/'.$oldImg);
             }
 
             $imgName = uniqid().'_'.$request->file('productImage')->getClientOriginalName();

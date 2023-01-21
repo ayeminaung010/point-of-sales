@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
@@ -27,7 +28,20 @@ Route::get('/dashboard',[AuthController::class,'dashboard'])->name('dashboard');
 Route::prefix('user')->middleware('user_auth')->group(function () {
     Route::get('/home', [UserController::class,'home'])->name('user#home');
 
-    Route::get('/filter/category',[UserController::class,'filterCategory'])->name('user#filterCategory');
+    Route::get('/product/detail/{id}',[UserController::class,'detail'])->name('user#productDetail');
+
+    Route::get('/filter/category',[UserController::class,'filterCategory'])->name('user#filterCategory'); //axios use
+    Route::get('/filter/allCategories',[UserController::class,'allCategories'])->name('user#filterallCategories'); //axios use
+
+    Route::get('/profile',[UserController::class,'profile'])->name('user#profile');
+    Route::get('/profile/edit',[UserController::class,'editPage'])->name('user#editPage');
+    Route::post('/profile/update/{id}',[UserController::class,'update'])->name('user#profileupdate');
+
+    Route::post('/passwordChange',[UserController::class,'passwordChangePage'])->name('user#passwordChangePage');
+
+    Route::get('/contact',[UserController::class,'contact'])->name('user#contact');
+
+    Route::get('cart',[CartController::class,'cartItem'])->name('user#cart');
 });
 
 

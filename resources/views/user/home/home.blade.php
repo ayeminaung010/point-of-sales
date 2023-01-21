@@ -2,18 +2,6 @@
 
 
 @section('content')
-<!-- Breadcrumb Start -->
-<div class="container-fluid">
-    <div class="row px-xl-5">
-        <div class="col-12">
-            <nav class="breadcrumb bg-light mb-30">
-                <a class="breadcrumb-item text-dark" href="#">Home</a>
-            </nav>
-        </div>
-    </div>
-</div>
-<!-- Breadcrumb End -->
-
 
 <!-- Shop Start -->
 <div class="container-fluid">
@@ -25,15 +13,15 @@
             <div class="bg-light p-4 mb-30">
                 <form>
                     <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                        <input type="checkbox" value="" class="custom-control-input allCategories" name="all"  id="price-all">
+                        <input type="checkbox" value="" class="custom-control-input allCategories" name="all"  id="price-all" checked>
                         <label class="custom-control-label" for="price-all">All Categories</label>
                     </div>
 
                     <form action=""  method="get" >
                         @foreach ($categories as $category)
                             <div class="custom-control custom-checkbox d-flex align-items-center justify-content-start gap-3 mb-2 ">
-                                <input type="checkbox" class=" form-check-input checkboxFilter" name="category_id" id="{{ $category->id }}" value="{{ $category->id }}"  >
-                                <span class=" ms-2" for="price-1">{{ $category->name }}</span>
+                                <input type="checkbox" class="form-check-input checkboxFilter " name="category_id" id="{{ $category->id }}" value="{{ $category->id }}"  >
+                                <span class=" ms-2 " for="price-1">{{ $category->name }}</span>
                             </div>
                         @endforeach
                     </form>
@@ -99,18 +87,18 @@
                 @if (count($products) !== 0)
                     <div class=" d-flex flex-wrap " id="products">
                         @foreach ($products as $product)
-                        <a href="#" >
+                        <a href="{{ route('user#productDetail',$product->id) }}" >
                             <div class="col-lg-4 col-md-6 col-sm-6 pb-1">
                                 <div class="product-item bg-light mb-4">
                                     <div class="product-img position-relative overflow-hidden">
                                         <img class="img-fluid w-100 object-cover" style="height: 200px;" src="{{ asset('storage/img/product/'.$product->image) }}" alt="">
                                         <div class="product-action">
-                                            <a class="btn btn-outline-dark btn-square" href="" ><i class="fa fa-shopping-cart"></i></a>
+                                            <a class="btn btn-outline-dark btn-square" href="{{ route('user#productDetail',$product->id) }}" ><i class="fa-solid fa-info"></i></a>
                                             <a class="btn btn-outline-dark btn-square" href="" ><i class="far fa-heart"></i></a>
                                         </div>
                                     </div>
                                     <div class="text-center py-4">
-                                        <a class="h6 text-decoration-none text-truncate" href="">{{ $product->name }}</a>
+                                        <a class="h6 text-decoration-none text-truncate" href="{{ route('user#productDetail',$product->id) }}">{{ $product->name }}</a>
                                         <div class="d-flex align-items-center justify-content-center mt-2">
                                         <h5>{{ $product->price }} Kyats</h5><h6 class="text-muted ml-2"><del>25000</del></h6>
                                         </div>
@@ -147,12 +135,15 @@
 @section('scriptSource')
  <script>
 
+// single checkbox
     const checkboxes = document.querySelectorAll('.checkboxFilter')
     const formCheckbox = document.querySelector('form');
     const productList = document.querySelector('#products');
     const allCategories = document.querySelector('.allCategories');
 
     let selectedCategoryIds = [];
+    let allSelected = true;
+
     checkboxes.forEach((checkbox) => {
         checkbox.addEventListener('change',function(){
             if(checkbox.checked) {
@@ -160,12 +151,11 @@
             }else{
                 selectedCategoryIds = selectedCategoryIds.filter(id => id !== checkbox.value);
             }
+            const data = {
+                'categoryId' : selectedCategoryIds,
+            }
 
             if(selectedCategoryIds.length > 0){
-
-                const data = {
-                    'categoryId' : selectedCategoryIds,
-                }
 
                 axios.get('filter/category',  {
                     params: data
@@ -173,121 +163,126 @@
                   .then(function (response) {
                     productList.classList.remove('justify-content-center','align-items-center');
                     let list = ``;
-                    for (let i = 0; i <  response.data.length; i++) {
-                        list += `
-                        <div class="col-lg-4 col-md-6 col-sm-6 pb-1">
-                            <div class="product-item bg-light mb-4">
-                                <div class="product-img position-relative overflow-hidden">
-                                    <img class="img-fluid w-100 object-cover" style="height: 200px;" src="{{ asset('storage/img/product/${response.data[i].image}') }}" alt="">
-                                    <div class="product-action">
-                                        <a class="btn btn-outline-dark btn-square" href="" ><i class="fa fa-shopping-cart"></i></a>
-                                        <a class="btn btn-outline-dark btn-square" href="" ><i class="far fa-heart"></i></a>
+                    if(response.data.length === 0 ){
+                        productList.classList.add('justify-content-center','align-items-center');
+                        productList.innerHTML = `<p class="text-center fs-2 p-5">There is no pizza ;'(<i class="fa-solid fa-pizza-slice ms-3"></i> </p>`;
+                    }else{
+                        for (let i = 0; i <  response.data.length; i++) {
+                            list += `
+                            <div class="col-lg-4 col-md-6 col-sm-6 pb-1">
+                                <div class="product-item bg-light mb-4">
+                                    <div class="product-img position-relative overflow-hidden">
+                                        <img class="img-fluid w-100 object-cover" style="height: 200px;" src="{{ asset('storage/img/product/${response.data[i].image}') }}" alt="">
+                                        <div class="product-action">
+                                            <a class="btn btn-outline-dark btn-square" href="product/detail/${response.data[i].id}" ><i class="fa-solid fa-info"></i></a>
+                                            <a class="btn btn-outline-dark btn-square" href="" ><i class="far fa-heart"></i></a>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="text-center py-4">
-                                    <a class="h6 text-decoration-none text-truncate" href="">${response.data[i].name}</a>
-                                    <div class="d-flex align-items-center justify-content-center mt-2">
-                                    <h5>${response.data[i].price} Kyats</h5><h6 class="text-muted ml-2"><del>25000</del></h6>
-                                    </div>
-                                    <div class="d-flex align-items-center justify-content-center mb-1">
-                                        <small class="fa fa-star text-primary mr-1"></small>
-                                        <small class="fa fa-star text-primary mr-1"></small>
-                                        <small class="fa fa-star text-primary mr-1"></small>
-                                        <small class="fa fa-star text-primary mr-1"></small>
-                                        <small class="fa fa-star text-primary mr-1"></small>
-                                    </div>
-                                    <div class=" mt-3">
-                                        <button class="btn btn-primary">Add to Cart</button>
+                                    <div class="text-center py-4">
+                                        <a class="h6 text-decoration-none text-truncate" href="">${response.data[i].name}</a>
+                                        <div class="d-flex align-items-center justify-content-center mt-2">
+                                        <h5>${response.data[i].price} Kyats</h5><h6 class="text-muted ml-2"><del>25000</del></h6>
+                                        </div>
+                                        <div class="d-flex align-items-center justify-content-center mb-1">
+                                            <small class="fa fa-star text-primary mr-1"></small>
+                                            <small class="fa fa-star text-primary mr-1"></small>
+                                            <small class="fa fa-star text-primary mr-1"></small>
+                                            <small class="fa fa-star text-primary mr-1"></small>
+                                            <small class="fa fa-star text-primary mr-1"></small>
+                                        </div>
+                                        <div class=" mt-3">
+                                            <button class="btn btn-primary">Add to Cart</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        `
+                            `
+                        }
+                        productList.innerHTML = list;
                     }
-                    productList.innerHTML = list;
                   })
                   .catch(function (error) {
                     console.log(error);
                   });
             }
 
-            if(selectedCategoryIds.length === 0){
+            if(selectedCategoryIds.length === 0 ){
                 productList.classList.add('justify-content-center','align-items-center');
                 productList.innerHTML = `<p class="text-center fs-2 p-5">There is no pizza ;'(<i class="fa-solid fa-pizza-slice ms-3"></i> </p>`;
             }
-
         })
     })
 
-
+    //all categories check
     allCategories.addEventListener('change',function(){
         let allSelectCategories = [];
-        // checkboxes.forEach((i) => {
-        //     let result = i.hasAttribute('checked')
-        //     console.log(result);
-        //     if(result === false){
-        //         i.setAttribute('checked',true);
-        //     }
-        // } );
 
-        for (let i = 0; i < checkboxes.length; i++) {
-            let result = checkboxes[i].hasAttribute('checked');
-            console.log(result);
-            checkboxes[i].toggleAttribute('checked')
-            allSelectCategories.push(checkboxes[i].value)
-        }
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = allCategories.checked;
+            if(checkbox.checked){
+                allSelectCategories.push(checkbox.value);
+            }else{
+                allSelectCategories.filter(id => id !== checkbox.value);
+            }
+        });
+
 
         const data = {
             'categoryId' : allSelectCategories,
         }
 
-        axios.get('filter/category',  {
-            params: data
-          })
-          .then(function (response) {
-            productList.classList.remove('justify-content-center','align-items-center');
-            let list = ``;
-            for (let i = 0; i <  response.data.length; i++) {
-                list += `
-                <div class="col-lg-4 col-md-6 col-sm-6 pb-1">
-                    <div class="product-item bg-light mb-4">
-                        <div class="product-img position-relative overflow-hidden">
-                            <img class="img-fluid w-100 object-cover" style="height: 200px;" src="{{ asset('storage/img/product/${response.data[i].image}') }}" alt="">
-                            <div class="product-action">
-                                <a class="btn btn-outline-dark btn-square" href="" ><i class="fa fa-shopping-cart"></i></a>
-                                <a class="btn btn-outline-dark btn-square" href="" ><i class="far fa-heart"></i></a>
+        if(allSelectCategories.length > 0){
+            axios.get('filter/category',  {
+                params: data
+              })
+              .then(function (response) {
+                console.log(response.data.length);
+                productList.classList.remove('justify-content-center','align-items-center');
+                let list = ``;
+                for (let i = 0; i <  response.data.length; i++) {
+                    list += `
+                    <div class="col-lg-4 col-md-6 col-sm-6 pb-1">
+                        <div class="product-item bg-light mb-4">
+                            <div class="product-img position-relative overflow-hidden">
+                                <img class="img-fluid w-100 object-cover" style="height: 200px;" src="{{ asset('storage/img/product/${response.data[i].image}') }}" alt="">
+                                <div class="product-action">
+                                    <a class="btn btn-outline-dark btn-square" href="product/detail/${response.data[i].id}" ><i class="fa-solid fa-info"></i></a>
+                                    <a class="btn btn-outline-dark btn-square" href="" ><i class="far fa-heart"></i></a>
+                                </div>
                             </div>
-                        </div>
-                        <div class="text-center py-4">
-                            <a class="h6 text-decoration-none text-truncate" href="">${response.data[i].name}</a>
-                            <div class="d-flex align-items-center justify-content-center mt-2">
-                            <h5>${response.data[i].price} Kyats</h5><h6 class="text-muted ml-2"><del>25000</del></h6>
-                            </div>
-                            <div class="d-flex align-items-center justify-content-center mb-1">
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                            </div>
-                            <div class=" mt-3">
-                                <button class="btn btn-primary">Add to Cart</button>
+                            <div class="text-center py-4">
+                                <a class="h6 text-decoration-none text-truncate" href="">${response.data[i].name}</a>
+                                <div class="d-flex align-items-center justify-content-center mt-2">
+                                <h5>${response.data[i].price} Kyats</h5><h6 class="text-muted ml-2"><del>25000</del></h6>
+                                </div>
+                                <div class="d-flex align-items-center justify-content-center mb-1">
+                                    <small class="fa fa-star text-primary mr-1"></small>
+                                    <small class="fa fa-star text-primary mr-1"></small>
+                                    <small class="fa fa-star text-primary mr-1"></small>
+                                    <small class="fa fa-star text-primary mr-1"></small>
+                                    <small class="fa fa-star text-primary mr-1"></small>
+                                </div>
+                                <div class=" mt-3">
+                                    <button class="btn btn-primary">Add to Cart</button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                `
-            }
-            productList.innerHTML = list;
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
+                    `
+                }
+                productList.innerHTML = list;
+              })
+              .catch(function (error) {
+                console.log(error);
+              });
+        }
+
+        if(allSelectCategories.length === 0){
+            productList.classList.add('justify-content-center','align-items-center');
+            productList.innerHTML = `<p class="text-center fs-2 p-5">There is no pizza ;'(<i class="fa-solid fa-pizza-slice ms-3"></i> </p>`;
+        }
 
     })
 
 </script>
-
-
-
 @endsection

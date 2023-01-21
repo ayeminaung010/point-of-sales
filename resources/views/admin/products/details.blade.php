@@ -19,19 +19,17 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="card-title">
-
                                 <i class="fa-solid fa-arrow-left text-dark" onclick="history.back()"></i> <span>Back</span>
-
                             </div>
                             <hr>
 
                             <div class="row">
                                 <div class="col-5 ">
-                                        <div class="image">
-                                            <a href="#">
-                                                <img src="{{ asset('storage/img/'.$product->image) }}" class="img-thumbnail shadow-sm" />
-                                            </a>
-                                        </div>
+                                    <div class="image">
+                                        <a href="#">
+                                            <img src="{{ asset('storage/img/product/'.$product->image) }}" class="img-thumbnail shadow-sm" />
+                                        </a>
+                                    </div>
                                 </div>
                                 <div class="col-7">
                                     <form action="">

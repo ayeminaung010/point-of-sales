@@ -24,6 +24,8 @@
 
     <!-- Customized Bootstrap Stylesheet -->
     <link href="{{ asset('user/css/style.css')}}" rel="stylesheet">
+
+    @yield('css');
 </head>
 
 <body>
@@ -47,17 +49,17 @@
                     </button>
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto py-0">
-                            <a href="{{ route('user#home')}}" class="nav-item nav-link active">Home</a>
-                            <a href="" class="nav-item nav-link">Contact</a>
+                            <a href="{{ route('user#home')}}" class="nav-item nav-link @if(Route::currentRouteName() == 'user#home') active @endif">Home</a>
+                            <a href="{{ route('user#contact') }}" class="nav-item nav-link  @if(Route::currentRouteName() == 'user#contact') active @endif">Contact</a>
                         </div>
                         {{-- cart and bookmark  --}}
                         <div class="navbar-nav ml-auto py-0 d-none d-lg-block">
-                            <a href="" class="btn px-0">
+                            <a href="" class="btn px-0 ">
                                 <i class="fas fa-heart text-primary"></i>
                                 <span class="badge text-secondary border border-secondary rounded-circle" style="padding-bottom: 2px;">0</span>
                             </a>
-                            <a href="" class="btn px-0 ml-3">
-                                <i class="fas fa-shopping-cart text-primary"></i>
+                            <a href="{{ route('user#cart') }}" class="btn px-0 ml-3  @if(Route::currentRouteName() == 'user#cart') text-primary @else text-white @endif">
+                                <i class="fas fa-shopping-cart "></i>
                                 <span class="badge text-secondary border border-secondary rounded-circle" style="padding-bottom: 2px;">0</span>
                             </a>
                         </div>
@@ -72,16 +74,17 @@
                             <div class="dropdown d-inline me-5">
                                 <button class="btn text-secondary  dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     @auth
-                                        <i class="fa fa-user"></i> {{ Auth::user()->name }}
+                                        {{-- <img src="{{ asset('storage/img/'.Auth::user()->image) }}" alt=""> --}}
+                                        <i class="fa fa-user me-2"></i> <span>{{ Auth::user()->name }}</span>
                                     @endauth
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-dark">
                                     <li class="my-3">
-                                        <a class="dropdown-item " href=""> <i class="fa-regular fa-circle-user "></i> Account
+                                        <a class="dropdown-item " href="{{ route('user#profile') }}"> <i class="fa-regular fa-circle-user "></i> Account
                                         </a>
                                     </li>
                                         <li class="my-3">
-                                            <a class="dropdown-item" href=""> <i class="fa-solid fa-key "></i> Password Change
+                                            <a href="{{ route('user#passwordChangePage') }}" class="dropdown-item" href=""> <i class="fa-solid fa-key "></i> Password Change
                                             </a>
                                         </li>
                                         <li class="my-3  ">
@@ -104,6 +107,19 @@
         </div>
     </div>
     <!-- Navbar End -->
+    
+<!-- Breadcrumb Start -->
+<div class="container-fluid">
+    <div class="row px-xl-5">
+        <div class="col-12">
+            <nav class="breadcrumb bg-light mb-30">
+                <a class="breadcrumb-item text-dark" href="{{ route('user#home') }}">Home</a>
+                @yield('where')
+            </nav>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb End -->
 
 @yield('content')
 
@@ -195,7 +211,7 @@
 
     <!-- Template Javascript -->
     <script src="{{ asset('user/js/main.js') }}"></script>
-    
+
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 
