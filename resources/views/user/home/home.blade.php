@@ -47,18 +47,6 @@
                         <input type="checkbox" class="custom-control-input" id="price-2">
                         <label class="custom-control-label" for="price-2">$100 - $200</label>
                    </div>
-                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                        <input type="checkbox" class="custom-control-input" id="price-3">
-                        <label class="custom-control-label" for="price-3">$200 - $300</label>
-                   </div>
-                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                        <input type="checkbox" class="custom-control-input" id="price-4">
-                        <label class="custom-control-label" for="price-4">$300 - $400</label>
-                   </div>
-                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between">
-                        <input type="checkbox" class="custom-control-input" id="price-5">
-                        <label class="custom-control-label" for="price-5">$400 - $500</label>
-                   </div>
                 </form>
             </div>
             <!-- Price End -->
@@ -76,7 +64,7 @@
                             <div class="btn-group">
                                 <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">Sorting</button>
                                 <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="#">Latest</a>
+                                    <a class="dropdown-item" href="#" class="lastestSort " id="lastestSort">Latest</a>
                                     <a class="dropdown-item" href="#">Popularity</a>
                                     <a class="dropdown-item" href="#">Best Rating</a>
                                 </div>
@@ -134,15 +122,15 @@
 
 @section('scriptSource')
  <script>
-
-// single checkbox
     const checkboxes = document.querySelectorAll('.checkboxFilter')
     const formCheckbox = document.querySelector('form');
     const productList = document.querySelector('#products');
     const allCategories = document.querySelector('.allCategories');
+    const lastestSort = document.querySelector('#lastestSort');
 
+
+// single checkbox
     let selectedCategoryIds = [];
-    let allSelected = true;
 
     checkboxes.forEach((checkbox) => {
         checkbox.addEventListener('change',function(){
@@ -154,7 +142,7 @@
             const data = {
                 'categoryId' : selectedCategoryIds,
             }
-
+            
             if(selectedCategoryIds.length > 0){
 
                 axios.get('filter/category',  {
@@ -283,6 +271,62 @@
         }
 
     })
+
+    //sorting
+    //lastest sorting
+    let data ;
+    lastestSort.addEventListener('click',function(){
+        data = {
+            'sortType' : 'lastestSort',
+        }
+        console.log(data);
+        lastest();
+    })
+    const lastest = () =>{
+        axios.get('sort/products',  {
+            params: data
+          })
+          .then(function (response) {
+            console.log(response.data.length);
+            productList.classList.remove('justify-content-center','align-items-center');
+            let list = ``;
+            for (let i = 0; i <  response.data.length; i++) {
+                list += `
+                <div class="col-lg-4 col-md-6 col-sm-6 pb-1">
+                    <div class="product-item bg-light mb-4">
+                        <div class="product-img position-relative overflow-hidden">
+                            <img class="img-fluid w-100 object-cover" style="height: 200px;" src="{{ asset('storage/img/product/${response.data[i].image}') }}" alt="">
+                            <div class="product-action">
+                                <a class="btn btn-outline-dark btn-square" href="product/detail/${response.data[i].id}" ><i class="fa-solid fa-info"></i></a>
+                                <a class="btn btn-outline-dark btn-square" href="" ><i class="far fa-heart"></i></a>
+                            </div>
+                        </div>
+                        <div class="text-center py-4">
+                            <a class="h6 text-decoration-none text-truncate" href="">${response.data[i].name}</a>
+                            <div class="d-flex align-items-center justify-content-center mt-2">
+                            <h5>${response.data[i].price} Kyats</h5><h6 class="text-muted ml-2"><del>25000</del></h6>
+                            </div>
+                            <div class="d-flex align-items-center justify-content-center mb-1">
+                                <small class="fa fa-star text-primary mr-1"></small>
+                                <small class="fa fa-star text-primary mr-1"></small>
+                                <small class="fa fa-star text-primary mr-1"></small>
+                                <small class="fa fa-star text-primary mr-1"></small>
+                                <small class="fa fa-star text-primary mr-1"></small>
+                            </div>
+                            <div class=" mt-3">
+                                <button class="btn btn-primary">Add to Cart</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                `
+            }
+            productList.innerHTML = list;
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+    }
 
 </script>
 @endsection

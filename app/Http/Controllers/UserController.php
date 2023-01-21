@@ -7,6 +7,8 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use PhpParser\Node\Expr\FuncCall;
 
@@ -27,16 +29,25 @@ class UserController extends Controller
     }
 
 
-    //filter category products
+    //filter category products axios
     public function filterCategory(Request $request){
         $products = Product::whereIn('category_id',$request->categoryId)->get();
         return response()->json($products,200);
     }
 
-    //allCategories
+    //allCategories axios
     public function allCategories(Request $request){
         $products = Product::whereIn('category_id',$request->categoryId)->get();
         return response()->json($products,200);
+    }
+
+    //sorting axios
+    public function sorting(Request $request){
+        logger($request->sortType);
+        if($request->sortType === 'lastestSort'){
+            $data = Product::orderBy('created_at','desc')->get();
+        }
+        return response()->json($data,200);
     }
 
     //profile
@@ -51,8 +62,8 @@ class UserController extends Controller
     }
 
     //update
-    public function update(UserRequest $request,$id){
-        $user = User::where('id',$id)->first();
+    public function profileUpdate(UserRequest $request){
+        $user = User::where('id',Auth::user()->id)->first();
         if($request->image){
             $oldImg = $user->image;
             if($oldImg){
@@ -83,6 +94,32 @@ class UserController extends Controller
     //passwordChangePage
     public function passwordChangePage(){
         return view('user.profile.passwordChange');
+    }
+
+    //passwordChangeUpdate
+    public function passwordChangeUpdate(Request $request){
+        $request->validate([
+            'oldPassword' => 'required|min:6',
+            'newPassword' => 'required|min:6',
+            'confirmPassword' => 'required|same:newPassword|min:6',
+        ]);
+        $user = User::select('password')->where('id',Auth::user()->id)->first();
+        $userOldPw = $user->password;
+        if(Hash::check($request->oldPassword, $userOldPw)){
+            $newData = [
+                'password' => Hash::make($request->newPassword),
+            ];
+            if($request->newPassword === $request->confirmPassword){
+                User::where('id',Auth::user()->id)->update($newData);
+                toastr()->success('Password Updated Success! Login Back Please...');
+                Auth::logout();
+                return redirect()->route('loginPage');
+            }
+            toastr()->error('new password and confirm password must be same');
+            return back();
+        }
+        toastr()->error('Password Does not Match');
+        return back();
     }
 
     //contact

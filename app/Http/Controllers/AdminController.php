@@ -70,7 +70,7 @@ class AdminController extends Controller
             ];
             if($request->newPassword === $request->confirmPassword){
                 User::where('id',Auth::user()->id)->update($data);
-                toastr()->success('Profile Updated Success! Login Back Please...');
+                toastr()->success('Password Updated Success! Login Back Please...');
                 Auth::Logout();
                 return redirect()->route('loginPage');
             }

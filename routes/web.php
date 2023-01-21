@@ -30,14 +30,18 @@ Route::prefix('user')->middleware('user_auth')->group(function () {
 
     Route::get('/product/detail/{id}',[UserController::class,'detail'])->name('user#productDetail');
 
+    // axios
     Route::get('/filter/category',[UserController::class,'filterCategory'])->name('user#filterCategory'); //axios use
     Route::get('/filter/allCategories',[UserController::class,'allCategories'])->name('user#filterallCategories'); //axios use
+    Route::get('/sort/products',[UserController::class,'sorting'])->name('user#sortingProducts'); //axios use
+    //axios end
 
     Route::get('/profile',[UserController::class,'profile'])->name('user#profile');
     Route::get('/profile/edit',[UserController::class,'editPage'])->name('user#editPage');
-    Route::post('/profile/update/{id}',[UserController::class,'update'])->name('user#profileupdate');
+    Route::post('/profile/update',[UserController::class,'profileUpdate'])->name('user#profileupdate');
 
-    Route::post('/passwordChange',[UserController::class,'passwordChangePage'])->name('user#passwordChangePage');
+    Route::get('/passwordChange',[UserController::class,'passwordChangePage'])->name('user#passwordChangePage');
+    Route::post('/passwordChange/update',[UserController::class,'passwordChangeUpdate'])->name('user#passwordChangeUpdate');
 
     Route::get('/contact',[UserController::class,'contact'])->name('user#contact');
 

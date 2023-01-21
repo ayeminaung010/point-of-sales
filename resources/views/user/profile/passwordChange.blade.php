@@ -18,7 +18,7 @@
                             <h3 class="password-center title-2 text-center">Change Password </h3>
                         </div>
                         <hr>
-                        <form action="" method="post" novalidate="novalidate">
+                        <form action="{{ route('user#passwordChangeUpdate') }}" method="post" novalidate="novalidate">
                             @csrf
                             <div class="form-group my-3">
                                 <label for="" class="control-label mb-1">Old Password</label>
