@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserRequest;
+use App\Models\Cart;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\User;
@@ -18,13 +19,15 @@ class UserController extends Controller
     public function home() {
         $products = Product::get();
         $categories = Category::get();
-        return view('user.home.home',compact('products','categories'));
+        $carts = Cart::where('user_id',Auth::user()->id)->get();
+        return view('user.home.home',compact('products','categories','carts'));
     }
 
     //details product
     public function detail($id){
         $product = Product::where('id',$id)->first();
         $products = Product::where('id','!=',$id)->get();
+
         return view('user.products.detail',compact('product','products'));
     }
 
@@ -122,8 +125,5 @@ class UserController extends Controller
         return back();
     }
 
-    //contact
-    public function contact(){
-        return view('user.contact.contact');
-    }
+
 }

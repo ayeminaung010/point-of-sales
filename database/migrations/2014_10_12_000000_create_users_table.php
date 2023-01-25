@@ -24,6 +24,9 @@ return new class extends Migration
             $table->string('role',10)->default('user');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->longText('facebookURL')->nullable();
+            $table->longText('instagramURL')->nullable();
+            $table->longText('twitterURL')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

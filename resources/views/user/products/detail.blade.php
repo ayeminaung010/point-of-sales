@@ -1,7 +1,7 @@
 @extends('user.layouts.master')
 
 @section('where')
-    <a class="breadcrumb-item text-dark" href="{{ route('user#productDetail') }}">Product Detail</a>
+    <a class="breadcrumb-item text-dark" href="{{ route('user#productDetail',$product->id) }}">Product Detail</a>
 @endsection
 
 

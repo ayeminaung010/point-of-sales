@@ -17,13 +17,13 @@
                             <h3 class="password-center title-2 text-center">Contact Us</h3>
                         </div>
                         <hr>
-                        <form action="{{ route('user#contact')}}" method="post" novalidate="novalidate">
+                        <form action="{{ route('user#sendToAdmin')}}" method="post" novalidate="novalidate">
                             @csrf
 
                             <div class="form-group my-3 row">
                                 <div class="col">
                                     <label for="" class="control-label mb-1 fw-bold">Name</label>
-                                    <input id="" name="name" type="text" value="" class="form-control @error('name') is-invalid @enderror" aria-required="true" aria-invalid="false" placeholder=" Enter your name...">
+                                    <input id="" name="name" type="text" value="{{ old('name') }}" class="form-control @error('name') is-invalid @enderror" aria-required="true" aria-invalid="false" placeholder=" Enter your name...">
                                     @error('name')
                                         <small class=" invalid-feedback">{{ $message}}</small>
                                     @enderror
@@ -31,7 +31,7 @@
 
                                 <div class="col">
                                     <label for="" class="control-label mb-1 fw-bold">Email </label>
-                                    <input id="" name="email" type="email" value="" class="form-control @error('email') is-invalid @enderror" aria-required="true" aria-invalid="false" placeholder=" Enter your email...">
+                                    <input id="" name="email" type="email" value="{{ old('email') }}" class="form-control @error('email') is-invalid @enderror" aria-required="true" aria-invalid="false" placeholder=" Enter your email...">
                                     @error('email')
                                         <small class=" invalid-feedback">{{ $message}}</small>
                                     @enderror
@@ -40,14 +40,14 @@
 
                             <div class="form-group my-3">
                                 <label for="" class="control-label mb-1 fw-bold">Subject</label>
-                                <input id="" name="subject" type="text" value="" class="form-control @error('subject') is-invalid @enderror" aria-required="true" aria-invalid="false" placeholder=" Enter Subject...">
+                                <input id="" name="subject" type="text" value="{{ old('subject') }}" class="form-control @error('subject') is-invalid @enderror" aria-required="true" aria-invalid="false" placeholder=" Enter Subject...">
                                 @error('subject')
                                     <small class=" invalid-feedback">{{ $message}}</small>
                                 @enderror
                             </div>
                             <div class="form-group my-3">
                                 <label for="" class="control-label mb-1 fw-bold">Message</label>
-                                <textarea name="message" id="" class="form-control @error('message') is-invalid @enderror" cols="30" rows="10" placeholder="Enter your message..."></textarea>
+                                <textarea name="message" id="" class="form-control @error('message') is-invalid @enderror" cols="30" rows="10" placeholder="Enter your message...">{{ old('message') }}</textarea>
                                 @error('message')
                                     <small class=" invalid-feedback">{{ $message}}</small>
                                 @enderror

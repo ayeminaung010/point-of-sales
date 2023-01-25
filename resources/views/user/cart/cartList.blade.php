@@ -10,10 +10,10 @@
     <div class="container-fluid">
         <div class="row px-xl-5">
             <div class="col-lg-8 table-responsive mb-5">
+                @if(count($carts) !== 0)
                 <table class="table table-light table-borderless table-hover text-center mb-0" id="dataTable">
                     <thead class="thead-dark">
-                        <tr >
-                            <th></th>
+                        <tr>
                             <th>Products</th>
                             <th>Price</th>
                             <th>Quantity</th>
@@ -22,36 +22,39 @@
                         </tr>
                     </thead>
                     <tbody class="align-middle">
-
-                            <tr>
-                                <td><img src="" class=" img-thumbnail shadow-sm" alt="" style="width: 100px"></td>
-                                <td class="align-middle">
-                                    {{-- <input type="hidden" value="" class="productId"> --}}
-                                    <input type="hidden" value="" class="userId">
-                                    <input type="hidden" value="" class="orderId">
-                                </td>
-                                <td class="align-middle" id="pizzaPrice">  kyats</td>
-                                <td class="align-middle">
-                                    <div class="input-group quantity mx-auto" style="width: 100px;">
-                                        <div class="input-group-btn">
-                                            <button class="btn btn-sm btn-primary btn-minus" >
-                                                <i class="fa fa-minus"></i>
-                                            </button>
-                                        </div>
-                                        <input type="text" class="form-control form-control-sm bg-secondary border-0 text-center" id="qty"   value="">
-                                        <div class="input-group-btn">
-                                            <button class="btn btn-sm btn-primary btn-plus">
-                                                <i class="fa fa-plus"></i>
-                                            </button>
-                                        </div>
+                        @foreach ($carts as $cart)
+                        <tr>
+                            <td><img src="{{ asset('storage/img/product/'.$cart->productImage) }}" class=" img-thumbnail shadow-sm" alt="" style="width: 100px"></td>
+                            <input type="hidden" value="{{ $cart->user_id }} " class="userId">
+                            <input type="hidden" value="" class="orderId">
+                            <td class="align-middle" id="productPrice">{{ $cart->productPrice }}  kyats</td>
+                            <td class="align-middle">
+                                <div class="input-group quantity mx-auto" style="width: 100px;">
+                                    <div class="input-group-btn">
+                                        <button class="btn btn-sm btn-primary btn-minus" >
+                                            <i class="fa fa-minus"></i>
+                                        </button>
                                     </div>
-                                </td>
-                                <td class="align-middle col-3" id="total"> kyats</td>
-                                <td class="align-middle"><button class="btn btn-sm btn-danger btnRemove" id="btnRemove"><i class="fa fa-times"></i></button></td>
-                            </tr>
-
+                                    <input type="text" class="form-control form-control-sm bg-secondary border-0 text-center" id="qty"   value="{{ $cart->qty }}">
+                                    <div class="input-group-btn">
+                                        <button class="btn btn-sm btn-primary btn-plus">
+                                            <i class="fa fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="align-middle col-3" id="total"> kyats</td>
+                            <td class="align-middle"><button class="btn btn-sm btn-danger btnRemove" id="btnRemove"><i class="fa fa-times"></i></button></td>
+                        </tr>
+                        @endforeach
                     </tbody>
                 </table>
+                @else
+                <div class=" d-flex  flex-column justify-content-center align-items-center">
+                    <p class="text-center fs-2 p-5">Nothing in Cart! <i class="fa-solid fa-pizza-slice ms-3"></i> </p>
+                    <a href="{{ route('user#home') }}" class="btn btn-primary ">GO SHOPPING</a>
+                </div>
+                @endif
             </div>
             <div class="col-lg-4">
                 <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Cart Summary</span></h5>

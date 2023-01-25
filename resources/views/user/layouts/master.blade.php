@@ -29,9 +29,8 @@
 </head>
 
 <body>
-
     <!-- Navbar Start -->
-    <div class="container-fluid bg-dark mb-30">
+    <div class="container-fluid bg-dark mb-5  fixed-top">
         <div class="row px-xl-5">
             <div class="col-lg-3 d-none d-lg-block">
                 <a href="" class="text-decoration-none">
@@ -53,15 +52,8 @@
                             <a href="{{ route('user#contact') }}" class="nav-item nav-link  @if(Route::currentRouteName() == 'user#contact') active @endif">Contact</a>
                         </div>
                         {{-- cart and bookmark  --}}
-                        <div class="navbar-nav ml-auto py-0 d-none d-lg-block">
-                            <a href="" class="btn px-0 ">
-                                <i class="fas fa-heart text-primary"></i>
-                                <span class="badge text-secondary border border-secondary rounded-circle" style="padding-bottom: 2px;">0</span>
-                            </a>
-                            <a href="{{ route('user#cart') }}" class="btn px-0 ml-3  @if(Route::currentRouteName() == 'user#cart') text-primary @else text-white @endif">
-                                <i class="fas fa-shopping-cart "></i>
-                                <span class="badge text-secondary border border-secondary rounded-circle" style="padding-bottom: 2px;">0</span>
-                            </a>
+                        <div class="">
+                            @yield('CART')
                         </div>
                         <div class="navbar-nav ml-auto py-0 d-none d-lg-block">
                             @if (empty(Auth::user()))
@@ -97,9 +89,7 @@
                                         </li>
                                     </ul>
                                 </div>
-
                             @endif
-
                         </div>
                     </div>
                 </nav>
@@ -107,12 +97,12 @@
         </div>
     </div>
     <!-- Navbar End -->
-    
+
 <!-- Breadcrumb Start -->
 <div class="container-fluid">
     <div class="row px-xl-5">
         <div class="col-12">
-            <nav class="breadcrumb bg-light mb-30">
+            <nav class="breadcrumb bg-light mt-5">
                 <a class="breadcrumb-item text-dark" href="{{ route('user#home') }}">Home</a>
                 @yield('where')
             </nav>

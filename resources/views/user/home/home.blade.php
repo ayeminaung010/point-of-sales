@@ -1,5 +1,17 @@
 @extends('user.layouts.master')
 
+@section('CART')
+<div class="navbar-nav ml-auto py-0 d-none d-lg-block">
+    <a href="" class="btn px-0 ">
+        <i class="fas fa-heart text-primary"></i>
+        <span class="badge text-secondary border border-secondary rounded-circle" style="padding-bottom: 2px;">0</span>
+    </a>
+    <a href="{{ route('user#cart') }}" id="cart" class="btn px-0 ml-3 animate__animated   @if(Route::currentRouteName() == 'user#cart') text-primary @else text-white @endif">
+        <i class="fas fa-shopping-cart "></i>
+        <span class="badge text-secondary border border-secondary rounded-circle" id='cartAmount' style="padding-bottom: 2px;">{{ count($carts) }}</span>
+    </a>
+</div>
+@endsection
 
 @section('content')
 
@@ -17,14 +29,12 @@
                         <label class="custom-control-label" for="price-all">All Categories</label>
                     </div>
 
-                    <form action=""  method="get" >
-                        @foreach ($categories as $category)
-                            <div class="custom-control custom-checkbox d-flex align-items-center justify-content-start gap-3 mb-2 ">
-                                <input type="checkbox" class="form-check-input checkboxFilter " name="category_id" id="{{ $category->id }}" value="{{ $category->id }}"  >
-                                <span class=" ms-2 " for="price-1">{{ $category->name }}</span>
-                            </div>
-                        @endforeach
-                    </form>
+                    @foreach ($categories as $category)
+                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-start gap-3 mb-2 ">
+                        <input type="checkbox" class="form-check-input checkboxFilter " name="category_id" id="{{ $category->id }}" value="{{ $category->id }}"  >
+                        <span class=" ms-2 " for="price-1">{{ $category->name }}</span>
+                    </div>
+                @endforeach
 
 
                 </form>
@@ -75,35 +85,36 @@
                 @if (count($products) !== 0)
                     <div class=" d-flex flex-wrap " id="products">
                         @foreach ($products as $product)
-                        <a href="{{ route('user#productDetail',$product->id) }}" >
-                            <div class="col-lg-4 col-md-6 col-sm-6 pb-1">
-                                <div class="product-item bg-light mb-4">
-                                    <div class="product-img position-relative overflow-hidden">
-                                        <img class="img-fluid w-100 object-cover" style="height: 200px;" src="{{ asset('storage/img/product/'.$product->image) }}" alt="">
-                                        <div class="product-action">
-                                            <a class="btn btn-outline-dark btn-square" href="{{ route('user#productDetail',$product->id) }}" ><i class="fa-solid fa-info"></i></a>
-                                            <a class="btn btn-outline-dark btn-square" href="" ><i class="far fa-heart"></i></a>
-                                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 pb-1" id="currentProduct">
+                            <div class="product-item bg-light mb-4">
+                                <div class="product-img position-relative overflow-hidden">
+                                    <input type="hidden" name="productId" id="productId" value="{{ $product->id }}">
+
+                                    <img class="img-fluid w-100 object-cover " id="currentImg" style="height: 200px;" src="{{ asset('storage/img/product/'.$product->image) }}" alt="">
+                                    <div class="product-action">
+                                        <a class="btn btn-outline-dark btn-square" href="{{ route('user#productDetail',$product->id) }}" ><i class="fa-solid fa-info"></i></a>
+                                        <a class="btn btn-outline-dark btn-square" href="" ><i class="far fa-heart"></i></a>
                                     </div>
-                                    <div class="text-center py-4">
-                                        <a class="h6 text-decoration-none text-truncate" href="{{ route('user#productDetail',$product->id) }}">{{ $product->name }}</a>
-                                        <div class="d-flex align-items-center justify-content-center mt-2">
-                                        <h5>{{ $product->price }} Kyats</h5><h6 class="text-muted ml-2"><del>25000</del></h6>
-                                        </div>
-                                        <div class="d-flex align-items-center justify-content-center mb-1">
-                                            <small class="fa fa-star text-primary mr-1"></small>
-                                            <small class="fa fa-star text-primary mr-1"></small>
-                                            <small class="fa fa-star text-primary mr-1"></small>
-                                            <small class="fa fa-star text-primary mr-1"></small>
-                                            <small class="fa fa-star text-primary mr-1"></small>
-                                        </div>
-                                        <div class=" mt-3">
-                                            <button class="btn btn-primary">Add to Cart</button>
-                                        </div>
+                                </div>
+                                <div class="text-center py-4">
+                                    <a class="h6 text-decoration-none text-truncate" href="{{ route('user#productDetail',$product->id) }}">{{ $product->name }}</a>
+                                    <div class="d-flex align-items-center justify-content-center mt-2">
+                                    <h5>{{ $product->price }} Kyats</h5><h6 class="text-muted ml-2"><del>25000</del></h6>
+                                    </div>
+                                    <div class="d-flex align-items-center justify-content-center mb-1">
+                                        <small class="fa fa-star text-primary mr-1"></small>
+                                        <small class="fa fa-star text-primary mr-1"></small>
+                                        <small class="fa fa-star text-primary mr-1"></small>
+                                        <small class="fa fa-star text-primary mr-1"></small>
+                                        <small class="fa fa-star text-primary mr-1"></small>
+                                    </div>
+                                    <div class=" mt-3">
+                                        <button class="btn btn-primary" id="addToCart">Add to Cart</button>
                                     </div>
                                 </div>
                             </div>
-                        </a>
+                        </div>
+
                         @endforeach
                     </div>
                 @else
@@ -121,6 +132,8 @@
 @endsection
 
 @section('scriptSource')
+<script src="{{ asset('js/script.js') }}"></script>
+
  <script>
     const checkboxes = document.querySelectorAll('.checkboxFilter')
     const formCheckbox = document.querySelector('form');
@@ -142,7 +155,7 @@
             const data = {
                 'categoryId' : selectedCategoryIds,
             }
-            
+
             if(selectedCategoryIds.length > 0){
 
                 axios.get('filter/category',  {
@@ -157,10 +170,11 @@
                     }else{
                         for (let i = 0; i <  response.data.length; i++) {
                             list += `
-                            <div class="col-lg-4 col-md-6 col-sm-6 pb-1">
+                            <div class="col-lg-4 col-md-6 col-sm-6 pb-1" id="currentProduct">
                                 <div class="product-item bg-light mb-4">
                                     <div class="product-img position-relative overflow-hidden">
-                                        <img class="img-fluid w-100 object-cover" style="height: 200px;" src="{{ asset('storage/img/product/${response.data[i].image}') }}" alt="">
+                                        <input type="hidden" name="productId" id="productId" value='${response.data[i].id}'>
+                                        <img class="img-fluid w-100 object-cover" id="currentImg" style="height: 200px;" src="{{ asset('storage/img/product/${response.data[i].image}') }}" alt="">
                                         <div class="product-action">
                                             <a class="btn btn-outline-dark btn-square" href="product/detail/${response.data[i].id}" ><i class="fa-solid fa-info"></i></a>
                                             <a class="btn btn-outline-dark btn-square" href="" ><i class="far fa-heart"></i></a>
@@ -179,7 +193,7 @@
                                             <small class="fa fa-star text-primary mr-1"></small>
                                         </div>
                                         <div class=" mt-3">
-                                            <button class="btn btn-primary">Add to Cart</button>
+                                            <button class="btn btn-primary" id="addToCart">Add to Cart</button>
                                         </div>
                                     </div>
                                 </div>
@@ -229,10 +243,11 @@
                 let list = ``;
                 for (let i = 0; i <  response.data.length; i++) {
                     list += `
-                    <div class="col-lg-4 col-md-6 col-sm-6 pb-1">
+                    <div class="col-lg-4 col-md-6 col-sm-6 pb-1" id="currentProduct">
                         <div class="product-item bg-light mb-4">
                             <div class="product-img position-relative overflow-hidden">
-                                <img class="img-fluid w-100 object-cover" style="height: 200px;" src="{{ asset('storage/img/product/${response.data[i].image}') }}" alt="">
+                                <input type="hidden" name="productId" id="productId" value='${response.data[i].id}'>
+                                <img class="img-fluid w-100 object-cover" id="currentImg" style="height: 200px;" src="{{ asset('storage/img/product/${response.data[i].image}') }}" alt="">
                                 <div class="product-action">
                                     <a class="btn btn-outline-dark btn-square" href="product/detail/${response.data[i].id}" ><i class="fa-solid fa-info"></i></a>
                                     <a class="btn btn-outline-dark btn-square" href="" ><i class="far fa-heart"></i></a>
@@ -251,7 +266,7 @@
                                     <small class="fa fa-star text-primary mr-1"></small>
                                 </div>
                                 <div class=" mt-3">
-                                    <button class="btn btn-primary">Add to Cart</button>
+                                    <button class="btn btn-primary" id="addToCart">Add to Cart</button>
                                 </div>
                             </div>
                         </div>
@@ -273,6 +288,7 @@
     })
 
     //sorting
+
     //lastest sorting
     let data ;
     lastestSort.addEventListener('click',function(){
@@ -292,10 +308,11 @@
             let list = ``;
             for (let i = 0; i <  response.data.length; i++) {
                 list += `
-                <div class="col-lg-4 col-md-6 col-sm-6 pb-1">
+                <div class="col-lg-4 col-md-6 col-sm-6 pb-1" id="currentProduct">
                     <div class="product-item bg-light mb-4">
                         <div class="product-img position-relative overflow-hidden">
-                            <img class="img-fluid w-100 object-cover" style="height: 200px;" src="{{ asset('storage/img/product/${response.data[i].image}') }}" alt="">
+                            <input type="hidden" name="productId" id="productId" value='${response.data[i].id}'>
+                            <img class="img-fluid w-100 object-cover" id="currentImg" style="height: 200px;" src="{{ asset('storage/img/product/${response.data[i].image}') }}" alt="">
                             <div class="product-action">
                                 <a class="btn btn-outline-dark btn-square" href="product/detail/${response.data[i].id}" ><i class="fa-solid fa-info"></i></a>
                                 <a class="btn btn-outline-dark btn-square" href="" ><i class="far fa-heart"></i></a>
@@ -314,7 +331,7 @@
                                 <small class="fa fa-star text-primary mr-1"></small>
                             </div>
                             <div class=" mt-3">
-                                <button class="btn btn-primary">Add to Cart</button>
+                                <button class="btn btn-primary" id="addToCart">Add to Cart</button>
                             </div>
                         </div>
                     </div>
@@ -328,5 +345,7 @@
           });
     }
 
+
 </script>
+
 @endsection

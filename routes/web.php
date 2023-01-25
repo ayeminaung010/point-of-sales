@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AxiosController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
@@ -34,6 +36,7 @@ Route::prefix('user')->middleware('user_auth')->group(function () {
     Route::get('/filter/category',[UserController::class,'filterCategory'])->name('user#filterCategory'); //axios use
     Route::get('/filter/allCategories',[UserController::class,'allCategories'])->name('user#filterallCategories'); //axios use
     Route::get('/sort/products',[UserController::class,'sorting'])->name('user#sortingProducts'); //axios use
+    Route::get('/addToCart',[AxiosController::class,'addToCart'])->name('user#addToCart'); //axios use
     //axios end
 
     Route::get('/profile',[UserController::class,'profile'])->name('user#profile');
@@ -43,7 +46,8 @@ Route::prefix('user')->middleware('user_auth')->group(function () {
     Route::get('/passwordChange',[UserController::class,'passwordChangePage'])->name('user#passwordChangePage');
     Route::post('/passwordChange/update',[UserController::class,'passwordChangeUpdate'])->name('user#passwordChangeUpdate');
 
-    Route::get('/contact',[UserController::class,'contact'])->name('user#contact');
+    Route::get('/contact',[ContactController::class,'contact'])->name('user#contact');
+    Route::post('/contact/send',[ContactController::class,'sendToAdmin'])->name('user#sendToAdmin');
 
     Route::get('cart',[CartController::class,'cartItem'])->name('user#cart');
 });

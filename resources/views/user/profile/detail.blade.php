@@ -12,7 +12,7 @@
 @section('content')
 
     <div class="row">
-        <div class="col-lg-10 offset-1">
+        <div class="col-lg-10 offset-2">
             <div class="page-content page-container" id="page-content">
                 <div class="padding">
                 <div class="row container d-flex justify-content-center">
@@ -23,7 +23,7 @@
                             <div class="card-block text-center text-white">
                                 <div class="m-b-25">
                                     @if (Auth::user()->image === null)
-                                        @if (Auth::user()->gender = 'male')
+                                        @if (Auth::user()->gender === 'male')
                                         <img src="{{ asset('image/male.png')}}" class="img-radius w-50 rounded-pill" alt="User-Profile-Image">
                                         @else
                                         <img src="{{ asset('image/female.jpg')}}" class="img-radius w-50 rounded-pill" alt="User-Profile-Image">
