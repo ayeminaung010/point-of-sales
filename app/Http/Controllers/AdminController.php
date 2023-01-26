@@ -37,11 +37,11 @@ class AdminController extends Controller
 
        if($request->image){
         if($admin_oldImg !== null){
-            Storage::delete('public/img/admin/'.$admin_oldImg);
+            Storage::delete('public/img/user/'.$admin_oldImg);
         }
 
         $newImg = uniqid().'_'.$request->file('image')->getClientOriginalName();
-        $request->file('image')->storeAs('public/img/admin/',$newImg);
+        $request->file('image')->storeAs('public/img/user/',$newImg);
         User::where('id',$id)->update([
             'name' => $request->name,
             'phone' => $request->phone,
@@ -84,14 +84,92 @@ class AdminController extends Controller
 
     //admin List
     public function adminList(){
-        $admins = User::where('role','admin')->when(request('search'),function($query){
-            $query->where('users.name','like','%'.request('search').'%');
-        })->orderBy('id','asc')->paginate(5);
+        $admins = User::where('role','admin')
+            ->where(function($query) {
+            $query->where('name','like','%'.request('search').'%')
+            ->orWhere('email','like','%'.request('search').'%')
+            ->orWhere('phone','like','%'.request('search').'%')
+            ->orWhere('address','like','%'.request('search').'%')
+            ->orWhere('gender','like','%'.request('search').'%');
+        })->paginate(10);
         return view('admin.profile.listAdmin',compact('admins'));
     }
 
     //axios rolechange
     public function roleChange(Request $request){
+        $result =  $this->role($request);
+    }
+
+    //user //lists
+    public function list(){
+        $users = User::where('role', 'user')
+                    ->where(function($query) {
+                        $query->where('name','like','%'.request('search').'%')
+                        ->orWhere('email','like','%'.request('search').'%')
+                        ->orWhere('phone','like','%'.request('search').'%')
+                        ->orWhere('address','like','%'.request('search').'%')
+                        ->orWhere('gender','like','%'.request('search').'%');
+                    })->paginate(10);
+        return view('admin.userList.list',compact('users'));
+    }
+
+    //axios userRole
+    public function userRole(Request $request){
+        $result =  $this->role($request);
+
+    }
+
+    //deleteUser
+    public function deleteUser($id){
+        $user = User::find($id);
+        $user->delete();
+        toastr()->success('User Account Deleted');
+        return redirect()->route('admin#userList');
+    }
+
+    //detailUser
+    public function detailUser($id){
+        $user = User::find($id);
+        return view('admin.userList.userDetail',compact('user'));
+    }
+
+    //editUser
+    public function editUser($id){
+        $user = User::find($id);
+        return view('admin.userList.editUserData',compact('user'));
+    }
+
+    //updateUser
+    public function updateUser(Request $request,$id){
+        $user = User::find($id);
+        $request->validate([
+            'image' => 'mimes:png,jpg,jpeg',
+            'name' => 'required',
+            'email' => 'required',
+            'phone' => 'required',
+            'gender' => 'required',
+            'address' => 'required',
+        ]);
+        if($request->hasFile('image')){
+            $old_img = $user->image;
+            if($old_img !== null){
+                Storage::delete('public/img/user/'.$old_img);
+            }
+            $newImg = uniqid().'_'. $request->file('image')->getClientOriginalName();
+            $request->file('image')->storeAs('public/img/user/',$newImg);
+            $user->image = $newImg;
+        }
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->phone = $request->phone;
+        $user->gender = $request->gender;
+        $user->address = $request->address;
+        $user->update();
+        toastr()->success('User Account Updated');
+        return redirect()->route('admin#userList');
+    }
+
+    private function role($request){
         $result = User::select('role')->where('id',$request->userId)->update([
             'role' => $request->role
         ]);
@@ -108,12 +186,6 @@ class AdminController extends Controller
         }else{
             return response()->json($responseFail,400);
         }
-    }
-
-    //user //lists
-    public function list(){
-        $users = User::where('role','user')->paginate(10);
-        return view('admin.userList.list',compact('users'));
     }
 
 }

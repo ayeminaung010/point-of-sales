@@ -9,9 +9,9 @@
 
 <!-- Shop Detail Start -->
 <div class="container-fluid pb-5">
-    <a href="{{ route('user#home')}}" class="text-dark text-decoration-none ms-3 me-2 ">
-        <i class="fa-solid fa-arrow-left fs-5"></i> <span class="fs-5">Back</span>
-    </a>
+    <button  onclick="history.back()" class="btn btn-primary my-2 ms-5 me-2 text-white">
+        <i class="fa-solid fa-arrow-left fs-5"></i> <span class="fs-6">Back</span>
+    </button>
     <div class="row px-xl-5">
         <div class="col-lg-5 mb-30">
 
@@ -101,12 +101,12 @@
                         <div class="product-img position-relative overflow-hidden">
                             <img class="img-fluid w-100" src="{{ asset('storage/img/product/'.$p->image )}}" style="height: 200px" alt="">
                             <div class="product-action">
-                                <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
+                                <a class="btn btn-outline-dark btn-square" href="{{ route('user#productDetail',$p->id) }}" ><i class="fa-solid fa-info"></i></a>
                                 <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
                             </div>
                         </div>
                         <div class="text-center py-4">
-                            <a class="h6 text-decoration-none text-truncate" href="">{{ $p->name }}</a>
+                            <a class="h6 text-decoration-none text-truncate" href="{{ route('user#productDetail',$p->id) }}">{{ $p->name }}</a>
                             <div class="d-flex align-items-center justify-content-center mt-2">
                                 <h5>{{ $p->price }} kyats</h5>
                             </div>

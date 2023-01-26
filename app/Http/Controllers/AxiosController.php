@@ -21,7 +21,7 @@ class AxiosController extends Controller
             $cart->save();
             return response()->json('success',200);
         }else{
-            // Notification::send(Auth::user(), new InvoicePaid($invoice));
+            //to show user alerts
             return response()->json('already Exits In Cart!',220);
         }
     }

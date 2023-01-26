@@ -1,8 +1,6 @@
 @extends('admin.layouts.master')
 
 @section('content')
-
-
 <!-- MAIN CONTENT-->
 <div class="main-content">
     <div class="section__content section__content--p30">
@@ -19,13 +17,13 @@
                 </div>
                 <div class="row">
                     <div class="col-3 ">
-                        <h5 class=" text-secondary">Search Key : <span class="text-danger">{{ request('key')}}</span></h5>
+                        <h5 class=" text-secondary">Search Key : <span class="text-danger">{{ request('search')}}</span></h5>
                     </div>
                     <div class="col-4 offset-8">
                         <form action="{{ route('admin#userList') }}" method="get">
                             @csrf
                             <div class="d-flex ">
-                                <input type="text" class="form-control" name="key" value="{{ request('key')}}" placeholder="Search.......">
+                                <input type="text" class="form-control" name="search" value="{{ request('search')}}" placeholder="Search.......">
                                 <button class="btn btn-dark text-white " type="submit">
                                     <i class="fa-solid fa-magnifying-glass"></i>
                                 </button>
@@ -57,7 +55,7 @@
                         </thead>
                         <tbody class="dataList">
                             @foreach ($users as $u)
-                                <tr>
+                                <tr id="userInfo">
                                     <input type="hidden" name="" class="userId" value="{{ $u->id }}">
                                     <td class="col-1 shadow-sm">
                                         @if ($u->image == null )
@@ -67,7 +65,7 @@
                                                 <div class="img-thumbnail shadow-sm"><img src="{{ asset('image/female.jpg')}}" alt=""></div>
                                             @endif
                                         @else
-                                            <div class="img-thumbnail shadow-sm"><img src="{{ asset('storage/img/'.$u->image)}}" alt=""></div>
+                                            <div class="img-thumbnail shadow-sm"><img src="{{ asset('storage/img/user/'.$u->image)}}" alt=""></div>
                                         @endif
                                      </td>
                                     <td> {{ $u->name }}</td>
@@ -82,13 +80,19 @@
                                                 <option value="user" @if($u->role == 'user') selected @endif>User</option>
                                             </select>
 
-                                            <a href="" class="ms-2">
+                                            <a href="{{ route('admin#detailUserAccount',$u->id) }}" class="me-2" >
+                                                <button class="item" data-toggle="tooltip" data-placement="top" title="Detail">
+                                                    <i class="fa-regular fa-eye"></i>
+                                                </button>
+                                            </a>
+
+                                            <a href="{{ route('admin#editUserAccount',$u->id) }}" class="ms-2">
                                                 <button class="item" data-toggle="tooltip" data-placement="top" title="edit">
                                                     <i class="zmdi zmdi-edit"></i>
                                                 </button>
                                             </a>
 
-                                            <a href="" class="ms-2">
+                                            <a href="{{ route('admin#deleteUserAccount',$u->id) }}" class="ms-2">
                                                 <button class="item" data-toggle="tooltip" data-placement="top" title="Delete">
                                                     <i class="zmdi zmdi-delete"></i>
                                                 </button>
@@ -118,26 +122,27 @@
 
 @section('scriptSource')
 <script>
-    $(document).ready(function(){
-        $('.roleChange').change(function(){
-          $role = $(this).val()
-          $parentNode = $(this).parents("tr")
-          $userId = $parentNode.find('.userId').val()
-            $data = {
-                'role' : $role,
-                'userId' : $userId
-            }
-            $.ajax({
-                type : 'get',
-                url  : '/order/ajax/roleChange',
-                data : $data,
-                dataType : 'json',
-                success : function(response){
+    const roleChange = document.querySelector('.roleChange');
+    roleChange.addEventListener('change',function(){
+        const roleValue = roleChange.value;
+        const parentNode = roleChange.closest('#userInfo');
+        const userId =  parentNode.querySelector('.userId').value;
 
-                }
+        const data = {
+            'role' : roleValue,
+            'userId' : userId
+        }
+        axios.get('/admin/userList/roleChange',  {
+            params: data
             })
+            .then(function (response) {
+                console.log(response);
+            })
+            .catch(function (error) {
+            // handle error
+                console.log(error);
+            });
+            parentNode.remove();
         })
-
-    })
 </script>
 @endsection

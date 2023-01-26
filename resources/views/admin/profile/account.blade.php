@@ -7,16 +7,6 @@
             <div class="container-fluid">
 
                 <div class="col-lg-6 offset-3">
-                    {{-- alert  --}}
-                        @if(session('updateSuccess'))
-                            <div class="w-100">
-                                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                    <i class="fa-regular fa-circle-xmark"></i> {{ session('updateSuccess') }}
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                </div>
-                            </div>
-                        @endif
-                    {{-- alert end  --}}
                     <div class="card">
                         <div class="card-body">
                             <div class="card-title">
@@ -43,7 +33,7 @@
                                     @else
                                         <div class="image">
                                             <a href="#">
-                                                <img src="{{ asset('storage/img/admin/'. Auth::user()->image) }}"  />
+                                                <img src="{{ asset('storage/img/user/'. Auth::user()->image) }}"  />
                                             </a>
                                         </div>
                                     @endif

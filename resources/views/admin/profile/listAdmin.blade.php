@@ -66,7 +66,7 @@
                                             <div class=""><img src="{{ asset('image/female.jpg')}}" alt=""></div>
                                         @endif
                                     @else
-                                        <div class=""><img src="{{ asset('storage/img/admin/'.$a->image)}}" alt=""></div>
+                                        <div class=""><img src="{{ asset('storage/img/user/'.$a->image)}}" alt=""></div>
                                     @endif
                                  </td>
                                 <td class="col-2"> {{ $a->name }} </td>
@@ -113,69 +113,28 @@
 
 @section('scriptSource')
 <script>
-    // $(document).ready(function(){
-    //     $('.roleChange').change(function(){
-    //       $role = $(this).val()
-    //       $parentNode = $(this).parents("tr")
-    //       $userId = $parentNode.find('.userId').val()
-    //         $data = {
-    //             'role' : $role,
-    //             'userId' : $userId
-    //         }
-    //         ajax
-    //         $.ajax({
-    //             type : 'get',
-    //             url  : '/admin/profile/ajax/roleChange',
-    //             data : $data,
-    //             dataType : 'json',
-    //             success : function(response){
+    const roleChange = document.querySelector('.roleChange');
+    roleChange.addEventListener('change',function(){
+        const roleValue = roleChange.value;
+        const parentNode = roleChange.closest('#userInfo');
+        const userId =  parentNode.querySelector('.userId').value;
 
-    //             }
-    //         })
-
-    //         axios
-    //             axios.get('/admin/profile/ajax/roleChange',  {
-    //                 params: $data
-    //               })
-    //               .then(function (response) {
-    //                 // handle success
-    //                 $('#status-message').text(response.data.message);
-    //               })
-    //               .catch(function (error) {
-    //                 // handle error
-    //                 console.log(error);
-    //               });
-
-    //         $parentNode.remove();
-    //     })
-
-    // })
-        const roleChange = document.querySelector('.roleChange');
-        roleChange.addEventListener('change',function(){
-            const roleValue = roleChange.value;
-            const parentNode = roleChange.closest('#userInfo');
-            const userId =  parentNode.querySelector('.userId').value;
-
-            const data = {
-                'role' : roleValue,
-                'userId' : userId
-            }
-
-            axios.get('/admin/profile/ajax/roleChange',  {
-                params: data
-              })
-              .then(function (response) {
+        const data = {
+            'role' : roleValue,
+            'userId' : userId
+        }
+        axios.get('/admin/profile/axios/roleChange',  {
+            params: data
+            })
+            .then(function (response) {
                 console.log(response);
-
-              })
-              .catch(function (error) {
-                // handle error
+            })
+            .catch(function (error) {
+            // handle error
                 console.log(error);
-              });
-              parentNode.remove();
+            });
+            parentNode.remove();
         })
-
-
 
 </script>
 @endsection

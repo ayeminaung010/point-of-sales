@@ -136,7 +136,7 @@
                                 @endif
                             @else
                                 <div class="image">
-                                    <img src="{{ asset('storage/img/admin/'.Auth::user()->image) }}"  />
+                                    <img src="{{ asset('storage/img/user/'.Auth::user()->image) }}"  />
                                 </div>
                             @endif
 
@@ -163,7 +163,7 @@
                                     @else
                                         <div class="image">
                                             <a href="#">
-                                                <img src="{{ asset('storage/img/admin/'.Auth::user()->image) }}"  />
+                                                <img src="{{ asset('storage/img/user/'.Auth::user()->image) }}"  />
                                             </a>
                                         </div>
                                     @endif

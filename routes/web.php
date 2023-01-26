@@ -92,11 +92,16 @@ Route::prefix('admin')->middleware('admin_auth')->group(function () {
         Route::view('/passwordChange','admin.profile.passwordChange')->name('admin#changePasswordPage');
         Route::post('/passwordUpdate',[AdminController::class,'updatePassword'])->name('admin#updatePassword');
         Route::get('/adminList',[AdminController::class,'adminList'])->name('admin#adminList');
-        Route::get('/ajax/roleChange',[AdminController::class,'roleChange'])->name('admin#roleChange');
+        Route::get('/axios/roleChange',[AdminController::class,'roleChange'])->name('admin#roleChange'); //axios use
     });
 
     Route::prefix('userList')->group(function(){
         Route::get('/lists',[AdminController::class,'list'])->name('admin#userList');
+        Route::get('/roleChange',[AdminController::class,'userRole'])->name('admin#userRole'); //axios
+        Route::get('/delete/{id}',[AdminController::class,'deleteUser'])->name('admin#deleteUserAccount');
+        Route::get('/detail/{id}',[AdminController::class,'detailUser'])->name('admin#detailUserAccount');
+        Route::get('/edit/{id}',[AdminController::class,'editUser'])->name('admin#editUserAccount');
+        Route::post('/update/{id}',[AdminController::class,'updateUser'])->name('admin#updateUserAccount');
     });
 
 
