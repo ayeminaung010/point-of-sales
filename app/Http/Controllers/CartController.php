@@ -14,6 +14,6 @@ class CartController extends Controller
                 ->leftJoin('products','products.id','carts.product_id')
                 ->where('user_id',Auth::user()->id)
                 ->get();
-        return view('user.cart.cartList',compact('carts'));
+         return view('user.cart.cartList',compact('carts'));
     }
 }

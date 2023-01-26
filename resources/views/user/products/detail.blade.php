@@ -14,7 +14,6 @@
     </button>
     <div class="row px-xl-5">
         <div class="col-lg-5 mb-30">
-
             <div id="product-carousel" class="carousel slide " data-ride="carousel">
                 <div class="carousel-inner bg-light">
                     <div class="carousel-item active">
@@ -35,7 +34,7 @@
             <div class="h-100 bg-light p-30">
                 <h3>{{ $product->name}}</h3>
                 <input type="hidden" value="{{ Auth::user()->id }}" id="userId">
-                <input type="hidden" value="{{ $product->id }}" id="pizzaId">
+                <input type="hidden" value="{{ $product->id }}" id="productId">
                 <div class="d-flex mb-3">
                     {{-- <div class="text-primary mr-2">
                         <small class="fas fa-star"></small>
@@ -55,15 +54,17 @@
                                 <i class="fa fa-minus"></i>
                             </button>
                         </div>
-                        <input type="number" id="orderCount" class="form-control bg-secondary border-0 text-center" value="1">
+                        <input type="number" id="orderCount" class="form-control bg-secondary border-0 text-center"  value="1" min="1">
                         <div class="input-group-btn">
                             <button class="btn btn-primary btn-plus" id="btnPlus">
                                 <i class="fa fa-plus"></i>
                             </button>
                         </div>
                     </div>
-                    <button type="button" id="addCartBtn" class="btn btn-primary px-3"><i class="fa fa-shopping-cart mr-1"></i> Add To
-                        Cart</button>
+                    <button type="button" id="addToCart" class="btn btn-primary px-3"><i class="fa fa-shopping-cart mr-1"></i>
+                        Add To
+                        Cart
+                    </button>
                 </div>
                 <div class="d-flex pt-2">
                     <strong class="text-dark mr-2">Share on:</strong>
@@ -241,8 +242,33 @@
 @endsection
 
 @section('scriptSource')
+<script>
+    const addToCart = document.querySelector('#addToCart');
+    const productId = document.querySelector('#productId').value;
+    const orderCount = document.querySelector('#orderCount');
 
 
+    addToCart.addEventListener('click',function(){
+        const data = {
+            'productId' : productId,
+            'orderCount' : orderCount.value,
+        }
+
+        console.log(data);
+        axios.get('/user/addCountCart',  {
+            params: data
+        })
+        .then(function (response) {
+        console.log(response);
+
+        })
+        .catch(function (error) {
+        console.log(error);
+        });
+
+    })
+
+</script>
 @endsection
 
 

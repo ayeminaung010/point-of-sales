@@ -36,7 +36,12 @@ Route::prefix('user')->middleware('user_auth')->group(function () {
     Route::get('/filter/category',[UserController::class,'filterCategory'])->name('user#filterCategory'); //axios use
     Route::get('/filter/allCategories',[UserController::class,'allCategories'])->name('user#filterallCategories'); //axios use
     Route::get('/sort/products',[UserController::class,'sorting'])->name('user#sortingProducts'); //axios use
+
     Route::get('/addToCart',[AxiosController::class,'addToCart'])->name('user#addToCart'); //axios use
+    Route::get('/addCountCart',[AxiosController::class,'addCountCart'])->name('user#addCountCart'); //axios use
+    Route::get('/removeFromCart',[AxiosController::class,'removeFromCart'])->name('user#removeFromCart'); //axios use
+    Route::get('/countUpdate',[AxiosController::class,'countUpdate'])->name('user#countUpdate'); //axios use
+    Route::get('/clearCart',[AxiosController::class,'clearCart'])->name('user#clearCart'); //axios use
     //axios end
 
     Route::get('/profile',[UserController::class,'profile'])->name('user#profile');
