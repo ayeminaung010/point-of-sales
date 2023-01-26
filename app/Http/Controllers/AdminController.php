@@ -166,9 +166,29 @@ class AdminController extends Controller
         $user->address = $request->address;
         $user->update();
         toastr()->success('User Account Updated');
-        return redirect()->route('admin#userList');
+        return back();
     }
 
+    //changePasswordUser
+    public function changePasswordUser($id){
+        $user  = User::find($id);
+        return view('admin.userList.passwordChange',compact('user'));
+    }
+
+    //UpdatePasswordUser
+    public function UpdatePasswordUser(Request $request,$id){
+        $user = User::find($id);
+        $request->validate([
+            'newPassword' => 'required|min:6',
+            'confirmPassword' => 'required|min:6|same:newPassword',
+        ]);
+        $user->password = Hash::make($request->newPassword);
+        $user->update();
+        toastr()->success('User Password Updated..');
+        return back();
+    }
+
+    //role change private function
     private function role($request){
         $result = User::select('role')->where('id',$request->userId)->update([
             'role' => $request->role

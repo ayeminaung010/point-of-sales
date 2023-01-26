@@ -71,8 +71,8 @@
                                 <i class="fa-solid fa-users"></i> User List</a>
                         </li>
                         <li >
-                            <a href="" class="position-relative">
-                                <i class="fa-solid fa-comments"></i>Contact Message
+                            <a href="{{ route('admin#contactMessage') }}" class="position-relative">
+                                <i class="fa-solid fa-comments"></i>Message Inbox
                                 <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                                 99+
                                 </span>

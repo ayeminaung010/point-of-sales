@@ -55,13 +55,20 @@
                             </div>
                         </div>
                         <div class="row">
-                        <div class="col-5  ">
-                            <a href="{{ route('admin#editUserAccount',$user->id) }}" class="w-100">
-                                <button class="btn btn-dark text-white w-100">
-                                    <i class="fa-solid fa-user-pen me-2"></i> Edit Profile
-                                </button>
-                            </a>
-                        </div>
+                            <div class="col-5  ">
+                                <a href="{{ route('admin#editUserAccount',$user->id) }}" class="w-100">
+                                    <button class="btn btn-dark text-white w-100">
+                                        <i class="fa-solid fa-user-pen me-2"></i> Edit Profile
+                                    </button>
+                                </a>
+                            </div>
+                            <div class="col-5  ">
+                                <a href="{{ route('admin#changePasswordUser',$user->id) }}" class="w-100">
+                                    <button class="btn btn-dark text-white w-100">
+                                        <i class="fa-solid fa-user-pen me-2"></i> Password Change
+                                    </button>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -8,6 +8,49 @@ use Illuminate\Http\Request;
 
 class ContactController extends Controller
 {
+
+    //admin
+    //message
+    public function message(){
+        $messages = Contact::orderBy('created_at','desc')->paginate(10);
+        return view('admin.contact.message',compact('messages'));
+    }
+
+    //deleteMessage
+    public function deleteMessage($id){
+        $message = Contact::where('id',$id)->first();
+        $message->delete();
+        toastr()->success('Message Deleted Success..');
+        return back();
+    }
+
+    //contactDetails
+    public function contactDetails($id){
+        $message = Contact::where('id',$id)->first();
+
+        return view('admin.contact.detail',compact('message'));
+    }
+
+    //deleteAllmessages
+    public function deleteAllmessages(){
+        $messages = Contact::select();
+        $messages->delete();
+        toastr()->success('Messages Inbox Clean Success..');
+        return redirect()->route('admin#contactMessage');
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+    //user
     //contact
     public function contact(){
         return view('user.contact.contact');
@@ -24,4 +67,6 @@ class ContactController extends Controller
         toastr()->success('Thank You..Your message Recieve Successfully..');
         return back();
     }
+
+
 }

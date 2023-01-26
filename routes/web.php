@@ -102,6 +102,16 @@ Route::prefix('admin')->middleware('admin_auth')->group(function () {
         Route::get('/detail/{id}',[AdminController::class,'detailUser'])->name('admin#detailUserAccount');
         Route::get('/edit/{id}',[AdminController::class,'editUser'])->name('admin#editUserAccount');
         Route::post('/update/{id}',[AdminController::class,'updateUser'])->name('admin#updateUserAccount');
+        Route::get('/changePassword/{id}',[AdminController::class,'changePasswordUser'])->name('admin#changePasswordUser');
+        Route::post('/updatePassword/{id}',[AdminController::class,'UpdatePasswordUser'])->name('admin#UpdatePasswordUser');
+    });
+
+    Route::prefix('contact')->group(function(){
+        Route::get('/messsage',[ContactController::class,'message'])->name('admin#contactMessage');
+        Route::get('/deleteMessage/{id}',[ContactController::class,'deleteMessage'])->name('admin#deleteMessage');
+        Route::get('/details/{id}',[ContactController::class,'contactDetails'])->name('admin#contactDetails');
+        Route::get('/details/{id}',[ContactController::class,'contactDetails'])->name('admin#contactDetails');
+        Route::get('/deleteAll',[ContactController::class,'deleteAllmessages'])->name('admin#deleteAllmessages');
     });
 
 
