@@ -26,5 +26,15 @@ class DatabaseSeeder extends Seeder
             'phone' => '0994874854',
             'password' => Hash::make('admin123')
         ]);
+
+        \App\Models\User::factory()->create([
+            'name' => 'john aye',
+            'email' => 'ayeminaung.mf@gmail.com',
+            'address' =>  'bago',
+            'role' => 'user',
+            'gender' => 'female',
+            'phone' => '092737373',
+            'password' => Hash::make('ayeminaung.mf@gmail.com')
+        ]);
     }
 }

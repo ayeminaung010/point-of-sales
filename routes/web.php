@@ -8,6 +8,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\RecycleController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -117,6 +118,12 @@ Route::prefix('admin')->middleware('admin_auth')->group(function () {
         Route::get('/details/{id}',[ContactController::class,'contactDetails'])->name('admin#contactDetails');
         Route::get('/details/{id}',[ContactController::class,'contactDetails'])->name('admin#contactDetails');
         Route::get('/deleteAll',[ContactController::class,'deleteAllmessages'])->name('admin#deleteAllmessages');
+    });
+
+    Route::prefix('recycle')->group(function(){
+        Route::get('/trash',[RecycleController::class,'list'])->name('admin#trashLists');
+        Route::get('/restore/{id}',[RecycleController::class,'restore'])->name('admin#restoreTrash');
+        Route::get('/deletePermanently/{id}',[RecycleController::class,'deletePermanently'])->name('admin#deletePermanently');
     });
 
 

@@ -77,7 +77,12 @@
                                 99+
                                 </span>
                             </a>
-
+                        </li>
+                        <li>
+                            <a href="{{ route('admin#trashLists') }}">
+                                <i class="fa-solid fa-recycle"></i>
+                                Recycle bin
+                            </a>
                         </li>
                     </ul>
                 </nav>

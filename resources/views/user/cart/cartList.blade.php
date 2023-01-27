@@ -74,7 +74,7 @@
                             <h5>Total</h5>
                             <h5 id="finalPrice">kyats</h5>
                         </div>
-                        <button class="btn btn-block btn-primary font-weight-bold my-3 py-3" id="orderBtn">Proceed To Checkout</button>
+                        <button class="btn btn-block btn-primary font-weight-bold my-3 py-3" id="checkOut">Proceed To Checkout</button>
                         <button class="btn btn-block btn-outline-danger font-weight-bold my-3 py-3" id="clearBtn">Clear Cart</button>
                     </div>
                 </div>
@@ -94,6 +94,7 @@
     const subTotal = document.querySelector('#subTotal')
     const finalPrice = document.querySelector('#finalPrice')
     const clearBtn = document.querySelector('#clearBtn')
+    const checkOut = document.querySelector('#checkOut')
 
     //Final price //total price
     const updateTotalPrice = () =>{
@@ -204,6 +205,10 @@
         });
     })
 
+    //checkOut
+    public function checkOut(){
+        
+    }
 </script>
 
 @endsection

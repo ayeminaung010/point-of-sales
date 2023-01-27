@@ -11,7 +11,7 @@
                 <div class="table-data__tool">
                     <div class="table-data__tool-left">
                         <div class="overview-wrap">
-                            <h2 class="title-1">Product List</h2>
+                            <h2 class="title-1">Category Lists</h2>
 
                         </div>
                     </div>
@@ -61,7 +61,7 @@
                         </tbody>
                     </table>
                     @else
-                    <div class="text-center text-bold fs-4">There is no products </div>
+                    <div class="text-center text-bold fs-4">There is no Category </div>
                     @endif
                 </div>
                 <!-- END DATA TABLE -->
