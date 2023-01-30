@@ -119,7 +119,7 @@
                     </div>
                 @else
                 <div class="">
-                    <p class="text-center fs-2 p-5">There is no pizza ;'(<i class="fa-solid fa-pizza-slice ms-3"></i> </p>
+                    <p class="text-center fs-2 p-5">There is no Products ;'( </p>
                 </div>
                 @endif
             </div>
@@ -166,7 +166,7 @@
                     let list = ``;
                     if(response.data.length === 0 ){
                         productList.classList.add('justify-content-center','align-items-center');
-                        productList.innerHTML = `<p class="text-center fs-2 p-5">There is no pizza ;'(<i class="fa-solid fa-pizza-slice ms-3"></i> </p>`;
+                        productList.innerHTML = `<p class="text-center fs-2 p-5">There is no Products ;'( </p>`;
                     }else{
                         for (let i = 0; i <  response.data.length; i++) {
                             list += `

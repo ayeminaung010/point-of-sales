@@ -51,9 +51,6 @@
                                         <a href="{{ route('admin#categoryDelete',$category->id) }}" class="item" data-toggle="tooltip" data-placement="top" title="Delete">
                                             <i class="zmdi zmdi-delete"></i>
                                         </a>
-                                        <button class="item" data-toggle="tooltip" data-placement="top" title="More">
-                                            <i class="zmdi zmdi-more"></i>
-                                        </button>
                                     </div>
                                 </td>
                             </tr>

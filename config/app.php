@@ -199,6 +199,9 @@ return [
         App\Providers\FortifyServiceProvider::class,
         App\Providers\JetstreamServiceProvider::class,
 
+        // Pusher\PusherServiceProvider::class
+
+
     ],
 
     /*
@@ -214,6 +217,8 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
+        // 'Pusher' => Pusher\Pusher::class
+
     ])->toArray(),
 
 ];

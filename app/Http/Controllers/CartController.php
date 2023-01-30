@@ -16,4 +16,15 @@ class CartController extends Controller
                 ->get();
          return view('user.cart.cartList',compact('carts'));
     }
+
+    //payment
+    public function payment(Request $request){
+        $finalPrice = $request->finalPrice;
+        return view('user.payments.payment',compact('finalPrice'));
+    }
+
+    //paymentSuccess
+    public function paymentSuccess(){
+        return view('user.payments.successPayment');
+    }
 }

@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+        \App\Models\User::factory(10)->create();
 
         \App\Models\User::factory()->create([
             'name' => 'admin',
@@ -35,6 +35,10 @@ class DatabaseSeeder extends Seeder
             'gender' => 'female',
             'phone' => '092737373',
             'password' => Hash::make('ayeminaung.mf@gmail.com')
+        ]);
+
+        $this->call([
+            CategorySeeder::class,
         ]);
     }
 }

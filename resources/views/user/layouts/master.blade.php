@@ -25,6 +25,24 @@
     <!-- Customized Bootstrap Stylesheet -->
     <link href="{{ asset('user/css/style.css')}}" rel="stylesheet">
 
+    {{-- pusher  --}}
+    <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
+      <script>
+
+        // Enable pusher logging - don't include this in production
+        Pusher.logToConsole = true;
+
+        var pusher = new Pusher('cf619290d4af27a2387f', {
+          cluster: 'ap1'
+        });
+
+        var channel = pusher.subscribe('my-channel');
+        channel.bind('my-event', function(data) {
+          alert(JSON.stringify(data));
+        });
+      </script>
+      
+
     @yield('css');
 </head>
 
@@ -184,11 +202,7 @@
 
 
     <!-- Back to Top -->
-    <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
-
-
-    <!-- Back to Top -->
-    <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
+    {{-- <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a> --}}
 
 
     <!-- JavaScript Libraries -->

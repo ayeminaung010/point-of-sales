@@ -69,14 +69,18 @@
                             <h6 class="font-weight-medium">5000 kyats</h6>
                         </div>
                     </div>
-                    <div class="pt-2">
-                        <div class="d-flex justify-content-between mt-2">
-                            <h5>Total</h5>
-                            <h5 id="finalPrice">kyats</h5>
+                    <form action="{{ route('user#payment') }}" method="post">
+                        @csrf
+                        <div class="pt-2">
+                            <div class="d-flex justify-content-between mt-2">
+                                <h5>Total</h5>
+                                <h5  id="finalPrice">kyats</h5>
+                                <input type="hidden" name="finalPrice" id="finalPriceInput" value="">
+                            </div>
+                            <button type="submit" class="btn btn-block btn-primary font-weight-bold my-3 py-3" id="checkOut">Proceed To Checkout</button>
+                            <button class="btn btn-block btn-outline-danger font-weight-bold my-3 py-3" id="clearBtn">Clear Cart</button>
                         </div>
-                        <button class="btn btn-block btn-primary font-weight-bold my-3 py-3" id="checkOut">Proceed To Checkout</button>
-                        <button class="btn btn-block btn-outline-danger font-weight-bold my-3 py-3" id="clearBtn">Clear Cart</button>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -95,6 +99,7 @@
     const finalPrice = document.querySelector('#finalPrice')
     const clearBtn = document.querySelector('#clearBtn')
     const checkOut = document.querySelector('#checkOut')
+    const finalPriceInput = document.querySelector('#finalPriceInput')
 
     //Final price //total price
     const updateTotalPrice = () =>{
@@ -105,6 +110,7 @@
 
         subTotal.innerText = total +' ' + 'kyats';
         finalPrice.innerText = (total + 5000) + 'kyats';
+        finalPriceInput.value = total;
     }
     updateTotalPrice();
 
@@ -205,10 +211,7 @@
         });
     })
 
-    //checkOut
-    public function checkOut(){
-        
-    }
+
 </script>
 
 @endsection

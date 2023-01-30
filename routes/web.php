@@ -56,6 +56,9 @@ Route::prefix('user')->middleware('user_auth')->group(function () {
     Route::post('/contact/send',[ContactController::class,'sendToAdmin'])->name('user#sendToAdmin');
 
     Route::get('cart',[CartController::class,'cartItem'])->name('user#cart');
+
+    Route::post('payment',[CartController::class,'payment'])->name('user#payment');
+    Route::get('payment/success',[CartController::class,'paymentSuccess'])->name('user#paymentSuccess');
 });
 
 
