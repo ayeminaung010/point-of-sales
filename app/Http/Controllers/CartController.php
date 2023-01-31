@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\PaymentCCRequest;
 
 class CartController extends Controller
 {
@@ -19,8 +20,16 @@ class CartController extends Controller
 
     //payment
     public function payment(Request $request){
-        $finalPrice = $request->finalPrice;
-        return view('user.payments.payment',compact('finalPrice'));
+        // logger($request->dataFinal['final_price']);
+        // logger($request->orderList);
+        // $finalPrice = $request->dataFinal['final_price'];
+        // logger($finalPrice);
+        return view('user.payments.payment');
+    }
+
+    //verify payment
+    public function verify(PaymentCCRequest $request){
+        dd($request->all());
     }
 
     //paymentSuccess

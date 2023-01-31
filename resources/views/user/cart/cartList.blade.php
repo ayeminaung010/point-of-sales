@@ -27,6 +27,7 @@
                             <td><img src="{{ asset('storage/img/product/'.$cart->productImage) }}" class=" img-thumbnail shadow-sm" alt="" style="width: 100px"></td>
                             <input type="hidden" value="{{ $cart->user_id }}" class="userId">
                             <input type="hidden" value="{{ $cart->id }}" class="cartId">
+                            <input type="hidden" value="{{ $cart->product_id }}" class="productId">
                             <td class="align-middle" id="productPrice">{{ $cart->productPrice }}  kyats</td>
                             <td class="align-middle">
                                 <div class="input-group quantity mx-auto" style="width: 100px;">
@@ -69,24 +70,20 @@
                             <h6 class="font-weight-medium">5000 kyats</h6>
                         </div>
                     </div>
-                    <form action="{{ route('user#payment') }}" method="post">
-                        @csrf
-                        <div class="pt-2">
-                            <div class="d-flex justify-content-between mt-2">
-                                <h5>Total</h5>
-                                <h5  id="finalPrice">kyats</h5>
-                                <input type="hidden" name="finalPrice" id="finalPriceInput" value="">
-                            </div>
-                            <button type="submit" class="btn btn-block btn-primary font-weight-bold my-3 py-3" id="checkOut">Proceed To Checkout</button>
-                            <button class="btn btn-block btn-outline-danger font-weight-bold my-3 py-3" id="clearBtn">Clear Cart</button>
+                    <div class="pt-2">
+                        <div class="d-flex justify-content-between mt-2">
+                            <h5>Total</h5>
+                            <h5  id="finalPrice">kyats</h5>
+                            <input type="hidden" name="finalPrice" id="finalPriceInput" value="">
                         </div>
-                    </form>
+                        <button  class="btn btn-block btn-primary font-weight-bold my-3 py-3" id="checkOut">Proceed To Checkout</button>
+                        <button class="btn btn-block btn-outline-danger font-weight-bold my-3 py-3" id="clearBtn">Clear Cart</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
     <!-- Cart End -->
-
 @endsection
 
 @section('scriptSource')
@@ -95,6 +92,7 @@
     const btnRemoves = document.querySelectorAll('#btnRemove')
     const btnMinus = document.querySelectorAll('.btn-minus')
     const btnPlus = document.querySelectorAll('.btn-plus')
+
     const subTotal = document.querySelector('#subTotal')
     const finalPrice = document.querySelector('#finalPrice')
     const clearBtn = document.querySelector('#clearBtn')
@@ -135,7 +133,6 @@
                 .catch(function (error) {
                     console.log(error);
                 });
-
         })
 
     })
@@ -211,6 +208,40 @@
         });
     })
 
+
+    const productIds = document.querySelectorAll('.productId');
+    const qtys = document.querySelectorAll('#qty');
+
+    //checkOut
+    const dataTableRows = document.querySelectorAll('#dataTable tbody tr');
+    checkOut.addEventListener('click',function(){
+        const random = Math.floor(Math.random() * 10000000000);
+        const orderList = [];
+        const final_price = parseInt(finalPrice.innerHTML.replace('kyats', ''));
+        dataTableRows.forEach(function(row) {
+          const userId = row.querySelector('.userId').value;
+          const productId = row.querySelector('.productId').value;
+          const qty = row.querySelector('#qty').value;
+          const total = parseInt(row.querySelector('#total').innerHTML.replace('kyats', ''));
+
+          const orderCode = 'POS'+'_' + random;
+
+          orderList.push({
+            'user_id': userId,
+            'product_id': productId,
+            'qty': qty,
+            'total': total,
+            'order_code': orderCode,
+          });
+        });
+        // const dataFinal = {
+        //     'final_price' : final_price
+        // }
+        localStorage.setItem('order_list', JSON.stringify(orderList));
+        localStorage.setItem('final_price', final_price);
+
+        window.location.href = '/user/payment';
+    })
 
 </script>
 

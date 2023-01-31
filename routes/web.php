@@ -57,7 +57,9 @@ Route::prefix('user')->middleware('user_auth')->group(function () {
 
     Route::get('cart',[CartController::class,'cartItem'])->name('user#cart');
 
-    Route::post('payment',[CartController::class,'payment'])->name('user#payment');
+    // axios
+    Route::get('payment',[CartController::class,'payment'])->name('user#payment');
+    Route::post('payment/verify',[CartController::class,'verify'])->name('user#paymentVerify');
     Route::get('payment/success',[CartController::class,'paymentSuccess'])->name('user#paymentSuccess');
 });
 

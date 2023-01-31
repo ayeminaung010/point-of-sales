@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->integer('user_id');
             $table->integer('product_id');
+            $table->string('order_code');
             $table->string('total_price');
             $table->integer('status')->default(0);
             $table->timestamps();

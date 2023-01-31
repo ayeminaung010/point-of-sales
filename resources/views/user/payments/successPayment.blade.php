@@ -2,17 +2,16 @@
 
 @section('where')
     <a class="breadcrumb-item text-dark" href="{{ route('user#cart') }}">Cart</a>
-    <a class="breadcrumb-item text-dark" href="{{ route('user#payment') }}">Payments</a>
-    <a class="breadcrumb-item text-dark" href="{{ route('user#payment') }}">Success</a>
 @endsection
 
 @section('content')
 <div class="row">
 
     <div class="col-lg-5 offset-3 bg-white shadow-md">
-        <div class=" py-4 px-5">
+        <div class=" py-5 px-5">
             <div class="text-center">
                 <div class=" my-4">
+                    <h1 class=" text-primary ">Your Order Recieved!</h1>
                     <h2 class=" text-success ">Payment SuccessFull!</h2>
                 </div>
                 <div class=" text-success  my-4">

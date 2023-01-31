@@ -13,18 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('credit_card_methods', function (Blueprint $table) {
+        Schema::create('order_lists', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id');
+            $table->integer('product_id');
+            $table->integer('qty');
+            $table->integer('total');
             $table->string('order_code');
-            $table->string('total_price');
-            $table->bigInteger('card_number');
-            $table->string('expired_date');
-            $table->integer('cvv_code');
-            $table->string('card_name');
-            $table->string('name');
-            $table->longText('address');
-            $table->longText('message')->nullable();
             $table->timestamps();
         });
     }
@@ -36,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('credit_card_methods');
+        Schema::dropIfExists('order_lists');
     }
 };
