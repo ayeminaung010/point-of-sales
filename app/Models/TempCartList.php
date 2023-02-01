@@ -5,8 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class OrderList extends Model
+class TempCartList extends Model
 {
     use HasFactory;
+
     protected $guarded = [];
 }

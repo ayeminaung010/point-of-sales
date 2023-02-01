@@ -12,6 +12,7 @@
     <div class="container">
         <div class="row">
 
+
             <div class="col-12 mt-4">
                 <div class="card p-3">
                     <p class="mb-0 fw-bold h4">Payment Methods</p>
@@ -47,9 +48,13 @@
                                 <div class="col-lg-7">
                                     <form action="{{ route('user#paymentVerify') }}" class="form" method="post" id="form1">
                                         @csrf
+                                        <input type="hidden" name="order_code" id="order_code" value="">
                                         <div class="row">
                                             <div class="col-12">
                                                 <div class="form__div">
+
+                                                    <input type="hidden" name="final_price" id="final_price" value="">
+
                                                     <input type="text" value="{{ old('cardNo') }}" id="cardNo" name="cardNo" class="form-control" placeholder=" ">
                                                     <label for="" class="form__label">Card Number</label>
                                                     @error('cardNo')
@@ -59,9 +64,7 @@
                                                         </div>
                                                     @enderror()
                                                 </div>
-
                                             </div>
-
                                             <div class="col-6">
                                                 <div class="form__div">
                                                     <input type="text" value="{{ old('expired_date') }}" id="expired_date" name="expired_date" class="form-control" placeholder=" ">
@@ -168,6 +171,8 @@
                                         <div class="row">
                                             <div class=" col-12">
                                                 <div class="">
+                                                    <input type="hidden" name="order_code" id="order_code" value="">
+                                                    <input type="hidden" name="final_price" id="final_price" value="">
                                                     <select name="paymentMethod" id="paymentMethod"  class=" form-control my-2 px-2">
                                                         <option value="">Choose Payment</option>
                                                         <option value="wave-money">Wave Pay</option>
@@ -231,9 +236,21 @@
     <script src="{{ asset('js/payment.js') }}"></script>
 
     <script>
-        const orderList = localStorage.getItem('final_price');
+        const orderList = localStorage.getItem('order_list');
         const final_price = localStorage.getItem('final_price') //form localStorage
-        const finalPrices = document.querySelectorAll('#finalPrice');
+        const orderCode = localStorage.getItem('order_code') //form localStorage
+
+        const finalPrices = document.querySelectorAll('#final_price');
+        const orderCodes = document.querySelectorAll('#order_code');
+
+        finalPrices.forEach((finalPrice) =>{
+            finalPrice.value = final_price
+        })
+
+        orderCodes.forEach((orderCode) =>{
+            orderCode.value = localStorage.getItem('order_code')
+        })
+
         const OrderBtn1 = document.querySelector('#OrderBtn1');
         const OrderBtn2 = document.querySelector('#OrderBtn2');
         finalPrices.forEach((finalPrice) =>{
@@ -241,47 +258,24 @@
         })
 
 
-        OrderBtn1.addEventListener('',function(){
-            const cardNo = document.querySelector('#cardNo');
-            const expired_date = document.querySelector('#expired_date');
-            const cvv_code = document.querySelector('#cvv_code');
-            const card_name = document.querySelector('#card_name');
-            const name = document.querySelector('#name');
-            const address = document.querySelector('#address');
-            const message = document.querySelector('#message');
-
-            const cardError = document.querySelector('#cardError');
-            const dateError = document.querySelector('#dateError');
-            const cvvError = document.querySelector('#cvvError');
-            const cardNameError = document.querySelector('#cardNameError');
-            const nameError = document.querySelector('#nameError');
-            const addressError = document.querySelector('#addressError');
-            console.log('hell');
-            // if(cardNo.value === '' || cardNo.value === undefined || cardNo.value === null){
-            //     cardError.classList.replace('d-none','block')
-            // }
-            //  if(expired_date === '' || expired_date.value === undefined || expired_date.value === null){
-            //     dateError.classList.replace('d-none','block')
-            // }
-            //  if(cvv_code === '' || cvv_code.value === undefined || cvv_code.value === null){
-            //     cvvError.classList.replace('d-none','block')
-            // }
-            //  if(card_name === '' || card_name.value === undefined || card_name.value === null){
-            //     cardNameError.classList.replace('d-none','block')
-            // }
-            //  if(name === '' || name.value === undefined || name.value === null){
-            //     nameError.classList.replace('d-none','block')
-            // }
-            //  if(address === '' || address.value === undefined || address.value === null){
-            //     addressError.classList.replace('d-none','block')
-            // }
-
-        })
-
         const form1 = document.querySelector('#form1');
 
-        form1.addEventListener('submit',function(){
+        const data = {
+            'final_price' : final_price,
+            'orderList' : orderList
+        }
 
+        form1.addEventListener('submit',function(){
+            console.log(data);
+            axios.post('/user/payment/verify',  {
+                params: data
+            })
+            .then(function (response) {
+                console.log(response);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
         })
     </script>
 @endsection

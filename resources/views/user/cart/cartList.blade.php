@@ -118,7 +118,6 @@
             const currentProduct = e.target.closest('#currentProduct');
             const cartId = currentProduct.querySelector('.cartId');
             currentProduct.remove();
-            debugger;
             updateTotalPrice();
             const data = {
                 'cartId' : cartId.value
@@ -218,13 +217,12 @@
         const random = Math.floor(Math.random() * 10000000000);
         const orderList = [];
         const final_price = parseInt(finalPrice.innerHTML.replace('kyats', ''));
+        const orderCode = 'POS'+'_' + random;
         dataTableRows.forEach(function(row) {
           const userId = row.querySelector('.userId').value;
           const productId = row.querySelector('.productId').value;
           const qty = row.querySelector('#qty').value;
           const total = parseInt(row.querySelector('#total').innerHTML.replace('kyats', ''));
-
-          const orderCode = 'POS'+'_' + random;
 
           orderList.push({
             'user_id': userId,
@@ -234,11 +232,19 @@
             'order_code': orderCode,
           });
         });
-        // const dataFinal = {
-        //     'final_price' : final_price
-        // }
         localStorage.setItem('order_list', JSON.stringify(orderList));
         localStorage.setItem('final_price', final_price);
+        localStorage.setItem('order_code', orderCode);
+
+        axios.get('/user/payment',  {
+            params: Object.assign({},orderList)
+        })
+        .then(function (response) {
+            console.log(response);
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
 
         window.location.href = '/user/payment';
     })
