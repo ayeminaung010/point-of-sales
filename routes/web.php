@@ -43,6 +43,8 @@ Route::prefix('user')->middleware('user_auth')->group(function () {
     Route::get('/removeFromCart',[AxiosController::class,'removeFromCart'])->name('user#removeFromCart'); //axios use
     Route::get('/countUpdate',[AxiosController::class,'countUpdate'])->name('user#countUpdate'); //axios use
     Route::get('/clearCart',[AxiosController::class,'clearCart'])->name('user#clearCart'); //axios use
+
+    Route::get('/viewCount',[AxiosController::class,'increaseViewCount'])->name('user#viewCount');
     //axios end
 
     Route::get('/profile',[UserController::class,'profile'])->name('user#profile');
@@ -57,10 +59,11 @@ Route::prefix('user')->middleware('user_auth')->group(function () {
 
     Route::get('cart',[CartController::class,'cartItem'])->name('user#cart');
 
-    // axios
-    Route::get('payment',[CartController::class,'payment'])->name('user#payment');
+
+    Route::get('payment',[CartController::class,'payment'])->name('user#payment'); // axios
     Route::post('payment/verify',[CartController::class,'verify'])->name('user#paymentVerify');
-    Route::get('payment/success',[CartController::class,'paymentSuccess'])->name('user#paymentSuccess');
+    Route::post('paymentWallet/verify',[CartController::class,'verifyWallet'])->name('user#verifyWallet');
+    // Route::view('payment/success', 'user.payments.successPayment');
 });
 
 

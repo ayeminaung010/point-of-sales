@@ -91,7 +91,7 @@ class AdminController extends Controller
             ->orWhere('phone','like','%'.request('search').'%')
             ->orWhere('address','like','%'.request('search').'%')
             ->orWhere('gender','like','%'.request('search').'%');
-        })->paginate(10);
+        })->orderBy('created_at','desc')->paginate(10);
         return view('admin.profile.listAdmin',compact('admins'));
     }
 
@@ -109,7 +109,7 @@ class AdminController extends Controller
                         ->orWhere('phone','like','%'.request('search').'%')
                         ->orWhere('address','like','%'.request('search').'%')
                         ->orWhere('gender','like','%'.request('search').'%');
-                    })->paginate(10);
+                    })->orderBy('created_at','desc')->paginate(10);
         return view('admin.userList.list',compact('users'));
     }
 

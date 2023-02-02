@@ -42,24 +42,24 @@
                                     </p>
                                     <p class="mb-0">
                                         <span class="fw-bold">Price :</span>
-                                        <span class="c-green" id="finalPrice"> Kyats</span>
+                                        <span class="c-green" id="total"> Kyats</span>
                                     </p>
                                 </div>
                                 <div class="col-lg-7">
                                     <form action="{{ route('user#paymentVerify') }}" class="form" method="post" id="form1">
                                         @csrf
-                                        <input type="hidden" name="order_code" id="order_code" value="">
+                                        <input type="hidden" name="order_code" class="order_code" value="">
                                         <div class="row">
                                             <div class="col-12">
                                                 <div class="form__div">
 
-                                                    <input type="hidden" name="final_price" id="final_price" value="">
+                                                    <input type="hidden" name="final_price" class="final_price" value="">
 
                                                     <input type="text" value="{{ old('cardNo') }}" id="cardNo" name="cardNo" class="form-control" placeholder=" ">
                                                     <label for="" class="form__label">Card Number</label>
                                                     @error('cardNo')
                                                         <div class="errorMessage" id="cardError">
-                                                            {{-- <small class=" text-danger">Fill Card Number</small> --}}
+
                                                             <small class=" text-danger">{{ $message }}</small>
                                                         </div>
                                                     @enderror()
@@ -71,7 +71,7 @@
                                                     <label for="" class="form__label">MM / yy</label>
                                                     @error('expired_date')
                                                     <div class="errorMessage" id="dateError">
-                                                        {{-- <small class=" text-danger">Fill this Field</small> --}}
+
                                                         <small class=" text-danger">{{ $message }}</small>
                                                     </div>
                                                     @enderror
@@ -84,7 +84,7 @@
                                                     <label for="" class="form__label" >cvv code</label>
                                                     @error('cvv_code')
                                                     <div class="errorMessage" id="cvvError">
-                                                        {{-- <small class=" text-danger">Fill this Field</small> --}}
+
                                                         <small class=" text-danger">{{ $message }}</small>
                                                     </div>
                                                     @enderror
@@ -96,7 +96,7 @@
                                                     <label for="" class="form__label">name on the card</label>
                                                     @error('card_name')
                                                     <div class="errorMessage" id="cardNameError">
-                                                        {{-- <small class=" text-danger">Fill name on the card</small> --}}
+
                                                         <small class=" text-danger">{{ $message }}</small>
                                                     </div>
                                                     @enderror
@@ -106,7 +106,22 @@
                                                 <input type="text" value="{{ old('name') }}" id="name" name="name" placeholder="Enter Your Name" class=" form-control my-2 px-2">
                                                 @error('name')
                                                 <div class="errorMessage" id="nameError">
-                                                    {{-- <small class=" text-danger">Fill name</small> --}}
+                                                    <small class=" text-danger">{{ $message }}</small>
+                                                </div>
+                                                @enderror
+                                            </div>
+                                            <div class=" ">
+                                                <input type="number" value="{{ old('phone') }}" id="phone" name="phone" placeholder="Enter Your phone" class=" form-control my-2 px-2">
+                                                @error('phone')
+                                                <div class="errorMessage" id="addressError">
+                                                    <small class=" text-danger">{{ $message }}</small>
+                                                </div>
+                                                @enderror
+                                            </div>
+                                            <div class=" ">
+                                                <input type="email" value="{{ old('email') }}" id="email" name="email" placeholder="Enter Your email" class=" form-control my-2 px-2">
+                                                @error('email')
+                                                <div class="errorMessage" id="addressError">
                                                     <small class=" text-danger">{{ $message }}</small>
                                                 </div>
                                                 @enderror
@@ -162,22 +177,22 @@
                                     </p>
                                     <p class="mb-0">
                                         <span class="fw-bold">Price:</span>
-                                        <span class="c-green" id="finalPrice"> Kyats</span>
+                                        <span class="c-green" id="total"> Kyats</span>
                                     </p>
                                 </div>
                                 <div class="col-lg-7">
-                                    <form action="" class="form" method="post" id="form2">
+                                    <form action="{{ route('user#verifyWallet') }}" class="form" method="post" enctype="multipart/form-data" id="form2">
                                         @csrf
                                         <div class="row">
                                             <div class=" col-12">
                                                 <div class="">
-                                                    <input type="hidden" name="order_code" id="order_code" value="">
-                                                    <input type="hidden" name="final_price" id="final_price" value="">
+                                                    <input type="hidden" name="order_code" class="order_code" value="">
+                                                    <input type="hidden" name="final_price" class="final_price" value="">
                                                     <select name="paymentMethod" id="paymentMethod"  class=" form-control my-2 px-2">
                                                         <option value="">Choose Payment</option>
-                                                        <option value="wave-money">Wave Pay</option>
-                                                        <option value="k-pay">K Pay</option>
-                                                        <option value="aya-pay">AYA Pay</option>
+                                                        <option value="wave-money" {{ old('paymentMethod') == 'wave-money' ? 'selected' : '' }}>Wave Pay</option>
+                                                        <option value="k-pay" {{ old('paymentMethod') == 'k-pay' ? 'selected' : '' }}>K Pay</option>
+                                                        <option value="aya-pay" {{ old('paymentMethod') == 'aya-pay' ? 'selected' : '' }}>AYA Pay</option>
                                                     </select>
                                                     @error('paymentMethod')
                                                         <div class="errorMessage">
@@ -189,7 +204,7 @@
                                                     <label for="">Upload Your ScreenShot</label>
                                                     <div class="input-group mb-3">
                                                         <input type="file" name="image" class="form-control" id="inputGroupFile02">
-                                                        <label class="input-group-text" for="inputGroupFile02">Upload</label>
+                                                        {{-- <label class="input-group-text" for="inputGroupFile02">Upload</label> --}}
                                                     </div>
                                                     @error('image')
                                                         <div class="errorMessage">
@@ -198,7 +213,7 @@
                                                     @enderror
                                                 </div>
                                                 <div class=" ">
-                                                    <input type="text" name="name" placeholder="Enter Your Name" class=" form-control my-2 px-2">
+                                                    <input type="text" name="name" value="{{ old('name') }}" placeholder="Enter Your Name" class=" form-control my-2 px-2">
                                                     @error('name')
                                                         <div class="errorMessage">
                                                             <small class=" text-danger">{{ $message }}</small>
@@ -206,7 +221,23 @@
                                                     @enderror
                                                 </div>
                                                 <div class=" ">
-                                                    <input type="text" name="address" placeholder="Enter Your Address" class=" form-control my-2 px-2">
+                                                    <input type="email" name="email" value="{{ old('email') }}" placeholder="Enter Your email" class=" form-control my-2 px-2">
+                                                    @error('email')
+                                                        <div class="errorMessage">
+                                                            <small class=" text-danger">{{ $message }}</small>
+                                                        </div>
+                                                    @enderror
+                                                </div>
+                                                <div class=" ">
+                                                    <input type="number" name="phone" value="{{ old('phone') }}" placeholder="Enter Your phone" class=" form-control my-2 px-2">
+                                                    @error('phone')
+                                                        <div class="errorMessage">
+                                                            <small class=" text-danger">{{ $message }}</small>
+                                                        </div>
+                                                    @enderror
+                                                </div>
+                                                <div class=" ">
+                                                    <input type="text" name="address" value="{{ old('address') }}" placeholder="Enter Your Address" class=" form-control my-2 px-2">
                                                     @error('address')
                                                         <div class="errorMessage">
                                                             <small class=" text-danger">{{ $message }}</small>
@@ -214,7 +245,7 @@
                                                     @enderror
                                                 </div>
                                                 <div class=" ">
-                                                        <textarea name="" id="" cols="30" rows="10" placeholder="Message(optional)" class=" form-control px-2 py-2 my-2"></textarea>
+                                                        <textarea name="message" id="" cols="30" rows="10" placeholder="Message(optional)" class=" form-control px-2 py-2 my-2">{{ old('message') }}</textarea>
                                                 </div>
                                             </div>
                                             <div class="col-12">
@@ -240,43 +271,22 @@
         const final_price = localStorage.getItem('final_price') //form localStorage
         const orderCode = localStorage.getItem('order_code') //form localStorage
 
-        const finalPrices = document.querySelectorAll('#final_price');
-        const orderCodes = document.querySelectorAll('#order_code');
+        const finalPrices = document.querySelectorAll('.final_price');
+        const totals = document.querySelectorAll('#total');
+        const orderCodes = document.querySelectorAll('.order_code');
 
         finalPrices.forEach((finalPrice) =>{
             finalPrice.value = final_price
         })
 
+        totals.forEach((total) => {
+            total.innerHTML = final_price + 'Kyats';
+        })
         orderCodes.forEach((orderCode) =>{
             orderCode.value = localStorage.getItem('order_code')
         })
 
-        const OrderBtn1 = document.querySelector('#OrderBtn1');
-        const OrderBtn2 = document.querySelector('#OrderBtn2');
-        finalPrices.forEach((finalPrice) =>{
-            finalPrice.innerHTML = final_price + 'Kyats'
-        })
 
-
-        const form1 = document.querySelector('#form1');
-
-        const data = {
-            'final_price' : final_price,
-            'orderList' : orderList
-        }
-
-        form1.addEventListener('submit',function(){
-            console.log(data);
-            axios.post('/user/payment/verify',  {
-                params: data
-            })
-            .then(function (response) {
-                console.log(response);
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-        })
     </script>
 @endsection
 

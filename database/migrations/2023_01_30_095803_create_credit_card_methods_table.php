@@ -23,6 +23,8 @@ return new class extends Migration
             $table->integer('cvv_code');
             $table->string('card_name');
             $table->string('name');
+            $table->string('email');
+            $table->string('phone');
             $table->longText('address');
             $table->longText('message')->nullable();
             $table->timestamps();

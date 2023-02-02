@@ -9,8 +9,8 @@
     <!-- Cart Start -->
     <div class="container-fluid">
         <div class="row px-xl-5">
+            @if(count($carts) !== 0)
             <div class="col-lg-8 table-responsive mb-5">
-                @if(count($carts) !== 0)
                 <table class="table table-light table-borderless table-hover text-center mb-0" id="dataTable">
                     <thead class="thead-dark">
                         <tr>
@@ -50,12 +50,6 @@
                         @endforeach
                     </tbody>
                 </table>
-                @else
-                <div class=" d-flex  flex-column justify-content-center align-items-center">
-                    <p class="text-center fs-2 p-5">Nothing in Cart! <i class="fa-solid fa-pizza-slice ms-3"></i> </p>
-                    <a href="{{ route('user#home') }}" class="btn btn-primary ">GO SHOPPING</a>
-                </div>
-                @endif
             </div>
             <div class="col-lg-4">
                 <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Cart Summary</span></h5>
@@ -81,6 +75,13 @@
                     </div>
                 </div>
             </div>
+            @else
+                <div class=" d-flex  flex-column justify-content-center align-items-center">
+                    <p class="text-center fs-2 p-5">Nothing in Cart! <i class="fa-solid fa-pizza-slice ms-3"></i> </p>
+                    <a href="{{ route('user#home') }}" class="btn btn-primary ">GO SHOPPING</a>
+                </div>
+            @endif
+
         </div>
     </div>
     <!-- Cart End -->

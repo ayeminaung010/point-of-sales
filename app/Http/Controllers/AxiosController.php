@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
-use App\Notifications\InvoicePaid;
+use App\Models\Product;
 use Illuminate\Http\Request;
+use App\Notifications\InvoicePaid;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
 
@@ -69,5 +70,12 @@ class AxiosController extends Controller
         $carts = Cart::select();
         $carts->delete();
         return response()->json('removed all carts..',220);
+    }
+
+    //increaseViewCount
+    public function increaseViewCount(Request $request){
+        $product  = Product::where('id',$request->productId)->first();
+        $product->view_count = $product->view_count + 1;
+        $product->update();
     }
 }

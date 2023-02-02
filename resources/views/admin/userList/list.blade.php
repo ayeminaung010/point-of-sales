@@ -122,27 +122,29 @@
 
 @section('scriptSource')
 <script>
-    const roleChange = document.querySelector('.roleChange');
-    roleChange.addEventListener('change',function(){
-        const roleValue = roleChange.value;
-        const parentNode = roleChange.closest('#userInfo');
-        const userId =  parentNode.querySelector('.userId').value;
+    const roleChanges = document.querySelectorAll('.roleChange');
+    roleChanges.forEach((roleChange) => {
+        roleChange.addEventListener('change',function(){
+            const roleValue = roleChange.value;
+            const parentNode = roleChange.closest('#userInfo');
+            const userId =  parentNode.querySelector('.userId').value;
 
-        const data = {
-            'role' : roleValue,
-            'userId' : userId
-        }
-        axios.get('/admin/userList/roleChange',  {
-            params: data
-            })
-            .then(function (response) {
-                console.log(response);
-            })
-            .catch(function (error) {
-            // handle error
-                console.log(error);
-            });
-            parentNode.remove();
+            const data = {
+                'role' : roleValue,
+                'userId' : userId
+            }
+            axios.get('/admin/userList/roleChange',  {
+                params: data
+                })
+                .then(function (response) {
+                    console.log(response);
+                })
+                .catch(function (error) {
+                // handle error
+                    console.log(error);
+                });
+                parentNode.remove();
         })
+    })
 </script>
 @endsection

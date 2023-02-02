@@ -41,14 +41,14 @@
           alert(JSON.stringify(data));
         });
       </script>
-      
+
 
     @yield('css');
 </head>
 
 <body>
     <!-- Navbar Start -->
-    <div class="container-fluid bg-dark mb-5  fixed-top">
+    <div class="container-fluid bg-dark mb-5  fixed-top d-print-none">
         <div class="row px-xl-5">
             <div class="col-lg-3 d-none d-lg-block">
                 <a href="" class="text-decoration-none">
@@ -117,7 +117,7 @@
     <!-- Navbar End -->
 
 <!-- Breadcrumb Start -->
-<div class="container-fluid">
+<div class="container-fluid d-print-none">
     <div class="row px-xl-5">
         <div class="col-12">
             <nav class="breadcrumb bg-light mt-5">
@@ -132,7 +132,7 @@
 @yield('content')
 
     <!-- Footer Start -->
-    <div class="container-fluid bg-dark text-secondary mt-5 pt-5">
+    <div class="container-fluid bg-dark text-secondary mt-5 pt-5 d-print-none">
         <div class="row px-xl-5 pt-5">
             <div class="col-lg-4 col-md-12 mb-5 pr-3 pr-xl-5">
                 <h5 class="text-secondary text-uppercase mb-4">Get In Touch</h5>

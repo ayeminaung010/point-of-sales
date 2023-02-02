@@ -19,8 +19,10 @@ return new class extends Migration
             $table->string('order_code');
             $table->string('total_price');
             $table->string('payment_name');
-            $table->string('screen_shot');
+            $table->string('image');
             $table->string('name');
+            $table->string('email');
+            $table->string('phone');
             $table->longText('address');
             $table->longText('message')->nullable();
             $table->timestamps();

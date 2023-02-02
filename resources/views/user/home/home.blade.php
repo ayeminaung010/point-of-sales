@@ -1,7 +1,9 @@
 @extends('user.layouts.master')
 
 @section('CART')
-<div class="navbar-nav ml-auto py-0 d-none d-lg-block">
+
+@if (Auth::user())
+<div class="navbar-nav ml-auto py-0  d-lg-block ">
     <a href="" class="btn px-0 ">
         <i class="fas fa-heart text-primary"></i>
         <span class="badge text-secondary border border-secondary rounded-circle" style="padding-bottom: 2px;">0</span>
@@ -11,6 +13,8 @@
         <span class="badge text-secondary border border-secondary rounded-circle" id='cartAmount' style="padding-bottom: 2px;">{{ count($carts) }}</span>
     </a>
 </div>
+@endif
+
 @endsection
 
 @section('content')

@@ -19,8 +19,11 @@ class UserController extends Controller
     public function home() {
         $products = Product::get();
         $categories = Category::get();
-        $carts = Cart::where('user_id',Auth::user()->id)->get();
-        return view('user.home.home',compact('products','categories','carts'));
+        if(Auth::user()){
+            $carts = Cart::where('user_id',Auth::user()->id)->get();
+            return view('user.home.home',compact('products','categories','carts'));
+        }
+        return view('user.home.home',compact('products','categories'));
     }
 
     //details product

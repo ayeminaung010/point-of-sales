@@ -36,14 +36,14 @@
                 <input type="hidden" value="{{ Auth::user()->id }}" id="userId">
                 <input type="hidden" value="{{ $product->id }}" id="productId">
                 <div class="d-flex mb-3">
-                    {{-- <div class="text-primary mr-2">
+                    <div class="text-primary mr-2">
                         <small class="fas fa-star"></small>
                         <small class="fas fa-star"></small>
                         <small class="fas fa-star"></small>
                         <small class="fas fa-star-half-alt"></small>
                         <small class="far fa-star"></small>
-                    </div> --}}
-                    <p class="pt-1">{{ $product->view_count +1 }} <i class="fa-regular fa-eye ms-2"></i></p>
+                    </div>
+                    <p class="pt-1">{{ $product->view_count + 1 }} <i class="fa-regular fa-eye ms-2"></i></p>
                 </div>
                 <h3 class="font-weight-semi-bold mb-4">{{ $product->price}} kyats</h3>
                 <p class="mb-4"> {{ $product->description }}</p>
@@ -247,6 +247,17 @@
     const productId = document.querySelector('#productId').value;
     const orderCount = document.querySelector('#orderCount');
 
+
+    axios.get('/user/viewCount',  {
+        params: {'productId' : productId}
+    })
+    .then(function (response) {
+    console.log(response);
+
+    })
+    .catch(function (error) {
+    console.log(error);
+    });
 
     addToCart.addEventListener('click',function(){
         const data = {
