@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('user_id');
             $table->string('order_code');
             $table->string('total_price');
+            $table->string('transaction_id');
             $table->string('payment_name');
             $table->string('image');
             $table->string('name');

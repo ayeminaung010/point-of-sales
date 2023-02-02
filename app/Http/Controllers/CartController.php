@@ -65,6 +65,8 @@ class CartController extends Controller
         if(count($carts) === 0){
             return redirect()->route('user#home');
         }else{
+            $transactionId = 'TCC_'.random_int(1,11111999999).'POS' ;
+
             $payment = new CreditCardMethod();
             $payment->user_id = Auth::user()->id;
             $payment->order_code = $request->order_code;
@@ -72,7 +74,8 @@ class CartController extends Controller
             $payment->card_number = $request->cardNo;
             $payment->expired_date = $request->expired_date;
             $payment->cvv_code = $request->cvv_code;
-            $payment->card_name = $request->card_name;
+            $payment->cvv_code = $request->cvv_code;
+            $payment->transaction_id = $transactionId;
             $payment->name = $request->name;
             $payment->email = $request->email;
             $payment->phone = $request->phone;
@@ -98,18 +101,18 @@ class CartController extends Controller
                         'total' => $total,
                         'order_code' => $request->order_code,
                     ]);
-                    $finalPrice += $total ; //deli fee
-                    $order = new Order();
-                    $order->user_id = Auth::user()->id;
-                    $order->order_code = $request->order_code;
-                    $order->total_price = $finalPrice;
-                    $order->save();
                 }
-                $transactionId =  random_int(1,11111999999).'_-_TSIPOS' ;
+                $finalPrice += $total ; //deli fee
+                $order = new Order();
+                $order->user_id = Auth::user()->id;
+                $order->order_code = $request->order_code;
+                $order->total_price = $finalPrice;
+                $order->payment_type = 'Credit-Card';
+                $order->save();
+
                 Cart::where('user_id',Auth::user()->id)->delete();
 
                 toastr()->success('Order Success');
-
                 $data = [
                     'method'=> 'Credit Card',
                     'phone' => Auth::user()->phone,
@@ -131,10 +134,12 @@ class CartController extends Controller
         if(count($carts) === 0){
             return redirect()->route('user#home');
         }else{
+            $transactionId = 'TMW_'.random_int(1,11111999999).'POS' ;
             $payment = new MobileWallet();
             $payment->user_id = Auth::user()->id;
             $payment->payment_name = $request->paymentMethod;
             $payment->order_code = $request->order_code;
+            $payment->transaction_id = $transactionId;
             $payment->total_price = $request->final_price;
             $payment->name = $request->name;
             $payment->email = $request->email;
@@ -166,21 +171,21 @@ class CartController extends Controller
                         'order_code' => $request->order_code,
                     ]);
                     $finalPrice += $total ; //deli fee
-                    $order = new Order();
-                    $order->user_id = Auth::user()->id;
-                    $order->order_code = $request->order_code;
-                    $order->total_price = $finalPrice;
-                    $order->save();
                 }
-                $transactionId =  random_int(1,11111999999).'_-_TSIPOS' ;
+                $order = new Order();
+                $order->user_id = Auth::user()->id;
+                $order->order_code = $request->order_code;
+                $order->total_price = $finalPrice;
+                $order->payment_type = 'Mobile-Wallet';
+                $order->save();
                 Cart::where('user_id',Auth::user()->id)->delete();
 
                 toastr()->success('Order Success');
 
                 $data = [
-                    'method'=> 'Credit Card',
-                    'phone' => Auth::user()->phone,
-                    'email' => Auth::user()->email,
+                    'method'=> 'Mobile Wallet',
+                    'phone' => $request->phone,
+                    'email' => $request->email,
                     'transactionId' => $transactionId,
                 ];
                 return view('user.payments.successPayment',compact('data'));

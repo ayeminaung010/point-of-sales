@@ -95,6 +95,7 @@ Route::prefix('admin')->middleware('admin_auth')->group(function () {
     //order
     Route::prefix('order')->group(function(){
         Route::get('/list',[OrderController::class,'list'])->name('admin#orderList');
+        Route::get('orders-details/{id}',[OrderController::class,'userOrderLists'])->name('admin#userOrderLists');
     });
 
     //profile

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->bigInteger('card_number');
             $table->string('expired_date');
             $table->integer('cvv_code');
+            $table->string('transaction_id');
             $table->string('card_name');
             $table->string('name');
             $table->string('email');

@@ -18,7 +18,7 @@
 
                 <div class="row my-2">
                     <div class="col-1 offset-10 bg-white shadow-sm p-2">
-                        <h4> <i class="fa-solid fa-database ms-2"></i> -</h4>
+                        <h4> <i class="fa-solid fa-database ms-2"></i> - {{ count($orders) }}</h4>
                     </div>
                 </div>
 
@@ -51,7 +51,25 @@
                             </tr>
                         </thead>
                         <tbody class="dataList">
-
+                            @foreach ($orders as $order )
+                            <tr class="tr-shadow ">
+                                <input type="hidden" class="orderId" value="{{ $order->id }}">
+                                <td>{{ $order->user_id}}  </td>
+                                <td>{{ $order->username}}  </td>
+                                <td>{{ $order->created_at->format('j-F-Y')}}  </td>
+                                <td>
+                                    <a href="{{ route('admin#userOrderLists',$order->order_code) }}">{{ $order->order_code}}</a>
+                                </td>
+                                <td class="amount">{{ $order->total_price}} kyats </td>
+                                <td>
+                                    <select name="stautus" class="form-control statusChange" id="">
+                                        <option value="0" @if($order->status == 0) selected @endif >Pending</option>
+                                        <option value="1" @if($order->status == 1) selected @endif>Success</option>
+                                        <option value="2" @if($order->status == 2) selected @endif>Reject</option>
+                                    </select>
+                                </td>
+                             </tr>
+                            @endforeach
                          </tbody>
                     </table>
                 </div>
