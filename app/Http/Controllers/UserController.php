@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UserRequest;
 use App\Models\Cart;
-use App\Models\Category;
-use App\Models\Product;
 use App\Models\User;
+use App\Models\Order;
+use App\Models\Product;
+use App\Models\Category;
 use Illuminate\Http\Request;
+use PhpParser\Node\Expr\FuncCall;
+use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
-use PhpParser\Node\Expr\FuncCall;
 
 class UserController extends Controller
 {
@@ -21,7 +22,8 @@ class UserController extends Controller
         $categories = Category::get();
         if(Auth::user()){
             $carts = Cart::where('user_id',Auth::user()->id)->get();
-            return view('user.home.home',compact('products','categories','carts'));
+            $orders = Order::where('user_id',Auth::user()->id)->get();
+            return view('user.home.home',compact('products','categories','carts','orders'));
         }
         return view('user.home.home',compact('products','categories'));
     }

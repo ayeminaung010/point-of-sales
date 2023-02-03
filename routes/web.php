@@ -64,6 +64,9 @@ Route::prefix('user')->middleware('user_auth')->group(function () {
     Route::post('payment/verify',[CartController::class,'verify'])->name('user#paymentVerify');
     Route::post('paymentWallet/verify',[CartController::class,'verifyWallet'])->name('user#verifyWallet');
     // Route::view('payment/success', 'user.payments.successPayment');
+
+    Route::get('history/{id}',[CartController::class,'orderHistory'])->name('user#orderHistory');
+    Route::get('products/{id}',[CartController::class,'orderProducts'])->name('user#orderProducts');
 });
 
 

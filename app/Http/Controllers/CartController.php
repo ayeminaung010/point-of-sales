@@ -74,7 +74,7 @@ class CartController extends Controller
             $payment->card_number = $request->cardNo;
             $payment->expired_date = $request->expired_date;
             $payment->cvv_code = $request->cvv_code;
-            $payment->cvv_code = $request->cvv_code;
+            $payment->card_name = $request->card_name;
             $payment->transaction_id = $transactionId;
             $payment->name = $request->name;
             $payment->email = $request->email;
@@ -101,15 +101,15 @@ class CartController extends Controller
                         'total' => $total,
                         'order_code' => $request->order_code,
                     ]);
+                    $finalPrice += $total  ; //deli fee
                 }
-                $finalPrice += $total ; //deli fee
+
                 $order = new Order();
                 $order->user_id = Auth::user()->id;
                 $order->order_code = $request->order_code;
-                $order->total_price = $finalPrice;
+                $order->total_price = $finalPrice + 5000;
                 $order->payment_type = 'Credit-Card';
                 $order->save();
-
                 Cart::where('user_id',Auth::user()->id)->delete();
 
                 toastr()->success('Order Success');
@@ -170,12 +170,12 @@ class CartController extends Controller
                         'total' => $total,
                         'order_code' => $request->order_code,
                     ]);
-                    $finalPrice += $total ; //deli fee
+                    $finalPrice += $total  ; //deli fee
                 }
                 $order = new Order();
                 $order->user_id = Auth::user()->id;
                 $order->order_code = $request->order_code;
-                $order->total_price = $finalPrice;
+                $order->total_price = $finalPrice + 5000;
                 $order->payment_type = 'Mobile-Wallet';
                 $order->save();
                 Cart::where('user_id',Auth::user()->id)->delete();
@@ -195,5 +195,21 @@ class CartController extends Controller
             }
         }
 
+    }
+
+    //orderHistory
+    public function orderHistory($id){
+        $orders = Order::where('user_id',Auth::user()->id)->get();
+        return view('user.order.history',compact('orders'));
+    }
+
+    //show orderProducts to user
+    public function orderProducts($id){
+        $orderLists = OrderList::where('order_code',$id)
+                    ->select('order_lists.*','products.name as product_name','products.image as product_image')
+                    ->leftJoin('products','order_lists.product_id','products.id')
+                    ->get();
+        // dd($orderLists);
+        return view('user.order.products-history',compact('orderLists'));
     }
 }

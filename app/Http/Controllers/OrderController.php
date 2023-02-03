@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\OrderList;
+use App\Models\MobileWallet;
 use Illuminate\Http\Request;
+use App\Models\CreditCardMethod;
 
 class OrderController extends Controller
 {
@@ -25,7 +27,14 @@ class OrderController extends Controller
                     ->get();
 
         $order = Order::where('order_code',$id)->get();
-        // dd($orderLists[0]->username);
-        return view('admin.order.order-lists',compact('orderLists','order'));
+
+        if($order[0]->payment_type == 'Credit-Card'){
+            $payment =  CreditCardMethod::where('order_code',$id)->get();
+            return view('admin.order.order-lists',compact('orderLists','order','payment'));
+        }else{
+            $payment = MobileWallet::where('order_code',$id)->get();
+            return view('admin.order.order-lists',compact('orderLists','order','payment'));
+        }
+
     }
 }

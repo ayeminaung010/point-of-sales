@@ -12,6 +12,13 @@
         <i class="fas fa-shopping-cart "></i>
         <span class="badge text-secondary border border-secondary rounded-circle" id='cartAmount' style="padding-bottom: 2px;">{{ count($carts) }}</span>
     </a>
+    <a href="{{ route('user#orderHistory',Auth::user()->id) }}" id="cart" class="btn px-0 ml-3 animate__animated   @if(Route::currentRouteName() == 'user#orderHistory') text-primary @else text-white @endif">
+        <div class="">
+            <i class="fa-solid fa-clock-rotate-left"></i>
+            <span>History</span>
+            <span class="badge text-secondary border border-secondary rounded-circle" id='cartAmount' style="padding-bottom: 2px;">{{ count($orders) }}</span>
+        </div>
+    </a>
 </div>
 @endif
 
@@ -38,7 +45,7 @@
                         <input type="checkbox" class="form-check-input checkboxFilter " name="category_id" id="{{ $category->id }}" value="{{ $category->id }}"  >
                         <span class=" ms-2 " for="price-1">{{ $category->name }}</span>
                     </div>
-                @endforeach
+                    @endforeach
 
 
                 </form>
