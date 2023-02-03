@@ -138,12 +138,13 @@
                 })
                 .then(function (response) {
                     console.log(response);
+                    parentNode.remove();
                 })
                 .catch(function (error) {
                 // handle error
                     console.log(error);
                 });
-                parentNode.remove();
+
         })
     })
 </script>

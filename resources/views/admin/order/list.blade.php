@@ -50,15 +50,15 @@
                                 <th>Status</th>
                             </tr>
                         </thead>
-                        <tbody class="dataList">
+                        <tbody class="">
                             @foreach ($orders as $order )
-                            <tr class="tr-shadow ">
+                            <tr class="tr-shadow dataList">
                                 <input type="hidden" class="orderId" value="{{ $order->id }}">
                                 <td>{{ $order->user_id}}  </td>
                                 <td>{{ $order->username}}  </td>
                                 <td>{{ $order->created_at->format('j-F-Y')}}  </td>
                                 <td>
-                                    <a href="{{ route('admin#userOrderLists',$order->order_code) }}">{{ $order->order_code}}</a>
+                                    <a href="{{ route('admin#userOrderLists',$order->order_code) }}" class="orderCode">{{ $order->order_code}}</a>
                                 </td>
                                 <td class="amount">{{ $order->total_price}} kyats </td>
                                 <td>
@@ -73,12 +73,42 @@
                          </tbody>
                     </table>
                 </div>
-
-
                 <!-- END DATA TABLE -->
             </div>
         </div>
     </div>
 </div>
+@endsection
+
+@section('scriptSource')
+<script>
+    const statusChanges = document.querySelectorAll('.statusChange');
+    statusChanges.forEach((statusChange) => {
+        statusChange.addEventListener('change',function(e){
+            const statusValue = e.target.value
+            const dataList = e.target.closest('.dataList');
+            const orderCode = dataList.querySelector('.orderCode').innerHTML;
+
+            const data = {
+                'status' : statusValue,
+                'order_code' : orderCode
+            }
+            console.log(data);
+            axios.get('/admin/order/statusChange',  {
+                params: data
+            })
+            .then(function (response) {
+                console.log(response);
+            })
+            .catch(function (error) {
+            // handle error
+                console.log(error);
+            });
+
+        })
+    })
+
+
+</script>
 @endsection
 

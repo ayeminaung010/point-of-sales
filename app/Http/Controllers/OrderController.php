@@ -36,5 +36,14 @@ class OrderController extends Controller
             return view('admin.order.order-lists',compact('orderLists','order','payment'));
         }
 
+
+    }
+
+    //statusChange
+    public function statusChange(Request $request){
+        $order = Order::where('order_code',$request->order_code)->first();
+        $order->status = $request->status;
+        $order->update();
+        return response()->json('success',200);
     }
 }
