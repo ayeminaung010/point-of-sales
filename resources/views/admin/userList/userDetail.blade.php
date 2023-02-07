@@ -12,6 +12,9 @@
         <div class="container-fluid">
 
             <div class="col-lg-6 offset-3">
+                <button class="btn btn-dark my-3" onclick="history.back()">
+                    <i class="fa-solid fa-arrow-left me-2"></i>Back
+                </button>
                 <div class="card">
                     <div class="card-body">
                         <div class="card-title">

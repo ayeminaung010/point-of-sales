@@ -54,31 +54,31 @@
             <div class="menu-sidebar__content js-scrollbar1">
                 <nav class="navbar-sidebar">
                     <ul class="list-unstyled navbar__list">
-                        <li>
+                        <li class=" @if(Route::currentRouteName() == 'admin#categoryList') active @endif">
                             <a href="{{ route('admin#categoryList') }}">
                                 <i class="fa-solid fa-list"></i>Category </a>
                         </li>
-                        <li>
+                        <li class="@if(Route::currentRouteName() == 'admin#productList') active @endif">
                             <a href="{{ route('admin#productList') }}">
                                 <i class="fa-solid fa-pizza-slice"></i> Products</a>
                         </li>
-                        <li>
+                        <li class="@if(Route::currentRouteName() == 'admin#orderList') active @endif">
                             <a href="{{ route('admin#orderList') }}">
                                 <i class="fa-solid fa-list-check"></i> Order List</a>
                         </li>
-                        <li>
+                        <li class="@if(Route::currentRouteName() == 'admin#userList') active @endif">
                             <a href="{{ route('admin#userList') }}">
                                 <i class="fa-solid fa-users"></i> User List</a>
                         </li>
-                        <li >
+                        <li  class="@if(Route::currentRouteName() == 'admin#contactMessage') active @endif">
                             <a href="{{ route('admin#contactMessage') }}" class="position-relative">
                                 <i class="fa-solid fa-comments"></i>Message Inbox
-                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                <span class="ms-3    badge rounded-pill bg-danger">
                                 99+
                                 </span>
                             </a>
                         </li>
-                        <li>
+                        <li class="@if(Route::currentRouteName() == 'admin#trashLists') active @endif">
                             <a href="{{ route('admin#trashLists') }}">
                                 <i class="fa-solid fa-recycle"></i>
                                 Recycle bin

@@ -14,7 +14,8 @@ class OrderController extends Controller
     public function list(){
         $orders = Order::select('orders.*','users.name as username')
                     ->leftJoin('users','users.id','orders.user_id')
-                    ->get();
+                    ->orderBy('created_at','desc')
+                    ->paginate(10);
         return view('admin.order.list',compact('orders'));
     }
 

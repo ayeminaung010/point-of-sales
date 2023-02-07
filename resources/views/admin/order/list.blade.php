@@ -41,9 +41,9 @@
                 <table class="table table-data2">
                     <thead>
                         <tr>
-                            <th>User ID</th>
                             <th>User Name</th>
                             <th>Date</th>
+                            <th>Order Time</th>
                             <th>Order Code</th>
                             <th>Total Price</th>
                             <th>Status</th>
@@ -53,9 +53,9 @@
                         @foreach ($orders as $order )
                         <tr class="tr-shadow dataList">
                             <input type="hidden" class="orderId" value="{{ $order->id }}">
-                            <td>{{ $order->user_id}}  </td>
                             <td>{{ $order->username}}  </td>
                             <td>{{ $order->created_at->format('F j, Y')}}  </td>
+                            <td>{{ $order->created_at->diffForHumans()}}  </td>
                             <td>
                                 <a href="{{ route('admin#userOrderLists',$order->order_code) }}" class="orderCode">{{ $order->order_code}}</a>
                             </td>
@@ -70,6 +70,9 @@
                         </tr>
                         @endforeach
                     </tbody>
+                    <div class=" my-3">
+                        {{ $orders->links() }}
+                    </div>
                 </table>
                 @else
                 <div class="">

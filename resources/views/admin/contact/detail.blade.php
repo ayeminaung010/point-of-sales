@@ -17,8 +17,8 @@
 
                 </div>
                 <div class="card-title">
-                    <button onclick="history.back()" class="btn btn-primary text-white">
-                         <i class="fa-solid fa-arrow-left  me-2"></i>Back
+                    <button class="btn btn-dark " onclick="history.back()">
+                        <i class="fa-solid fa-arrow-left me-2"></i>Back
                     </button>
                 </div>
 

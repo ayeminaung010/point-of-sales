@@ -36,7 +36,7 @@
             <div class="bg-light p-4 mb-30">
                 <form>
                     <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                        <input type="checkbox" value="" class="custom-control-input allCategories" name="all"  id="price-all" checked>
+                        <input type="checkbox" value="" class="custom-control-input allCategories" name="all"  id="price-all">
                         <label class="custom-control-label" for="price-all">All Categories</label>
                     </div>
 
@@ -152,7 +152,6 @@
     const allCategories = document.querySelector('.allCategories');
     const lastestSort = document.querySelector('#lastestSort');
 
-
 // single checkbox
     let selectedCategoryIds = [];
 
@@ -168,7 +167,6 @@
             }
 
             if(selectedCategoryIds.length > 0){
-
                 axios.get('filter/category',  {
                     params: data
                   })
@@ -221,7 +219,7 @@
 
             if(selectedCategoryIds.length === 0 ){
                 productList.classList.add('justify-content-center','align-items-center');
-                productList.innerHTML = `<p class="text-center fs-2 p-5">There is no pizza ;'(<i class="fa-solid fa-pizza-slice ms-3"></i> </p>`;
+                productList.innerHTML = `<p class="text-center fs-2 p-5">There is no Products ;'( </p>`;
             }
         })
     })
@@ -249,7 +247,6 @@
                 params: data
               })
               .then(function (response) {
-                console.log(response.data.length);
                 productList.classList.remove('justify-content-center','align-items-center');
                 let list = ``;
                 for (let i = 0; i <  response.data.length; i++) {
@@ -293,13 +290,11 @@
 
         if(allSelectCategories.length === 0){
             productList.classList.add('justify-content-center','align-items-center');
-            productList.innerHTML = `<p class="text-center fs-2 p-5">There is no pizza ;'(<i class="fa-solid fa-pizza-slice ms-3"></i> </p>`;
+            productList.innerHTML = `<p class="text-center fs-2 p-5">There is no Products ;'( </p>`;
         }
-
     })
 
     //sorting
-
     //lastest sorting
     let data ;
     lastestSort.addEventListener('click',function(){
@@ -355,7 +350,6 @@
             console.log(error);
           });
     }
-
 
 </script>
 
