@@ -48,7 +48,7 @@
         <aside class="menu-sidebar d-none d-lg-block">
             <div class="logo">
                 <a href="#">
-                    <img src="{{ asset('admin/images/icon/logo.png')}}" alt="Cool Admin" />
+                    <img src="{{ asset('admin/images/icon/admin-control.png')}}" class=" w-75" alt="Cool Admin" />
                 </a>
             </div>
             <div class="menu-sidebar__content js-scrollbar1">
