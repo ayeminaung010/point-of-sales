@@ -23,36 +23,7 @@
                     </div>
                 </div>
 
-                {{-- //message alert --}}
-                {{-- @if(session('createSuccess'))
-                    <div class="col-4 offset-8">
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            <i class="fa-solid fa-check"></i> {{ session('createSuccess') }}
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                    </div>
-                @endif
 
-                @if(session('deleteSuccess'))
-                    <div class="col-4 offset-8">
-                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                            <i class="fa-regular fa-circle-xmark"></i> {{ session('deleteSuccess') }}
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                    </div>
-                @endif
-
-                @if(session('updateSuccess'))
-                    <div class="col-4 offset-8">
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            <i class="fa-regular fa-circle-xmark"></i> {{ session('updateSuccess') }}
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                    </div>
-
-                @endif --}}
-
-                {{-- end alert  --}}
                 <div class="row">
                     <div class="col-3 ">
                         <h5 class=" text-secondary">Search : <span class="text-danger">{{ request('search') }}</span></h5>

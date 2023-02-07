@@ -43,7 +43,30 @@ class OrderController extends Controller
     public function statusChange(Request $request){
         $order = Order::where('order_code',$request->order_code)->first();
         $order->status = $request->status;
-        $order->update();
-        return response()->json('success',200);
+        $result = $order->update();
+        if($result === true){
+            return response()->json('success',200);
+        }else{
+            return response()->json('failed',422);
+        }
     }
+
+    //filterOrder
+    public function filterOrder(Request $request){
+        logger($request->all());
+        if($request->orderStatus !== null){
+            $orders = Order::where('status',$request->orderStatus)
+            ->select('orders.*','users.name as username')
+            ->leftJoin('users','users.id','orders.user_id')
+            ->get();
+            return response()->json($orders,200);
+        }else{
+            $orders = Order::select('orders.*','users.name as username')
+                    ->leftJoin('users','users.id','orders.user_id')
+                    ->get();
+            return response()->json($orders,200);
+        }
+
+    }
+
 }

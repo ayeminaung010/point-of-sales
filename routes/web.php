@@ -98,8 +98,9 @@ Route::prefix('admin')->middleware('admin_auth')->group(function () {
     //order
     Route::prefix('order')->group(function(){
         Route::get('/list',[OrderController::class,'list'])->name('admin#orderList');
-        Route::get('orders-details/{id}',[OrderController::class,'userOrderLists'])->name('admin#userOrderLists');
+        Route::get('/orders-details/{id}',[OrderController::class,'userOrderLists'])->name('admin#userOrderLists');
         Route::get('statusChange',[OrderController::class,'statusChange'])->name('admin#statusChange');
+        Route::get('filterOrder',[OrderController::class,'filterOrder'])->name('admin#filterOrder');
     });
 
     //profile
