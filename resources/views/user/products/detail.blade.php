@@ -33,7 +33,12 @@
         <div class="col-lg-7 h-auto mb-30">
             <div class="h-100 bg-light p-30">
                 <h3>{{ $product->name}}</h3>
-                <input type="hidden" value="{{ Auth::user()->id }}" id="userId">
+                {{-- <input type="hidden" value="{{ Auth::user()->id }}" id="userId"> --}}
+                @if(Auth::check())
+                    <input type="hidden" value="{{ Auth::user()->id }}" id="userId">
+                @else
+                    <input type="hidden" value="0" id="userId">
+                @endif
                 <input type="hidden" value="{{ $product->id }}" id="productId">
                 <div class="d-flex mb-3">
                     <div class="text-primary mr-2">
@@ -61,10 +66,19 @@
                             </button>
                         </div>
                     </div>
-                    <button type="button" id="addToCart" class="btn btn-primary px-3"><i class="fa fa-shopping-cart mr-1"></i>
-                        Add To
-                        Cart
-                    </button>
+                    @if(Auth::check())
+                        <button type="button" id="addToCart" class="btn btn-primary px-3"><i class="fa fa-shopping-cart mr-1"></i>
+                            Add To
+                            Cart
+                        </button>
+                    @else
+                        <button type="button" id="addToCart" class="btn btn-primary px-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            <i class="fa fa-shopping-cart mr-1"></i>
+                            Add To
+                            Cart
+                        </button>
+                    @endif
+
                 </div>
                 <div class="d-flex pt-2">
                     <strong class="text-dark mr-2">Share on:</strong>
@@ -87,6 +101,24 @@
         </div>
     </div>
 
+    {{-- modal box for no user  --}}
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Sign Up </h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              To Buy Products,Sign Up Now!.
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              <a href="{{ route('registerPage') }}" type="button"  class="btn btn-primary">Sign Up</a>
+            </div>
+          </div>
+        </div>
+      </div>
 
 <!-- Shop Detail End -->
 
@@ -260,22 +292,25 @@
     });
 
     addToCart.addEventListener('click',function(){
-        const data = {
-            'productId' : productId,
-            'orderCount' : orderCount.value,
+        const userId = document.querySelector("#userId").value;
+        if(userId !== 0){
+            const data = {
+                'productId' : productId,
+                'orderCount' : orderCount.value,
+            }
+
+            axios.get('/user/addCountCart',  {
+                params: data
+            })
+            .then(function (response) {
+            console.log(response);
+
+            })
+            .catch(function (error) {
+            console.log(error);
+            });
+
         }
-
-        console.log(data);
-        axios.get('/user/addCountCart',  {
-            params: data
-        })
-        .then(function (response) {
-        console.log(response);
-
-        })
-        .catch(function (error) {
-        console.log(error);
-        });
 
     })
 

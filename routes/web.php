@@ -13,9 +13,7 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 
-Route::get('/', function () {
-    return view('login');
-});
+Route::get('/',[UserController::class,'home']);
 
 Route::get('/loginPage', function () {
     return view('login');

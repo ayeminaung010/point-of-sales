@@ -119,9 +119,16 @@
                                         <small class="fa fa-star text-primary mr-1"></small>
                                         <small class="fa fa-star text-primary mr-1"></small>
                                     </div>
-                                    <div class=" mt-3">
-                                        <button class="btn btn-primary" id="addToCart">Add to Cart</button>
-                                    </div>
+
+                                    @if(Auth::check())
+                                        <div class=" mt-3">
+                                            <button class="btn btn-primary" id="addToCart">Add to Cart</button>
+                                        </div>
+                                    @else
+                                        <div class=" mt-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                            <button class="btn btn-primary" id="addToCart">Add to Cart</button>
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -139,6 +146,26 @@
 
     </div>
 </div>
+
+{{-- modal box for no user  --}}
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Sign Up </h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          To Buy Products,Sign Up Now!.
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <a href="{{ route('registerPage') }}" type="button"  class="btn btn-primary">Sign Up</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
 <!-- Shop End -->
 @endsection
 

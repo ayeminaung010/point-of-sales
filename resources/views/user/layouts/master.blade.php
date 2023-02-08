@@ -76,7 +76,8 @@
                         <div class="navbar-nav ml-auto py-0 d-none d-lg-block">
                             @if (empty(Auth::user()))
                                 @guest
-                                    <a href="{{ route('registerPage') }}" type="submit" class=" btn btn-primary">Sign Up</a>
+                                    <a href="{{ route('loginPage') }}"  class="me-3 btn btn-primary">Login</a>
+                                    <a href="{{ route('registerPage') }}"  class=" btn btn-primary">Sign Up</a>
                                 @endguest
                             @endif
 
@@ -192,7 +193,6 @@
                 <p class="mb-md-0 text-center text-md-left text-secondary">
                     &copy; <a class="text-primary" href="#">Domain</a>. All Rights Reserved. Designed
                     by
-                    <a class="text-primary" href="https://htmlcodex.com">HTML Codex</a>
                 </p>
             </div>
 
