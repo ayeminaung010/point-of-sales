@@ -53,18 +53,28 @@
                             <tr>
                                 <th>Image</th>
                                 <th>Product Name</th>
-                                <th>Price</th>
                                 <th>Category Name</th>
+                                <th>Price</th>
+                                <th>Discount Price</th>
+                                <th>Discount Percentage</th>
                                 <th>View count</th>
                             </tr>
                         </thead>
                         <tbody>
                                 @foreach ($products as $p )
                                 <tr class="tr-shadow ">
-                                    <td class="col-2 "> <img src="{{ asset('storage/img/product/'.$p->image) }}" class=" img-thumbnail shadow-sm  "  alt=""> </td>
+                                    <td class="col-2 "> <img src="{{ asset('storage/img/product/'.$p->image) }}" class=" img-thumbnail shadow-sm " style="height: 150px; width:150px;"  alt=""> </td>
                                     <td class="col-3"> {{  $p->name }} </td>
-                                    <td class="col-2"> {{  $p->price }}</td>
                                     <td class="col-2"> {{  $p->category->name}}</td>
+                                    <td class="col-2"> {{  $p->price }} Kyats</td>
+                                    @if ( !empty($p->discount_price))
+                                        <td class="col-2"> {{  $p->discount_price }} Kyats</td>
+                                        <td class="col-2"> {{  $p->discount_percentage }} %</td>
+                                    @else
+                                        <td class="col-2"> No Discount</td>
+                                        <td class="col-2"> No Discount</td>
+                                    @endif
+
                                     <td class="col-2"><i class="fa-solid fa-eye"></i> {{  $p->view_count }}</td>
                                     <td class="col-2">
                                         <div class="table-data-feature">

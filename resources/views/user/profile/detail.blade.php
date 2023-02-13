@@ -60,10 +60,29 @@
                                     </div>
                                 </div>
                                 <ul class="social-link list-unstyled m-t-40 m-b-10">
-                                    <li><a href="#!" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="facebook" data-abc="true" class=" text-info"><i class="fa-brands fa-facebook"></i></a></li>
-                                    <li><a href="#!" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="twitter" data-abc="true" class=" text-info"><i class="fa-brands fa-twitter"></i></a></li>
-                                    <li><a href="#!" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="instagram" data-abc="true" class=" text-danger"><i class="fa-brands fa-instagram"></i></a></li>
-                                </ul>
+                                    @if (!empty(Auth::user()->facebookURL))
+                                      <li>
+                                        <a href="{{ Auth::user()->facebookURL }}" target="_blank" data-toggle="tooltip" data-placement="bottom" title="Facebook" data-original-title="Facebook" data-abc="true" class="text-info">
+                                          <i class="fa-brands fa-facebook"></i>
+                                        </a>
+                                      </li>
+                                    @endif
+                                    @if (!empty(Auth::user()->twitterURL))
+                                      <li>
+                                        <a href="{{ Auth::user()->twitterURL }}" target="_blank" data-toggle="tooltip" data-placement="bottom" title="Twitter" data-original-title="Twitter" data-abc="true" class="text-info">
+                                          <i class="fa-brands fa-twitter"></i>
+                                        </a>
+                                      </li>
+                                    @endif
+                                    @if (!empty(Auth::user()->instagramURL))
+                                      <li>
+                                        <a href="{{ Auth::user()->instagramURL }}" target="_blank" data-toggle="tooltip" data-placement="bottom" title="Instagram" data-original-title="Instagram" data-abc="true" class="text-danger">
+                                          <i class="fa-brands fa-instagram"></i>
+                                        </a>
+                                      </li>
+                                    @endif
+                                  </ul>
+
                             </div>
                         </div>
                     </div>

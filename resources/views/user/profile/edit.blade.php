@@ -94,7 +94,28 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="" class="control-label mb-1">Address</label>
-                                        <textarea name="address" class="form-control @error('address') is-invalid @enderror" placeholder="Enter Address..." id="" cols="30" rows="10">{{ old('address',Auth::user()->address) }}</textarea>
+                                        <input type="text" name="address" value="{{ old('address',Auth::user()->address) }}" class="form-control @error('address') is-invalid @enderror" aria-required="true" aria-invalid="false" placeholder="Enter Address...">
+                                        @error('address')
+                                            <small class=" invalid-feedback">{{ $message}}</small>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="" class="control-label mb-1">Facebook URL</label>
+                                        <input type="text" name="facebook_url" value="{{ old('facebook_url',Auth::user()->facebookURL) }}" class="form-control @error('facebook_url') is-invalid @enderror" aria-required="true" aria-invalid="false" placeholder="Enter facbook URL...">
+                                        @error('address')
+                                            <small class=" invalid-feedback">{{ $message}}</small>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="" class="control-label mb-1">Twitter URL</label>
+                                        <input type="text" name="twitter_url" value="{{ old('twitter_url',Auth::user()->twitterURL) }}" class="form-control @error('twitter_url') is-invalid @enderror" aria-required="true" aria-invalid="false" placeholder="Enter twitter URL...">
+                                        @error('address')
+                                            <small class=" invalid-feedback">{{ $message}}</small>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="" class="control-label mb-1">Instagram URL</label>
+                                        <input type="text" name="instagram_url" value="{{ old('instagram_url',Auth::user()->instagramURL) }}" class="form-control @error('instagram_url') is-invalid @enderror" aria-required="true" aria-invalid="false" placeholder="Enter instagram_url...">
                                         @error('address')
                                             <small class=" invalid-feedback">{{ $message}}</small>
                                         @enderror

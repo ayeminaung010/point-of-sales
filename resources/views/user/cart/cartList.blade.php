@@ -28,7 +28,12 @@
                             <input type="hidden" value="{{ $cart->user_id }}" class="userId">
                             <input type="hidden" value="{{ $cart->id }}" class="cartId">
                             <input type="hidden" value="{{ $cart->product_id }}" class="productId">
-                            <td class="align-middle" id="productPrice">{{ $cart->productPrice }}  kyats</td>
+                            @if ($cart->discountPrice)
+                                <td class="align-middle" id="productPrice">{{ $cart->discountPrice }}  kyats</td>
+                            @else
+                                <td class="align-middle" id="productPrice">{{ $cart->productPrice }}  kyats</td>
+                            @endif
+
                             <td class="align-middle">
                                 <div class="input-group quantity mx-auto" style="width: 100px;">
                                     <div class="input-group-btn">
@@ -36,7 +41,7 @@
                                             <i class="fa fa-minus"></i>
                                         </button>
                                     </div>
-                                    <input type="text" class="form-control form-control-sm bg-secondary border-0 text-center" id="qty"   value="{{ $cart->qty }}">
+                                    <input type="text" class="form-control form-control-sm bg-secondary border-0 text-center" id="qty"  value="{{ $cart->qty }}">
                                     <div class="input-group-btn">
                                         <button class="btn btn-sm btn-primary btn-plus">
                                             <i class="fa fa-plus"></i>
@@ -44,7 +49,12 @@
                                     </div>
                                 </div>
                             </td>
-                            <td class="align-middle col-3" id="total">{{ $cart->productPrice * $cart->qty }}  kyats</td>
+                            @if ($cart->discountPrice)
+                                <td class="align-middle col-3" id="total">{{ $cart->discountPrice * $cart->qty }}  kyats</td>
+                            @else
+                                <td class="align-middle col-3" id="total">{{ $cart->productPrice * $cart->qty }}  kyats</td>
+                            @endif
+
                             <td class="align-middle"><button class="btn btn-sm btn-danger btnRemove" id="btnRemove"><i class="fa fa-times"></i></button></td>
                         </tr>
                         @endforeach

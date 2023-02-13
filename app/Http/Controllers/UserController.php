@@ -80,20 +80,15 @@ class UserController extends Controller
             $imgName = uniqid().'_'.$request->file('image')->getClientOriginalName();
             $request->file('image')->storeAs('public/img/user/',$imgName);
             $user->image = $imgName;
-            $user->name = $request->name;
-            $user->email = $request->email;
-            $user->phone = $request->phone;
-            $user->gender = $request->gender;
-            $user->address = $request->address;
-            $user->save();
-            toastr()->success('Profile Updated Success');
-            return redirect()->route('user#profile');
         }
         $user->name = $request->name;
         $user->email = $request->email;
         $user->phone = $request->phone;
         $user->gender = $request->gender;
         $user->address = $request->address;
+        $user->facebookURL = $request->facebook_url;
+        $user->twitterURL = $request->twitter_url;
+        $user->instagramURL = $request->instagram_url;
         $user->save();
         toastr()->success('Profile Updated Success');
         return redirect()->route('user#profile');

@@ -67,6 +67,20 @@
                                         <small class=" invalid-feedback">{{ $message}}</small>
                                     @enderror
                                 </div>
+                                <div class="form-group">
+                                    <label for="" class="control-label mb-1">Discount Price</label>
+                                    <input id="" name="discount_price" type="number" value="{{ $products->discount_price}}" class="form-control @error('discount_price') is-invalid @enderror" aria-required="true" aria-invalid="false" placeholder="Enter discount price...">
+                                    @error('discount_price')
+                                        <small class=" invalid-feedback">{{ $message}}</small>
+                                    @enderror
+                                </div>
+                                <div class="form-group">
+                                    <label for="" class="control-label mb-1">Discount Percent %</label>
+                                    <input id="" name="discount_percentage" type="number" value="{{ $products->discount_percentage}}" class="form-control @error('productPrice') is-invalid @enderror" aria-required="true" aria-invalid="false" placeholder="Enter discount percent %...">
+                                    @error('discount_percentage')
+                                        <small class=" invalid-feedback">{{ $message}}</small>
+                                    @enderror
+                                </div>
                                 <div>
                                     <button id="payment-button" type="submit" class="btn btn-lg btn-info btn-block">
                                         <span id="payment-button-amount">Update</span>

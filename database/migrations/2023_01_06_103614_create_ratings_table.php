@@ -18,7 +18,6 @@ return new class extends Migration
             $table->integer('rating_status');
             $table->integer('user_id');
             $table->integer('product_id');
-            $table->integer('rating_count');
             $table->longText('message')->nullable();
             $table->timestamps();
         });

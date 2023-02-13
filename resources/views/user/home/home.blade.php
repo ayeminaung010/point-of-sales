@@ -101,7 +101,7 @@
                                 <div class="product-img position-relative overflow-hidden">
                                     <input type="hidden" name="productId" id="productId" value="{{ $product->id }}">
 
-                                    <img class="img-fluid w-100 object-cover " id="currentImg" style="height: 200px;" src="{{ asset('storage/img/product/'.$product->image) }}" alt="">
+                                    <img class="img-fluid w-100 object-cover " id="currentImg" style="height: 300px;" src="{{ asset('storage/img/product/'.$product->image) }}" alt="">
                                     <div class="product-action">
                                         <a class="btn btn-outline-dark btn-square" href="{{ route('user#productDetail',$product->id) }}" ><i class="fa-solid fa-info"></i></a>
                                         <a class="btn btn-outline-dark btn-square" href="" ><i class="far fa-heart"></i></a>
@@ -110,7 +110,11 @@
                                 <div class="text-center py-4">
                                     <a class="h6 text-decoration-none text-truncate" href="{{ route('user#productDetail',$product->id) }}">{{ $product->name }}</a>
                                     <div class="d-flex align-items-center justify-content-center mt-2">
-                                    <h5>{{ $product->price }} Kyats</h5><h6 class="text-muted ml-2"><del>25000</del></h6>
+                                    @if (!empty($product->discount_price))
+                                        <h5>{{ $product->discount_price }} Kyats</h5><h6 class="text-muted ml-2"><del>{{ $product->price }} Kyats</del></h6>
+                                    @else
+                                    <h5>{{ $product->price }} Kyats</h5><h6 class="text-muted ml-2"></h6>
+                                    @endif
                                     </div>
                                     <div class="d-flex align-items-center justify-content-center mb-1">
                                         <small class="fa fa-star text-primary mr-1"></small>

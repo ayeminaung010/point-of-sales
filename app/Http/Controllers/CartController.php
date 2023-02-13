@@ -17,10 +17,11 @@ class CartController extends Controller
 {
     //cart item
     public function cartItem(){
-        $carts = Cart::select('carts.*','products.name as productName','products.price as productPrice','products.image as productImage')
+        $carts = Cart::select('carts.*','products.name as productName','products.price as productPrice','products.discount_price as discountPrice','products.image as productImage')
                 ->leftJoin('products','products.id','carts.product_id')
                 ->where('user_id',Auth::user()->id)
                 ->get();
+        // dd($carts->all());
          return view('user.cart.cartList',compact('carts'));
     }
 

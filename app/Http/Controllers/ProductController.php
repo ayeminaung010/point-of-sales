@@ -56,6 +56,7 @@ class ProductController extends Controller
     //update
     public function update(ProductRequest $request){
         $data = $this->requestProductData($request);
+        // dd($request->all());
         if($request->hasFile('productImage')){
             $oldImg = Product::where('id',$request->productId)->first();
             $oldImg = $oldImg->image;
@@ -66,6 +67,10 @@ class ProductController extends Controller
             $imgName = uniqid().'_'.$request->file('productImage')->getClientOriginalName();
             $request->file('productImage')->storeAs('public/img',$imgName);
             $data['image'] = $imgName;
+        }
+        if($request->discount_price && $request->discount_percentage){
+            $data['discount_price'] = $request->discount_price;
+            $data['discount_percentage'] = $request->discount_percentage;
         }
         $result = Product::where('id',$request->productId)->update($data);
         $this->alert($result);
