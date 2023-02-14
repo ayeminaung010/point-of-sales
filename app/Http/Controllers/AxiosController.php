@@ -40,6 +40,7 @@ class AxiosController extends Controller
             $cart->product_id = $request->productId;
             $cart->qty = $request->orderCount;
             $cart->save();
+            event(new TestEvent('Successfully added'));
             return response()->json('success',200);
         }else{
             if($request->orderCount > 1){
@@ -47,6 +48,7 @@ class AxiosController extends Controller
                 $alreadyCart->qty = $alreadyCart->qty + $request->orderCount;
                 $alreadyCart->update();
                 event(new TestEvent('Successfully added'));
+
                 return response()->json('success added new Qty',220);
             }
         }

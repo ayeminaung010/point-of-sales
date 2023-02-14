@@ -39,14 +39,14 @@
         var channel = pusher.subscribe('my-channel');
         channel.bind('my-event', function(data) {
           const result = JSON.stringify(data);
-
+          //alert event
           const alert = document.querySelector('.alert-pusher');
-          const alertContainer = document.querySelector('.alertContainer');
-          alertContainer.classList.remove('d-none');
-          alert.innerHTML  =  data.message;
-          setTimeout(() => {
-            alertContainer.classList.add('d-none');
-          }, 2000);
+              const alertContainer = document.querySelector('.alertContainer');
+              alertContainer.classList.remove('d-none');
+              alert.innerHTML  =  data.message;
+              setTimeout(() => {
+                alertContainer.classList.add('d-none');
+              }, 2000);
         });
 
       </script>
