@@ -275,17 +275,23 @@
                             <h4 class="mb-4">1 review for "Product Name"</h4>
                             <div class="media mb-4">
                                 {{-- <img src="img/user.jpg" alt="Image" class="img-fluid mr-3 mt-1" style="width: 45px;"> --}}
-                                <div class="media-body">
-                                    <h6>John Doe<small> - <i>01 Jan 2045</i></small></h6>
-                                    <div class="text-primary mb-2">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star-half-alt"></i>
-                                        <i class="far fa-star"></i>
-                                    </div>
-                                    <p>Diam amet duo labore stet elitr ea clita ipsum, tempor labore accusam ipsum et no at. Kasd diam tempor rebum magna dolores sed sed eirmod ipsum.</p>
+                                <div class="" id="reviewContainer">
+                                    @if($ratings)
+                                        @foreach ($ratings as $rating )
+
+                                            <div class="media-body" >
+                                                <h6>{{ $rating->username }}<small> - <i>{{ $rating->created_at }}</i></small></h6>
+                                                <div class="text-primary mb-2">
+                                                    @for ($i = 0 ; $i < $rating->rating_status ; $i++)
+                                                        <i class="fa-solid fa-star"></i>
+                                                    @endfor
+                                                </div>
+                                                <p>{{ $rating->message }}</p>
+                                            </div>
+                                        @endforeach
+                                    @endif
                                 </div>
+
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -294,7 +300,13 @@
                                 <small>Your email address will not be published. Required fields are marked *</small>
                                 <div class="d-flex flex-column justify-content-start my-3">
                                     <p class="mb-0 mr-2">Rate Stars</p>
-                                    <div class="rating"> <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label> <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label> <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label> <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label> <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label>
+                                    <div class="rating">
+                                        <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label>
+                                        <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label>
+                                        <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label>
+                                        <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label>
+                                        <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label>
+                                    </div>
                                 </div>
                                 <form>
                                     <div class="form-group">
@@ -304,11 +316,11 @@
 
                                     @if(Auth::check())
                                         <div class="form-group mb-0">
-                                            <button type="button" class="btn btn-primary px-3">Leave Your Review</button>
+                                            <button type="button" class="btn btn-primary px-3" id="review-submit">Leave Your Review</button>
                                         </div>
                                     @else
                                         <div class="form-group mb-0" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                            <button type="button" class="btn btn-primary px-3">Leave Your Review</button>
+                                            <button type="button" class="btn btn-primary px-3" id="review-submit">Leave Your Review</button>
                                         </div>
                                     @endif
 
@@ -332,6 +344,7 @@
     const addToCart = document.querySelector('#addToCart');
     const productId = document.querySelector('#productId').value;
     const orderCount = document.querySelector('#orderCount');
+    const reviewContainer = document.querySelector('#reviewContainer');
 
     axios.get('/user/viewCount',  {
         params: {'productId' : productId}
@@ -356,20 +369,57 @@
             })
             .then(function (response) {
             console.log(response);
-                // var channel = pusher.subscribe('my-channel');
-                // channel.bind('my-event', function(data) {
-                //   const result = JSON.stringify(data);
-                //   console.log(result.message);
-                // });
 
             })
             .catch(function (error) {
             console.log(error);
             });
-
         }
 
     })
+
+    const reviewBtn = document.querySelector('#review-submit');
+    const message = document.querySelector('#message');
+    const radios = document.querySelectorAll('input[name="rating"]');
+
+    reviewBtn.addEventListener('click', function() {
+      const selectedRadio = document.querySelector('input[name="rating"]:checked');
+      if (selectedRadio && message.value) {
+        const data = {
+            'ratingCount' : selectedRadio.value,
+            'message' : message.value,
+            'productId' : productId
+        }
+
+        console.log(data);
+        axios.post('/user/review',  {
+            data
+        })
+        .then(function (response) {
+            console.log(response.data);
+            if(response.data){
+                const ratingStars = response.data['rating_status'];
+                const starsHTML = Array.from({ length: ratingStars }, () => `
+                    <i class="fa-solid fa-star"></i>
+                `).join('');
+
+                const formatDate = new Date(response.data['created_at']);
+                reviewContainer.innerHTML = `
+                <div class="media-body" >
+                    <h6>${response.data['user_id']}<small> - <i>${formatDate.toLocaleString('en-GB', { timeZone: 'UTC' })}</i></small></h6>
+                    <div class="text-primary mb-2">
+                        ${starsHTML}
+                    </div>
+                    <p>${response.data['message']}</p>
+                </div>
+                `;
+            }
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+      }
+    });
 
 </script>
 @endsection

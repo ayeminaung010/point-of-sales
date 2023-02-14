@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Cart;
 use App\Models\User;
 use App\Models\Order;
+use App\Models\Rating;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
@@ -32,8 +33,11 @@ class UserController extends Controller
     public function detail($id){
         $product = Product::where('id',$id)->first();
         $products = Product::where('id','!=',$id)->get();
-
-        return view('user.products.detail',compact('product','products'));
+        $ratings = Rating::where('product_id',$id)
+                        ->select('ratings.*','users.name as username')
+                        ->leftJoin('users','ratings.user_id','users.id')
+                        ->paginate('5');
+        return view('user.products.detail',compact('product','products','ratings'));
     }
 
 
