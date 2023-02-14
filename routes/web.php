@@ -11,11 +11,13 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RecycleController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use App\Events\TestEvent;
 
 
 Route::get('/',[UserController::class,'home']);
 
 Route::get('/loginPage', function () {
+
     return view('login');
 })->name('loginPage');
 
