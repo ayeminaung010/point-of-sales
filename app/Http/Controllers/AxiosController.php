@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Notifications\InvoicePaid;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
+use App\Events\TestEvent;
 
 class AxiosController extends Controller
 {
@@ -45,9 +46,11 @@ class AxiosController extends Controller
                 $alreadyCart = Cart::where('product_id',$request->productId)->where('user_id',Auth::user()->id)->first();
                 $alreadyCart->qty = $alreadyCart->qty + $request->orderCount;
                 $alreadyCart->update();
+                event(new TestEvent('Successfully added'));
                 return response()->json('success added new Qty',220);
             }
         }
+        // event(new TestEvent($result));
     }
 
     //removeFromCart

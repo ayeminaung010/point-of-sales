@@ -9,7 +9,7 @@
     .rating {
         display: flex;
         flex-direction: row-reverse;
-        justify-content: center
+        justify-content: start
     }
 
     .rating>input {
@@ -51,9 +51,18 @@
 
 <!-- Shop Detail Start -->
 <div class="container-fluid pb-5">
+
     <button  onclick="history.back()" class="btn btn-primary my-2 ms-5 me-2 text-white">
         <i class="fa-solid fa-arrow-left fs-5"></i> <span class="fs-6">Back</span>
     </button>
+    <div class="row justify-content-end me-5">
+        <div class="col-6 alertContainer d-none">
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong class="alert-pusher"></strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
     <div class="row px-xl-5">
         <div class="col-lg-5 mb-30">
             <div id="product-carousel" class="carousel slide " data-ride="carousel">
@@ -284,7 +293,7 @@
                                 <h4 class="mb-4">Leave a review</h4>
                                 <small>Your email address will not be published. Required fields are marked *</small>
                                 <div class="d-flex flex-column justify-content-start my-3">
-                                    <p class="mb-0 mr-2">Your Rating * :</p>
+                                    <p class="mb-0 mr-2">Rate Stars</p>
                                     <div class="rating"> <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label> <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label> <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label> <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label> <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label>
                                 </div>
                                 <form>
@@ -292,9 +301,17 @@
                                         <label for="message">Your Review *</label>
                                         <textarea id="message" cols="30" rows="5" class="form-control"></textarea>
                                     </div>
-                                    <div class="form-group mb-0">
-                                        <input type="submit" value="Leave Your Review" class="btn btn-primary px-3">
-                                    </div>
+
+                                    @if(Auth::check())
+                                        <div class="form-group mb-0">
+                                            <button type="button" class="btn btn-primary px-3">Leave Your Review</button>
+                                        </div>
+                                    @else
+                                        <div class="form-group mb-0" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                            <button type="button" class="btn btn-primary px-3">Leave Your Review</button>
+                                        </div>
+                                    @endif
+
                                 </form>
                             </div>
                         </div>
@@ -309,11 +326,12 @@
 @endsection
 
 @section('scriptSource')
+
+{{-- <script src="{{ asset('js/socket.js') }}" type="module"></script> --}}
 <script>
     const addToCart = document.querySelector('#addToCart');
     const productId = document.querySelector('#productId').value;
     const orderCount = document.querySelector('#orderCount');
-
 
     axios.get('/user/viewCount',  {
         params: {'productId' : productId}
@@ -333,12 +351,16 @@
                 'productId' : productId,
                 'orderCount' : orderCount.value,
             }
-
             axios.get('/user/addCountCart',  {
                 params: data
             })
             .then(function (response) {
             console.log(response);
+                // var channel = pusher.subscribe('my-channel');
+                // channel.bind('my-event', function(data) {
+                //   const result = JSON.stringify(data);
+                //   console.log(result.message);
+                // });
 
             })
             .catch(function (error) {

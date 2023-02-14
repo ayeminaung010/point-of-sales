@@ -174,7 +174,9 @@
 @endsection
 
 @section('scriptSource')
-<script src="{{ asset('js/script.js') }}"></script>
+@if (Auth::user())
+    <script src="{{ asset('js/script.js') }}"></script>
+@endif
 
  <script>
     const checkboxes = document.querySelectorAll('.checkboxFilter')

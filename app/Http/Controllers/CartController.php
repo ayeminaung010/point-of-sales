@@ -21,7 +21,6 @@ class CartController extends Controller
                 ->leftJoin('products','products.id','carts.product_id')
                 ->where('user_id',Auth::user()->id)
                 ->get();
-        // dd($carts->all());
          return view('user.cart.cartList',compact('carts'));
     }
 
@@ -85,7 +84,6 @@ class CartController extends Controller
                 $payment->message = $request->message;
             }
             $result = $payment->save();
-            // $orderCode;
             if($result){
                 $finalPrice = 0;
                 $carts = Cart::select('carts.*','products.name as productName','products.price as productPrice','products.image as productImage')
@@ -210,7 +208,6 @@ class CartController extends Controller
                     ->select('order_lists.*','products.name as product_name','products.image as product_image')
                     ->leftJoin('products','order_lists.product_id','products.id')
                     ->get();
-        // dd($orderLists);
         return view('user.order.products-history',compact('orderLists'));
     }
 }
