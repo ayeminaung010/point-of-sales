@@ -91,16 +91,25 @@
                     <input type="hidden" value="0" id="userId">
                 @endif
                 <input type="hidden" value="{{ $product->id }}" id="productId">
-                <div class="d-flex mb-3">
-                    <div class="text-primary mr-2">
-                        <small class="fas fa-star"></small>
-                        <small class="fas fa-star"></small>
-                        <small class="fas fa-star"></small>
-                        <small class="fas fa-star-half-alt"></small>
-                        <small class="far fa-star"></small>
+                @if(isset($averageRatingNumber))
+                    <div class="d-flex mb-3">
+                        <div class="text-primary mr-2">
+
+                            @for ($i = 0 ; $i <  round($averageRatingNumber) ; $i++)
+                                <i class="fa-solid fa-star"></i>
+                            @endfor
+                            @if ($averageRatingNumber < 5)
+                                @for ($i = 0 ; $i <  round(5 - $averageRatingNumber) ; $i++)
+                                    <i class="fa-regular fa-star"></i>
+                                @endfor
+
+                            @endif
+                        </div>
+                        <span>({{ $averageRatingNumber }})</span>
                     </div>
-                    <p class="pt-1">{{ $product->view_count + 1 }} <i class="fa-regular fa-eye ms-2"></i></p>
-                </div>
+                @endif
+
+                <p class="pt-1">{{ $product->view_count + 1 }} <i class="fa-regular fa-eye ms-2"></i></p>
 
                 @if (!empty($product->discount_price))
                     <h3 class="font-weight-semi-bold mb-4">{{ $product->discount_price}} Kyats <small><del>{{ $product->price }} Kyats</del></small></h3>
@@ -221,9 +230,9 @@
     <div class="col">
         <div class="bg-light p-30">
             <div class="nav nav-tabs mb-4">
-                <a class="nav-item nav-link text-dark active" data-toggle="tab" href="#tab-pane-1">Description</a>
+                <a class="nav-item nav-link text-dark" data-toggle="tab" href="#tab-pane-1">Description</a>
                 <a class="nav-item nav-link text-dark" data-toggle="tab" href="#tab-pane-2">Information</a>
-                <a class="nav-item nav-link text-dark" data-toggle="tab" href="#tab-pane-3">Reviews (0)</a>
+                <a class="nav-item nav-link text-dark" data-toggle="tab" href="#tab-pane-3">Reviews ( {{ count($ratings) }})</a>
             </div>
             <div class="tab-content">
                 <div class="tab-pane fade show active" id="tab-pane-1">
@@ -272,29 +281,71 @@
                 <div class="tab-pane fade" id="tab-pane-3">
                     <div class="row">
                         <div class="col-md-6">
-                            <h4 class="mb-4">1 review for "Product Name"</h4>
-                            <div class="media mb-4">
+                            <h4 class="mb-4">{{ count($ratings) }} reviews for "{{ $product->name}}"</h4>
+                            <div class="media mb-4 d-flex flex-column">
                                 {{-- <img src="img/user.jpg" alt="Image" class="img-fluid mr-3 mt-1" style="width: 45px;"> --}}
-                                <div class="media-body">
-                                    <h6>John Doe<small> - <i>01 Jan 2045</i></small></h6>
-                                    <div class="text-primary mb-2">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star-half-alt"></i>
-                                        <i class="far fa-star"></i>
-                                    </div>
-                                    <p>Diam amet duo labore stet elitr ea clita ipsum, tempor labore accusam ipsum et no at. Kasd diam tempor rebum magna dolores sed sed eirmod ipsum.</p>
+                                <div class="" >
+                                        <div id="reviewContainer">
+
+                                        </div>
+                                    @if($ratings)
+                                        @foreach ($ratings as $rating )
+
+                                            <div class="media-body" >
+                                                <h6>{{ $rating->username }}<small> - <i>{{ $rating->created_at->diffForHumans() }}</i></small></h6>
+                                                <div class="text-primary mb-2">
+                                                    @for ($i = 0 ; $i < $rating->rating_status ; $i++)
+                                                        <i class="fa-solid fa-star"></i>
+                                                    @endfor
+                                                </div>
+                                                <p>{{ $rating->message }}</p>
+                                            </div>
+                                        @endforeach
+
+                                        {{-- <div class=" my-3">
+                                            {{ $ratings->links() }}
+                                        </div> --}}
+                                    @endif
                                 </div>
+                                <div class="">
+                                    <a href="#">View more reviews</a>
+                                </div>
+
+
                             </div>
                         </div>
+                        {{-- modal box for no user  --}}
+                        <div class="modal fade" id="reviewModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h1 class="modal-title fs-5" id="exampleModalLabel">Sign Up </h1>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                  To write reviews,Login Need!.
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                  <a href="{{ route('registerPage') }}" type="button"  class="btn btn-primary">Sign Up</a>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
                         <div class="col-md-6">
                             <div class=" d-flex flex-column ">
                                 <h4 class="mb-4">Leave a review</h4>
                                 <small>Your email address will not be published. Required fields are marked *</small>
                                 <div class="d-flex flex-column justify-content-start my-3">
                                     <p class="mb-0 mr-2">Rate Stars</p>
-                                    <div class="rating"> <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label> <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label> <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label> <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label> <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label>
+                                    <div class="rating">
+                                        <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label>
+                                        <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label>
+                                        <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label>
+                                        <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label>
+                                        <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label>
+                                    </div>
                                 </div>
                                 <form>
                                     <div class="form-group">
@@ -304,11 +355,11 @@
 
                                     @if(Auth::check())
                                         <div class="form-group mb-0">
-                                            <button type="button" class="btn btn-primary px-3">Leave Your Review</button>
+                                            <button type="button" class="btn btn-primary px-3" id="review-submit">Leave Your Review</button>
                                         </div>
                                     @else
-                                        <div class="form-group mb-0" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                            <button type="button" class="btn btn-primary px-3">Leave Your Review</button>
+                                        <div class="form-group mb-0" data-bs-toggle="modal" data-bs-target="#reviewModal">
+                                            <button type="button" class="btn btn-primary px-3" id="review-submit">Leave Your Review</button>
                                         </div>
                                     @endif
 
@@ -326,12 +377,13 @@
 @endsection
 
 @section('scriptSource')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 
-{{-- <script src="{{ asset('js/socket.js') }}" type="module"></script> --}}
 <script>
     const addToCart = document.querySelector('#addToCart');
     const productId = document.querySelector('#productId').value;
     const orderCount = document.querySelector('#orderCount');
+    const reviewContainer = document.querySelector('#reviewContainer');
 
     axios.get('/user/viewCount',  {
         params: {'productId' : productId}
@@ -356,20 +408,57 @@
             })
             .then(function (response) {
             console.log(response);
-                // var channel = pusher.subscribe('my-channel');
-                // channel.bind('my-event', function(data) {
-                //   const result = JSON.stringify(data);
-                //   console.log(result.message);
-                // });
 
             })
             .catch(function (error) {
             console.log(error);
             });
+        }
+    })
 
+    const reviewBtn = document.querySelector('#review-submit');
+    const message = document.querySelector('#message');
+    const radios = document.querySelectorAll('input[name="rating"]');
+
+    reviewBtn.addEventListener('click', function() {
+      const selectedRadio = document.querySelector('input[name="rating"]:checked');
+      if (selectedRadio && message.value) {
+        const data = {
+            'ratingCount' : selectedRadio.value,
+            'message' : message.value,
+            'productId' : productId
         }
 
-    })
+        console.log(data);
+
+        axios.post('/user/review',  {
+            data
+        })
+        .then(function (response) {
+            console.log(response.data);
+            if(response.data){
+                const ratingStars = response.data['rating_status'];
+                const starsHTML = Array.from({ length: ratingStars }, () => `
+                    <i class="fa-solid fa-star"></i>
+                `).join('');
+
+                const formatDate = moment(response.data['created_at']).startOf('second').fromNow();
+                reviewContainer.innerHTML += `
+                <div class="media-body" >
+                    <h6>${response.data['user_id']}<small> - <i>${formatDate}</i></small></h6>
+                    <div class="text-primary mb-2">
+                        ${starsHTML}
+                    </div>
+                    <p>${response.data['message']}</p>
+                </div>
+                `;
+            }
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+      }
+    });
 
 </script>
 @endsection

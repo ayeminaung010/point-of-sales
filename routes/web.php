@@ -45,6 +45,8 @@ Route::prefix('user')->middleware('user_auth')->group(function () {
     Route::get('/clearCart',[AxiosController::class,'clearCart'])->name('user#clearCart'); //axios use
 
     Route::get('/viewCount',[AxiosController::class,'increaseViewCount'])->name('user#viewCount');
+
+    Route::post('/review',[AxiosController::class,'review'])->name('user#review');
     //axios end
 
     Route::get('/profile',[UserController::class,'profile'])->name('user#profile');

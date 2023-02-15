@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use App\Models\Rating;
 use App\Models\Product;
+use App\Events\TestEvent;
 use Illuminate\Http\Request;
 use App\Notifications\InvoicePaid;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
-use App\Events\TestEvent;
 
 class AxiosController extends Controller
 {
@@ -82,5 +83,19 @@ class AxiosController extends Controller
         $product  = Product::where('id',$request->productId)->first();
         $product->view_count = $product->view_count + 1;
         $product->update();
+    }
+
+    //review
+    public function review(Request $request){
+        $data = Rating::create([
+            'rating_status' => $request->data['ratingCount'],
+            'message' => $request->data['message'],
+            'product_id' => $request->data['productId'],
+            'user_id' => Auth::user()->id,
+        ]);
+
+        logger($data->user_id);
+        $data->user_id = Auth::user()->name;
+        return response()->json($data,200);
     }
 }

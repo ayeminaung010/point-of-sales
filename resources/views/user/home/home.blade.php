@@ -86,8 +86,8 @@
                                 <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">Sorting</button>
                                 <div class="dropdown-menu dropdown-menu-right">
                                     <a class="dropdown-item" href="#" class="lastestSort " id="lastestSort">Latest</a>
-                                    <a class="dropdown-item" href="#">Popularity</a>
-                                    <a class="dropdown-item" href="#">Best Rating</a>
+                                    <a class="dropdown-item" href="#" class="popularitySort " id="popularitySort">Popularity</a>
+                                    <a class="dropdown-item" href="#" class="ratingSort " id="ratingSort">Best Rating</a>
                                 </div>
                             </div>
                         </div>
@@ -117,11 +117,16 @@
                                     @endif
                                     </div>
                                     <div class="d-flex align-items-center justify-content-center mb-1">
-                                        <small class="fa fa-star text-primary mr-1"></small>
-                                        <small class="fa fa-star text-primary mr-1"></small>
-                                        <small class="fa fa-star text-primary mr-1"></small>
-                                        <small class="fa fa-star text-primary mr-1"></small>
-                                        <small class="fa fa-star text-primary mr-1"></small>
+                                        @if ($product->rating_average !== null)
+                                            <span>{{ $product->rating_average }}
+                                                <small class="fa fa-star text-primary mr-1"></small>
+                                            </span>
+                                        @else
+                                            <span>0
+                                                <small class="fa fa-star text-primary mr-1"></small>
+                                            </span>
+                                        @endif
+
                                     </div>
 
                                     @if(Auth::check())
@@ -184,6 +189,8 @@
     const productList = document.querySelector('#products');
     const allCategories = document.querySelector('.allCategories');
     const lastestSort = document.querySelector('#lastestSort');
+    const ratingSort = document.querySelector('#ratingSort');
+    const popularitySort = document.querySelector('#popularitySort');
 
 // single checkbox
     let selectedCategoryIds = [];
@@ -216,7 +223,7 @@
                                 <div class="product-item bg-light mb-4">
                                     <div class="product-img position-relative overflow-hidden">
                                         <input type="hidden" name="productId" id="productId" value='${response.data[i].id}'>
-                                        <img class="img-fluid w-100 object-cover" id="currentImg" style="height: 200px;" src="{{ asset('storage/img/product/${response.data[i].image}') }}" alt="">
+                                        <img class="img-fluid w-100 object-cover" id="currentImg" style="height: 300px;" src="{{ asset('storage/img/product/${response.data[i].image}') }}" alt="">
                                         <div class="product-action">
                                             <a class="btn btn-outline-dark btn-square" href="product/detail/${response.data[i].id}" ><i class="fa-solid fa-info"></i></a>
                                             <a class="btn btn-outline-dark btn-square" href="" ><i class="far fa-heart"></i></a>
@@ -228,11 +235,9 @@
                                         <h5>${response.data[i].price} Kyats</h5><h6 class="text-muted ml-2"><del>25000</del></h6>
                                         </div>
                                         <div class="d-flex align-items-center justify-content-center mb-1">
-                                            <small class="fa fa-star text-primary mr-1"></small>
-                                            <small class="fa fa-star text-primary mr-1"></small>
-                                            <small class="fa fa-star text-primary mr-1"></small>
-                                            <small class="fa fa-star text-primary mr-1"></small>
-                                            <small class="fa fa-star text-primary mr-1"></small>
+                                            <span>${response.data[i].rating_average ? response.data[i].rating_average: 0}
+                                                <small class="fa fa-star text-primary mr-1"></small>
+                                            </span>
                                         </div>
                                         <div class=" mt-3">
                                             <button class="btn btn-primary" id="addToCart">Add to Cart</button>
@@ -283,12 +288,13 @@
                 productList.classList.remove('justify-content-center','align-items-center');
                 let list = ``;
                 for (let i = 0; i <  response.data.length; i++) {
+
                     list += `
                     <div class="col-lg-4 col-md-6 col-sm-6 pb-1" id="currentProduct">
                         <div class="product-item bg-light mb-4">
                             <div class="product-img position-relative overflow-hidden">
                                 <input type="hidden" name="productId" id="productId" value='${response.data[i].id}'>
-                                <img class="img-fluid w-100 object-cover" id="currentImg" style="height: 200px;" src="{{ asset('storage/img/product/${response.data[i].image}') }}" alt="">
+                                <img class="img-fluid w-100 object-cover" id="currentImg" style="height: 300px;" src="{{ asset('storage/img/product/${response.data[i].image}') }}" alt="">
                                 <div class="product-action">
                                     <a class="btn btn-outline-dark btn-square" href="product/detail/${response.data[i].id}" ><i class="fa-solid fa-info"></i></a>
                                     <a class="btn btn-outline-dark btn-square" href="" ><i class="far fa-heart"></i></a>
@@ -300,11 +306,9 @@
                                 <h5>${response.data[i].price} Kyats</h5><h6 class="text-muted ml-2"><del>25000</del></h6>
                                 </div>
                                 <div class="d-flex align-items-center justify-content-center mb-1">
-                                    <small class="fa fa-star text-primary mr-1"></small>
-                                    <small class="fa fa-star text-primary mr-1"></small>
-                                    <small class="fa fa-star text-primary mr-1"></small>
-                                    <small class="fa fa-star text-primary mr-1"></small>
-                                    <small class="fa fa-star text-primary mr-1"></small>
+                                    <span>${response.data[i].rating_average ? response.data[i].rating_average: 0}
+                                        <small class="fa fa-star text-primary mr-1"></small>
+                                    </span>
                                 </div>
                                 <div class=" mt-3">
                                     <button class="btn btn-primary" id="addToCart">Add to Cart</button>
@@ -334,15 +338,13 @@
         data = {
             'sortType' : 'lastestSort',
         }
-        console.log(data);
-        lastest();
+        sortFun();
     })
-    const lastest = () =>{
+    const sortFun = () =>{
         axios.get('sort/products',  {
             params: data
           })
           .then(function (response) {
-            console.log(response.data.length);
             productList.classList.remove('justify-content-center','align-items-center');
             let list = ``;
             for (let i = 0; i <  response.data.length; i++) {
@@ -351,7 +353,7 @@
                     <div class="product-item bg-light mb-4">
                         <div class="product-img position-relative overflow-hidden">
                             <input type="hidden" name="productId" id="productId" value='${response.data[i].id}'>
-                            <img class="img-fluid w-100 object-cover" id="currentImg" style="height: 200px;" src="{{ asset('storage/img/product/${response.data[i].image}') }}" alt="">
+                            <img class="img-fluid w-100 object-cover" id="currentImg" style="height: 300px;" src="{{ asset('storage/img/product/${response.data[i].image}') }}" alt="">
                             <div class="product-action">
                                 <a class="btn btn-outline-dark btn-square" href="product/detail/${response.data[i].id}" ><i class="fa-solid fa-info"></i></a>
                                 <a class="btn btn-outline-dark btn-square" href="" ><i class="far fa-heart"></i></a>
@@ -363,11 +365,9 @@
                             <h5>${response.data[i].price} Kyats</h5><h6 class="text-muted ml-2"><del>25000</del></h6>
                             </div>
                             <div class="d-flex align-items-center justify-content-center mb-1">
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
+                                <span>${response.data[i].rating_average ? response.data[i].rating_average: 0}
+                                    <small class="fa fa-star text-primary mr-1"></small>
+                                </span>
                             </div>
                             <div class=" mt-3">
                                 <button class="btn btn-primary" id="addToCart">Add to Cart</button>
@@ -383,6 +383,22 @@
             console.log(error);
           });
     }
+
+    //popularity sort
+    popularitySort.addEventListener('click',function() {
+        data = {
+            'sortType' : 'popularitySort',
+        }
+        sortFun();
+    })
+
+    //ratingSort sort
+    ratingSort.addEventListener('click',function() {
+        data = {
+            'sortType' : 'ratingSort',
+        }
+        sortFun();
+    })
 
 </script>
 
