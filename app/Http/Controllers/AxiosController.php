@@ -87,7 +87,6 @@ class AxiosController extends Controller
 
     //review
     public function review(Request $request){
-        // logger($request->data['message']);
         $data = Rating::create([
             'rating_status' => $request->data['ratingCount'],
             'message' => $request->data['message'],

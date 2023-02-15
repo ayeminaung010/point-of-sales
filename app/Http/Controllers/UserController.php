@@ -21,6 +21,9 @@ class UserController extends Controller
     public function home() {
         $products = Product::get();
         $categories = Category::get();
+
+
+
         if(Auth::user()){
             $carts = Cart::where('user_id',Auth::user()->id)->get();
             $orders = Order::where('user_id',Auth::user()->id)->get();
@@ -36,8 +39,23 @@ class UserController extends Controller
         $ratings = Rating::where('product_id',$id)
                         ->select('ratings.*','users.name as username')
                         ->leftJoin('users','ratings.user_id','users.id')
-                        ->paginate('5');
-        return view('user.products.detail',compact('product','products','ratings'));
+                        ->orderBy('created_at','desc')
+                        ->get();
+
+        $stars = Rating::select('rating_status')->where('product_id',$id)->get();
+        // $ratings = Rating::get();
+        // dd(count($ratings));
+        $fullStars = count($ratings) * 5;
+
+        $ratingStar = 0;
+        foreach( $stars as $star){
+            $ratingStar += $star->rating_status;
+        }
+        $averageRating = $ratingStar/$fullStars;
+        $averageRatingNumber = round($averageRating * 5, 1);
+        // dd($averageRatingNumber);
+
+        return view('user.products.detail',compact('product','products','ratings','averageRatingNumber'));
     }
 
 
@@ -55,9 +73,14 @@ class UserController extends Controller
 
     //sorting axios
     public function sorting(Request $request){
-        logger($request->sortType);
         if($request->sortType === 'lastestSort'){
             $data = Product::orderBy('created_at','desc')->get();
+        }else if($request->sortType === 'popularitySort'){
+            $data = Product::orderBy('view_count','desc')->get();
+        }else{
+
+
+
         }
         return response()->json($data,200);
     }
