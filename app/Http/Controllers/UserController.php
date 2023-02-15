@@ -21,7 +21,7 @@ class UserController extends Controller
     public function home() {
         $products = Product::get();
         $categories = Category::get();
-        
+
         if(Auth::user()){
             $carts = Cart::where('user_id',Auth::user()->id)->get();
             $orders = Order::where('user_id',Auth::user()->id)->get();
@@ -82,9 +82,7 @@ class UserController extends Controller
         }else if($request->sortType === 'popularitySort'){
             $data = Product::orderBy('view_count','desc')->get();
         }else{
-
-
-
+            $data = Product::orderBy('rating_average','desc')->get();
         }
         return response()->json($data,200);
     }

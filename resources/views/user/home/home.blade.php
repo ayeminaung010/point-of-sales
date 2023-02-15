@@ -36,7 +36,7 @@
             <div class="bg-light p-4 mb-30">
                 <form>
                     <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                        <input type="checkbox" value="" class="custom-control-input allCategories" name="all"  id="price-all">
+                        <input type="checkbox" value="" class="custom-control-input allCategories" name="all"  id="category-all">
                         <label class="custom-control-label" for="price-all">All Categories</label>
                     </div>
 
@@ -57,17 +57,21 @@
             <div class="bg-light p-4 mb-30">
                 <form>
                     <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                        <input type="checkbox" class="custom-control-input" checked id="price-all">
+                        <input type="checkbox" class="custom-control-input"  id="price-all">
                         <label class="custom-control-label" for="price-all">All Price</label>
                     </div>
                     <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
                         <input type="checkbox" class="custom-control-input" id="price-1">
-                        <label class="custom-control-label" for="price-1">$0 - $100</label>
+                        <label class="custom-control-label" for="price-1">0 - 1000  Kyats</label>
                    </div>
                     <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
                         <input type="checkbox" class="custom-control-input" id="price-2">
-                        <label class="custom-control-label" for="price-2">$100 - $200</label>
+                        <label class="custom-control-label" for="price-2">1000 - 10000 Kyats</label>
                    </div>
+                   <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+                        <input type="checkbox" class="custom-control-input" id="price-2">
+                        <label class="custom-control-label" for="price-3">10000 - 100000 Kyats</label>
+                    </div>
                 </form>
             </div>
             <!-- Price End -->
@@ -110,11 +114,11 @@
                                 <div class="text-center py-4">
                                     <a class="h6 text-decoration-none text-truncate" href="{{ route('user#productDetail',$product->id) }}">{{ $product->name }}</a>
                                     <div class="d-flex align-items-center justify-content-center mt-2">
-                                    @if (!empty($product->discount_price))
-                                        <h5>{{ $product->discount_price }} Kyats</h5><h6 class="text-muted ml-2"><del>{{ $product->price }} Kyats</del></h6>
-                                    @else
-                                    <h5>{{ $product->price }} Kyats</h5><h6 class="text-muted ml-2"></h6>
-                                    @endif
+                                        @if (!empty($product->discount_price))
+                                            <h5>{{ $product->discount_price }} Kyats</h5><h6 class="text-muted ml-2"><del>{{ $product->price }} Kyats</del></h6>
+                                        @else
+                                            <h5>{{ $product->price }} Kyats</h5><h6 class="text-muted ml-2"></h6>
+                                        @endif
                                     </div>
                                     <div class="d-flex align-items-center justify-content-center mb-1">
                                         @if ($product->rating_average !== null)
@@ -126,9 +130,7 @@
                                                 <small class="fa fa-star text-primary mr-1"></small>
                                             </span>
                                         @endif
-
                                     </div>
-
                                     @if(Auth::check())
                                         <div class=" mt-3">
                                             <button class="btn btn-primary" id="addToCart">Add to Cart</button>
@@ -141,7 +143,6 @@
                                 </div>
                             </div>
                         </div>
-
                         @endforeach
                     </div>
                 @else
@@ -194,7 +195,6 @@
 
 // single checkbox
     let selectedCategoryIds = [];
-
     checkboxes.forEach((checkbox) => {
         checkbox.addEventListener('change',function(){
             if(checkbox.checked) {
@@ -231,8 +231,11 @@
                                     </div>
                                     <div class="text-center py-4">
                                         <a class="h6 text-decoration-none text-truncate" href="">${response.data[i].name}</a>
-                                        <div class="d-flex align-items-center justify-content-center mt-2">
-                                        <h5>${response.data[i].price} Kyats</h5><h6 class="text-muted ml-2"><del>25000</del></h6>
+                                        <div class=" ${response.data[i].discount_price ? 'd-flex align-items-center justify-content-center mt-2' : 'd-none ' }">
+                                            <h5>${ response.data[i].discount_price } Kyats</h5><h6 class="text-muted ml-2"><del>${response.data[i].price} Kyats</del></h6>
+                                        </div>
+                                        <div class=" ${response.data[i].discount_price ?  'd-none'  : 'd-flex align-items-center justify-content-center mt-2'}">
+                                            <h5>${ response.data[i].price } Kyats</h5><h6 class="text-muted ml-2"></h6>
                                         </div>
                                         <div class="d-flex align-items-center justify-content-center mb-1">
                                             <span>${response.data[i].rating_average ? response.data[i].rating_average: 0}
@@ -275,7 +278,6 @@
             }
         });
 
-
         const data = {
             'categoryId' : allSelectCategories,
         }
@@ -288,7 +290,6 @@
                 productList.classList.remove('justify-content-center','align-items-center');
                 let list = ``;
                 for (let i = 0; i <  response.data.length; i++) {
-
                     list += `
                     <div class="col-lg-4 col-md-6 col-sm-6 pb-1" id="currentProduct">
                         <div class="product-item bg-light mb-4">
@@ -302,8 +303,11 @@
                             </div>
                             <div class="text-center py-4">
                                 <a class="h6 text-decoration-none text-truncate" href="">${response.data[i].name}</a>
-                                <div class="d-flex align-items-center justify-content-center mt-2">
-                                <h5>${response.data[i].price} Kyats</h5><h6 class="text-muted ml-2"><del>25000</del></h6>
+                                <div class=" ${response.data[i].discount_price ? 'd-flex align-items-center justify-content-center mt-2' : 'd-none ' }">
+                                    <h5>${ response.data[i].discount_price } Kyats</h5><h6 class="text-muted ml-2"><del>${response.data[i].price} Kyats</del></h6>
+                                </div>
+                                <div class=" ${response.data[i].discount_price ?  'd-none'  : 'd-flex align-items-center justify-content-center mt-2'}">
+                                    <h5>${ response.data[i].price } Kyats</h5><h6 class="text-muted ml-2"></h6>
                                 </div>
                                 <div class="d-flex align-items-center justify-content-center mb-1">
                                     <span>${response.data[i].rating_average ? response.data[i].rating_average: 0}
@@ -361,8 +365,11 @@
                         </div>
                         <div class="text-center py-4">
                             <a class="h6 text-decoration-none text-truncate" href="">${response.data[i].name}</a>
-                            <div class="d-flex align-items-center justify-content-center mt-2">
-                            <h5>${response.data[i].price} Kyats</h5><h6 class="text-muted ml-2"><del>25000</del></h6>
+                            <div class=" ${response.data[i].discount_price ? 'd-flex align-items-center justify-content-center mt-2' : 'd-none ' }">
+                                <h5>${ response.data[i].discount_price } Kyats</h5><h6 class="text-muted ml-2"><del>${response.data[i].price} Kyats</del></h6>
+                            </div>
+                            <div class=" ${response.data[i].discount_price ?  'd-none'  : 'd-flex align-items-center justify-content-center mt-2'}">
+                                <h5>${ response.data[i].price } Kyats</h5><h6 class="text-muted ml-2"></h6>
                             </div>
                             <div class="d-flex align-items-center justify-content-center mb-1">
                                 <span>${response.data[i].rating_average ? response.data[i].rating_average: 0}

@@ -208,13 +208,17 @@
                             <div class="d-flex align-items-center justify-content-center mt-2">
                                 <h5>{{ $p->price }} kyats</h5>
                             </div>
+
                             <div class="d-flex align-items-center justify-content-center mb-1">
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small>(99reviews)</small>
+                                @if ($p->rating_average !== null)
+                                    <span>{{ $p->rating_average }}
+                                        <small class="fa fa-star text-primary mr-1"></small>
+                                    </span>
+                                @else
+                                    <span>0
+                                        <small class="fa fa-star text-primary mr-1"></small>
+                                    </span>
+                                @endif
                             </div>
                         </div>
                     </div>
