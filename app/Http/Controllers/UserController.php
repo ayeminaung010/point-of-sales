@@ -21,9 +21,7 @@ class UserController extends Controller
     public function home() {
         $products = Product::get();
         $categories = Category::get();
-
-
-
+        
         if(Auth::user()){
             $carts = Cart::where('user_id',Auth::user()->id)->get();
             $orders = Order::where('user_id',Auth::user()->id)->get();
@@ -36,26 +34,32 @@ class UserController extends Controller
     public function detail($id){
         $product = Product::where('id',$id)->first();
         $products = Product::where('id','!=',$id)->get();
+
         $ratings = Rating::where('product_id',$id)
                         ->select('ratings.*','users.name as username')
                         ->leftJoin('users','ratings.user_id','users.id')
                         ->orderBy('created_at','desc')
                         ->get();
 
-        $stars = Rating::select('rating_status')->where('product_id',$id)->get();
-        // $ratings = Rating::get();
-        // dd(count($ratings));
-        $fullStars = count($ratings) * 5;
+        if(count($ratings) !== 0){
+            $stars = Rating::select('rating_status')->where('product_id',$id)->get();
+            // $ratings = Rating::get();
+            // dd(count($ratings));
+            $fullStars = count($ratings) * 5;
 
-        $ratingStar = 0;
-        foreach( $stars as $star){
-            $ratingStar += $star->rating_status;
+            $ratingStar = 0;
+            foreach( $stars as $star){
+                $ratingStar += $star->rating_status;
+            }
+            $averageRating = $ratingStar/$fullStars;
+            $averageRatingNumber = round($averageRating * 5, 1);
+            Product::where('id',$id)->update([
+                'rating_average' => $averageRatingNumber
+            ]);
+            return view('user.products.detail',compact('product','products','ratings','averageRatingNumber'));
         }
-        $averageRating = $ratingStar/$fullStars;
-        $averageRatingNumber = round($averageRating * 5, 1);
-        // dd($averageRatingNumber);
 
-        return view('user.products.detail',compact('product','products','ratings','averageRatingNumber'));
+        return view('user.products.detail',compact('product','products','ratings'));
     }
 
 

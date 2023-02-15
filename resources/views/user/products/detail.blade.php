@@ -91,22 +91,24 @@
                     <input type="hidden" value="0" id="userId">
                 @endif
                 <input type="hidden" value="{{ $product->id }}" id="productId">
-                <div class="d-flex mb-3">
-                    <div class="text-primary mr-2">
-                        @for ($i = 0 ; $i <  round($averageRatingNumber) ; $i++)
-                            <i class="fa-solid fa-star"></i>
-                        @endfor
-                        @if ($averageRatingNumber < 5)
-                            @for ($i = 0 ; $i <  round(5 - $averageRatingNumber) ; $i++)
-                                <i class="fa-regular fa-star"></i>
+                @if(isset($averageRatingNumber))
+                    <div class="d-flex mb-3">
+                        <div class="text-primary mr-2">
+
+                            @for ($i = 0 ; $i <  round($averageRatingNumber) ; $i++)
+                                <i class="fa-solid fa-star"></i>
                             @endfor
+                            @if ($averageRatingNumber < 5)
+                                @for ($i = 0 ; $i <  round(5 - $averageRatingNumber) ; $i++)
+                                    <i class="fa-regular fa-star"></i>
+                                @endfor
 
-                        @endif
+                            @endif
+                        </div>
+                        <span>({{ $averageRatingNumber }})</span>
                     </div>
+                @endif
 
-                    <span>({{ $averageRatingNumber }})</span>
-
-                </div>
                 <p class="pt-1">{{ $product->view_count + 1 }} <i class="fa-regular fa-eye ms-2"></i></p>
 
                 @if (!empty($product->discount_price))

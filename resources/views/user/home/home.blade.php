@@ -117,11 +117,16 @@
                                     @endif
                                     </div>
                                     <div class="d-flex align-items-center justify-content-center mb-1">
-                                        <small class="fa fa-star text-primary mr-1"></small>
-                                        <small class="fa fa-star text-primary mr-1"></small>
-                                        <small class="fa fa-star text-primary mr-1"></small>
-                                        <small class="fa fa-star text-primary mr-1"></small>
-                                        <small class="fa fa-star text-primary mr-1"></small>
+                                        @if ($product->rating_average !== null)
+                                            <span>{{ $product->rating_average }}
+                                                <small class="fa fa-star text-primary mr-1"></small>
+                                            </span>
+                                        @else
+                                            <span>0
+                                                <small class="fa fa-star text-primary mr-1"></small>
+                                            </span>
+                                        @endif
+
                                     </div>
 
                                     @if(Auth::check())
@@ -230,11 +235,9 @@
                                         <h5>${response.data[i].price} Kyats</h5><h6 class="text-muted ml-2"><del>25000</del></h6>
                                         </div>
                                         <div class="d-flex align-items-center justify-content-center mb-1">
-                                            <small class="fa fa-star text-primary mr-1"></small>
-                                            <small class="fa fa-star text-primary mr-1"></small>
-                                            <small class="fa fa-star text-primary mr-1"></small>
-                                            <small class="fa fa-star text-primary mr-1"></small>
-                                            <small class="fa fa-star text-primary mr-1"></small>
+                                            <span>${response.data[i].rating_average ? response.data[i].rating_average: 0}
+                                                <small class="fa fa-star text-primary mr-1"></small>
+                                            </span>
                                         </div>
                                         <div class=" mt-3">
                                             <button class="btn btn-primary" id="addToCart">Add to Cart</button>
@@ -285,6 +288,7 @@
                 productList.classList.remove('justify-content-center','align-items-center');
                 let list = ``;
                 for (let i = 0; i <  response.data.length; i++) {
+
                     list += `
                     <div class="col-lg-4 col-md-6 col-sm-6 pb-1" id="currentProduct">
                         <div class="product-item bg-light mb-4">
@@ -302,11 +306,9 @@
                                 <h5>${response.data[i].price} Kyats</h5><h6 class="text-muted ml-2"><del>25000</del></h6>
                                 </div>
                                 <div class="d-flex align-items-center justify-content-center mb-1">
-                                    <small class="fa fa-star text-primary mr-1"></small>
-                                    <small class="fa fa-star text-primary mr-1"></small>
-                                    <small class="fa fa-star text-primary mr-1"></small>
-                                    <small class="fa fa-star text-primary mr-1"></small>
-                                    <small class="fa fa-star text-primary mr-1"></small>
+                                    <span>${response.data[i].rating_average ? response.data[i].rating_average: 0}
+                                        <small class="fa fa-star text-primary mr-1"></small>
+                                    </span>
                                 </div>
                                 <div class=" mt-3">
                                     <button class="btn btn-primary" id="addToCart">Add to Cart</button>
@@ -363,11 +365,9 @@
                             <h5>${response.data[i].price} Kyats</h5><h6 class="text-muted ml-2"><del>25000</del></h6>
                             </div>
                             <div class="d-flex align-items-center justify-content-center mb-1">
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
-                                <small class="fa fa-star text-primary mr-1"></small>
+                                <span>${response.data[i].rating_average ? response.data[i].rating_average: 0}
+                                    <small class="fa fa-star text-primary mr-1"></small>
+                                </span>
                             </div>
                             <div class=" mt-3">
                                 <button class="btn btn-primary" id="addToCart">Add to Cart</button>

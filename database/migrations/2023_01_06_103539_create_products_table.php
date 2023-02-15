@@ -22,6 +22,7 @@ return new class extends Migration
             $table->bigInteger('price');
             $table->bigInteger('discount_price')->nullable();
             $table->integer('discount_percentage')->nullable();
+            $table->integer('rating_average')->nullable();
             $table->integer('waiting_time');
             $table->integer('view_count')->default(0);
             $table->timestamps();
