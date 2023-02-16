@@ -5,6 +5,7 @@ let amount = document.querySelector('#cartAmount').innerHTML * 1;
 const cartAmount = document.querySelector('#cartAmount');
 
 document.addEventListener('click', e =>{
+
     if (e.target.matches('#addToCart')){
         const currentProduct = e.target.closest('#currentProduct');
         const currentImg = currentProduct.querySelector('#currentImg');
@@ -57,5 +58,10 @@ document.addEventListener('click', e =>{
     }
 })
 
-
+// const heartBtns = document.querySelectorAll('#heartBtn');
+// heartBtns.forEach((heartBtn) => {
+//     heartBtn.addEventListener('click',function(){
+//         console.log('hi');
+//     })
+// })
 

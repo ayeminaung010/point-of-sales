@@ -6,6 +6,8 @@ use App\Models\Cart;
 use App\Models\Rating;
 use App\Models\Product;
 use App\Events\TestEvent;
+use App\Events\FavEvent;
+use App\Models\FavProducts;
 use Illuminate\Http\Request;
 use App\Notifications\InvoicePaid;
 use Illuminate\Support\Facades\Auth;
@@ -97,5 +99,32 @@ class AxiosController extends Controller
         logger($data->user_id);
         $data->user_id = Auth::user()->name;
         return response()->json($data,200);
+    }
+
+
+    //addToFav
+    public function addToFav(Request $request){
+        $alreadyProducts = FavProducts::where('user_id',Auth::user()->id)->where('product_id',$request->params['productId'])->first();
+        // logger($alreadyProducts);
+        if($alreadyProducts){
+            $result = $alreadyProducts->delete();
+            event(new FavEvent($result));
+            return response()->json(['data' => 'success removed' , 'event' => false],200);
+        }else{
+            $result = FavProducts::create([
+                'product_id' => $request->params['productId'],
+                'user_id' => Auth::user()->id
+            ]);
+            event(new FavEvent($result));
+            return response()->json(['data' => 'success added' , 'event' => true],200);
+        }
+    }
+
+    //removeFromFav
+    public function removeFromFav(Request $request){
+        // logger($request->all());
+        $alreadyProducts = FavProducts::where('user_id',Auth::user()->id)->where('product_id',$request->params['productId'])->first();
+        $alreadyProducts->delete();
+        return response()->json(['data' => 'success removed' , 'event' => true],200);
     }
 }

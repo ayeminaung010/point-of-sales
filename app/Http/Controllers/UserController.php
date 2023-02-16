@@ -8,6 +8,7 @@ use App\Models\Order;
 use App\Models\Rating;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\FavProducts;
 use Illuminate\Http\Request;
 use PhpParser\Node\Expr\FuncCall;
 use App\Http\Requests\UserRequest;
@@ -23,9 +24,10 @@ class UserController extends Controller
         $categories = Category::get();
 
         if(Auth::user()){
+            $favProducts = FavProducts::where('user_id',Auth::user()->id)->get();
             $carts = Cart::where('user_id',Auth::user()->id)->get();
             $orders = Order::where('user_id',Auth::user()->id)->get();
-            return view('user.home.home',compact('products','categories','carts','orders'));
+            return view('user.home.home',compact('products','categories','carts','orders','favProducts'));
         }
         return view('user.home.home',compact('products','categories'));
     }
@@ -40,6 +42,7 @@ class UserController extends Controller
                         ->leftJoin('users','ratings.user_id','users.id')
                         ->orderBy('created_at','desc')
                         ->get();
+
 
         if(count($ratings) !== 0){
             $stars = Rating::select('rating_status')->where('product_id',$id)->get();
@@ -154,5 +157,15 @@ class UserController extends Controller
         return back();
     }
 
+
+    //favLists
+    public function favLists(){
+        $favProducts = FavProducts::where('user_id',Auth::user()->id)
+                    ->select('fav_products.*','products.*')
+                    ->leftJoin('products','fav_products.product_id','products.id')
+                    ->get();
+                    
+        return view('user.fav.list',compact('favProducts'));
+    }
 
 }

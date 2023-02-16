@@ -47,7 +47,10 @@ Route::prefix('user')->middleware('user_auth')->group(function () {
     Route::get('/viewCount',[AxiosController::class,'increaseViewCount'])->name('user#viewCount');
 
     Route::post('/review',[AxiosController::class,'review'])->name('user#review');
+    Route::post('/addToFav',[AxiosController::class,'addToFav'])->name('user#addToFav');
+    Route::post('/removeFromFav',[AxiosController::class,'removeFromFav'])->name('user#removeFromFav');
     //axios end
+    Route::get('/fav-lists',[UserController::class,'favLists'])->name('user#favLists');
 
     Route::get('/profile',[UserController::class,'profile'])->name('user#profile');
     Route::get('/profile/edit',[UserController::class,'editPage'])->name('user#editPage');

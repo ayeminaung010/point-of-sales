@@ -4,9 +4,9 @@
 
 @if (Auth::user())
 <div class="navbar-nav ml-auto py-0  d-lg-block ">
-    <a href="" class="btn px-0 ">
-        <i class="fas fa-heart text-primary"></i>
-        <span class="badge text-secondary border border-secondary rounded-circle" style="padding-bottom: 2px;">0</span>
+    <a href="{{ route('user#favLists') }}" class="btn px-0 @if(Route::currentRouteName() == 'user#favLists') text-primary @else text-white @endif ">
+        <i class="fas fa-heart "></i>
+        <span class="badge text-secondary border border-secondary rounded-circle" style="padding-bottom: 2px;">{{ count($favProducts) }}</span>
     </a>
     <a href="{{ route('user#cart') }}" id="cart" class="btn px-0 ml-3 animate__animated   @if(Route::currentRouteName() == 'user#cart') text-primary @else text-white @endif">
         <i class="fas fa-shopping-cart "></i>
@@ -46,8 +46,6 @@
                         <span class=" ms-2 " for="price-1">{{ $category->name }}</span>
                     </div>
                     @endforeach
-
-
                 </form>
             </div>
             <!-- category End -->
@@ -104,18 +102,47 @@
                             <div class="product-item bg-light mb-4">
                                 <div class="product-img position-relative overflow-hidden">
                                     <input type="hidden" name="productId" id="productId" value="{{ $product->id }}">
-
                                     <img class="img-fluid w-100 object-cover " id="currentImg" style="height: 300px;" src="{{ asset('storage/img/product/'.$product->image) }}" alt="">
                                     <div class="product-action">
                                         <a class="btn btn-outline-dark btn-square" href="{{ route('user#productDetail',$product->id) }}" ><i class="fa-solid fa-info"></i></a>
-                                        <a class="btn btn-outline-dark btn-square" href="" ><i class="far fa-heart"></i></a>
+                                        @if(Auth::check())
+                                            @if (count($favProducts) > 0)
+
+                                                @for ($i = 0; $i < count($favProducts); $i++)
+                                                    @if ($favProducts[$i]->product_id === $product->id)
+                                                        <a class="btn btn-outline-dark btn-square"  id="heartBtn" >
+                                                            <i class="fa-solid fa-heart"></i>
+                                                        </a>
+                                                    @endif
+                                                @endfor
+                                                @if (!$favProducts->pluck('product_id')->contains($product->id))
+                                                    <a class="btn btn-outline-dark btn-square"  id="heartBtn" >
+                                                        <i class="far fa-heart"></i>
+                                                    </a>
+                                                @endif
+
+                                            @else
+                                                <a class="btn btn-outline-dark btn-square"  id="heartBtn" >
+                                                    <i class="far fa-heart"></i>
+                                                </a>
+                                            @endif
+                                        @else
+                                            <a class="btn btn-outline-dark btn-square"  data-bs-toggle="modal" data-bs-target="#exampleModal" ><i class="far fa-heart"></i></a>
+                                        @endif
+
                                     </div>
                                 </div>
                                 <div class="text-center py-4">
                                     <a class="h6 text-decoration-none text-truncate" href="{{ route('user#productDetail',$product->id) }}">{{ $product->name }}</a>
-                                    <div class="d-flex align-items-center justify-content-center mt-2">
+                                    <div class="d-flex flex-column align-items-center justify-content-center mt-2">
                                         @if (!empty($product->discount_price))
-                                            <h5>{{ $product->discount_price }} Kyats</h5><h6 class="text-muted ml-2"><del>{{ $product->price }} Kyats</del></h6>
+                                            <div class=" d-flex ">
+                                                <h5>{{ $product->discount_price }} Kyats</h5>
+                                                <h6 class="text-muted ml-2">
+                                                    <del>{{ $product->price }} Kyats</del>
+                                                </h6>
+                                            </div>
+                                            <span>({{ $product->discount_percentage }} % OFF)</span>
                                         @else
                                             <h5>{{ $product->price }} Kyats</h5><h6 class="text-muted ml-2"></h6>
                                         @endif
@@ -146,9 +173,9 @@
                         @endforeach
                     </div>
                 @else
-                <div class="">
-                    <p class="text-center fs-2 p-5">There is no Products ;'( </p>
-                </div>
+                    <div class="">
+                        <p class="text-center fs-2 p-5">There is no Products ;'( </p>
+                    </div>
                 @endif
             </div>
         </div>
@@ -176,12 +203,30 @@
     </div>
   </div>
 
+  <div class="modal fade" id="favModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Sign Up </h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          To add Favourite Products,Sign Up Now!.
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <a href="{{ route('registerPage') }}" type="button"  class="btn btn-primary">Sign Up</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
 <!-- Shop End -->
 @endsection
 
 @section('scriptSource')
 @if (Auth::user())
-    <script src="{{ asset('js/script.js') }}"></script>
+    <script src="{{ asset('js/script.js') }}" ></script>
 @endif
 
  <script>
@@ -231,8 +276,14 @@
                                     </div>
                                     <div class="text-center py-4">
                                         <a class="h6 text-decoration-none text-truncate" href="">${response.data[i].name}</a>
-                                        <div class=" ${response.data[i].discount_price ? 'd-flex align-items-center justify-content-center mt-2' : 'd-none ' }">
-                                            <h5>${ response.data[i].discount_price } Kyats</h5><h6 class="text-muted ml-2"><del>${response.data[i].price} Kyats</del></h6>
+                                        <div class=" ${response.data[i].discount_price ? 'd-flex flex-column align-items-center justify-content-center mt-2' : 'd-none ' }">
+                                            <div class='d-flex'>
+                                                <h5>${ response.data[i].discount_price } Kyats</h5>
+                                                <h6 class="text-muted ml-2">
+                                                    <del>${response.data[i].price} Kyats</del>
+                                                </h6>
+                                            </div>
+                                            <span>(${ response.data[i].discount_percentage } % OFF)</span>
                                         </div>
                                         <div class=" ${response.data[i].discount_price ?  'd-none'  : 'd-flex align-items-center justify-content-center mt-2'}">
                                             <h5>${ response.data[i].price } Kyats</h5><h6 class="text-muted ml-2"></h6>
@@ -303,8 +354,14 @@
                             </div>
                             <div class="text-center py-4">
                                 <a class="h6 text-decoration-none text-truncate" href="">${response.data[i].name}</a>
-                                <div class=" ${response.data[i].discount_price ? 'd-flex align-items-center justify-content-center mt-2' : 'd-none ' }">
-                                    <h5>${ response.data[i].discount_price } Kyats</h5><h6 class="text-muted ml-2"><del>${response.data[i].price} Kyats</del></h6>
+                                <div class=" ${response.data[i].discount_price ? 'd-flex flex-column align-items-center justify-content-center mt-2' : 'd-none ' }">
+                                    <div class='d-flex'>
+                                        <h5>${ response.data[i].discount_price } Kyats</h5>
+                                        <h6 class="text-muted ml-2">
+                                            <del>${response.data[i].price} Kyats</del>
+                                        </h6>
+                                    </div>
+                                    <span>(${ response.data[i].discount_percentage } % OFF)</span>
                                 </div>
                                 <div class=" ${response.data[i].discount_price ?  'd-none'  : 'd-flex align-items-center justify-content-center mt-2'}">
                                     <h5>${ response.data[i].price } Kyats</h5><h6 class="text-muted ml-2"></h6>
@@ -365,8 +422,15 @@
                         </div>
                         <div class="text-center py-4">
                             <a class="h6 text-decoration-none text-truncate" href="">${response.data[i].name}</a>
-                            <div class=" ${response.data[i].discount_price ? 'd-flex align-items-center justify-content-center mt-2' : 'd-none ' }">
-                                <h5>${ response.data[i].discount_price } Kyats</h5><h6 class="text-muted ml-2"><del>${response.data[i].price} Kyats</del></h6>
+                            <div class=" ${response.data[i].discount_price ? 'd-flex flex-column align-items-center justify-content-center mt-2' : 'd-none ' }">
+                                <div class='d-flex'>
+                                    <h5>${ response.data[i].discount_price } Kyats</h5>
+                                    <h6 class="text-muted ml-2">
+                                        <del>${response.data[i].price} Kyats</del>
+                                    </h6>
+                                </div>
+
+                                <span>(${ response.data[i].discount_percentage } % OFF)</span>
                             </div>
                             <div class=" ${response.data[i].discount_price ?  'd-none'  : 'd-flex align-items-center justify-content-center mt-2'}">
                                 <h5>${ response.data[i].price } Kyats</h5><h6 class="text-muted ml-2"></h6>
@@ -407,6 +471,45 @@
         sortFun();
     })
 
+    document.addEventListener('click',function (e) {
+        if(e.target.matches('#heartBtn')){
+            const currentProduct = e.target.closest('#currentProduct');
+            const productId = currentProduct.querySelector('#productId').value;
+
+            const data = {
+                'productId' : productId,
+            }
+            axios.post('addToFav',  {
+                params: data
+            })
+            .then(function ({data}) {
+                Pusher.logToConsole = true;
+
+                var pusher = new Pusher('cf619290d4af27a2387f', {
+                  cluster: 'ap1'
+                });
+
+                const favCh = pusher.subscribe('my-fav');
+                favCh.bind('fav_event', function(Edata) {
+                  const result = JSON.stringify(Edata);
+                  //fav event
+                //   console.log(Edata.message);
+                //   console.log(data.event);
+                  if(data.event === false){
+                    const FavBtn = currentProduct.querySelector('#heartBtn');
+                    FavBtn.innerHTML = '<i class="far fa-heart"></i>'
+                  }else{
+                    const FavBtn = currentProduct.querySelector('#heartBtn');
+                    FavBtn.innerHTML = '<i class="fa-solid fa-heart"></i>'
+                  }
+                });
+
+            })
+            .catch(function (error) {
+            console.log(error);
+            });
+        }
+    })
 </script>
 
 @endsection
