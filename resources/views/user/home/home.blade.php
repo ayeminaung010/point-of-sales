@@ -6,7 +6,7 @@
 <div class="navbar-nav ml-auto py-0  d-lg-block ">
     <a href="{{ route('user#favLists') }}" class="btn px-0 @if(Route::currentRouteName() == 'user#favLists') text-primary @else text-white @endif ">
         <i class="fas fa-heart "></i>
-        <span class="badge text-secondary border border-secondary rounded-circle" style="padding-bottom: 2px;">{{ count($favProducts) }}</span>
+        <span class="badge text-secondary border border-secondary rounded-circle" id='favCount' style="padding-bottom: 2px;">{{ count($favProducts) }}</span>
     </a>
     <a href="{{ route('user#cart') }}" id="cart" class="btn px-0 ml-3 animate__animated   @if(Route::currentRouteName() == 'user#cart') text-primary @else text-white @endif">
         <i class="fas fa-shopping-cart "></i>
@@ -148,6 +148,7 @@
                                         @endif
                                     </div>
                                     <div class="d-flex align-items-center justify-content-center mb-1">
+                                        {{-- <h5>{{ $product->rating_average }}</h5> --}}
                                         @if ($product->rating_average !== null)
                                             <span>{{ $product->rating_average }}
                                                 <small class="fa fa-star text-primary mr-1"></small>
@@ -471,11 +472,14 @@
         sortFun();
     })
 
+    let favCount = document.querySelector('#favCount');
+
     document.addEventListener('click',function (e) {
         if(e.target.matches('#heartBtn')){
             const currentProduct = e.target.closest('#currentProduct');
             const productId = currentProduct.querySelector('#productId').value;
 
+            let favAmount = document.querySelector('#favCount').innerHTML * 1;
             const data = {
                 'productId' : productId,
             }
@@ -483,6 +487,17 @@
                 params: data
             })
             .then(function ({data}) {
+                if(data.event === false){
+                    const FavBtn = currentProduct.querySelector('#heartBtn');
+                    FavBtn.innerHTML = '<i class="far fa-heart"></i>';
+                    favCount.innerHTML =  favAmount -1 ;
+
+                }else{
+                    const FavBtn = currentProduct.querySelector('#heartBtn');
+                    FavBtn.innerHTML = '<i class="fa-solid fa-heart"></i>';
+                    favCount.innerHTML =  favAmount + 1;
+                }
+
                 Pusher.logToConsole = true;
 
                 var pusher = new Pusher('cf619290d4af27a2387f', {
@@ -491,17 +506,11 @@
 
                 const favCh = pusher.subscribe('my-fav');
                 favCh.bind('fav_event', function(Edata) {
-                  const result = JSON.stringify(Edata);
-                  //fav event
-                //   console.log(Edata.message);
-                //   console.log(data.event);
-                  if(data.event === false){
-                    const FavBtn = currentProduct.querySelector('#heartBtn');
-                    FavBtn.innerHTML = '<i class="far fa-heart"></i>'
-                  }else{
-                    const FavBtn = currentProduct.querySelector('#heartBtn');
-                    FavBtn.innerHTML = '<i class="fa-solid fa-heart"></i>'
-                  }
+                const result = JSON.stringify(Edata);
+                    //fav event
+                    console.log(Edata.message);
+                    console.log(data.event);
+
                 });
 
             })

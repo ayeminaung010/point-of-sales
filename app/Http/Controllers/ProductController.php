@@ -37,6 +37,12 @@ class ProductController extends Controller
         $imgName = uniqid().'_'.$request->file('productImage')->getClientOriginalName();
         $request->file('productImage')->storeAs('public/img/product/',$imgName);
         $data['image'] = $imgName;
+
+        if($request->discount_price && $request->discount_percentage){
+            $data['discount_price'] = $request->discount_price;
+            $data['discount_percentage'] = $request->discount_percentage;
+        }
+        
         $result = Product::create($data);
         if(!$result){
             toastr()->error('Something wrong error 303');

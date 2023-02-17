@@ -94,15 +94,24 @@
                 @if(isset($averageRatingNumber))
                     <div class="d-flex mb-3">
                         <div class="text-primary mr-2">
-
-                            @for ($i = 0 ; $i <  round($averageRatingNumber) ; $i++)
+                            {{-- @for ($i = 0 ; $i <  round($averageRatingNumber) ; $i++)
                                 <i class="fa-solid fa-star"></i>
+                            @endfor --}}
+                            @for ($i = 0; $i < round($averageRatingNumber); $i++)
+                                @if ($i < 5)
+                                    <i class="fa-solid fa-star"></i>
+                                @endif
                             @endfor
                             @if ($averageRatingNumber < 5)
-                                @for ($i = 0 ; $i <  round(5 - $averageRatingNumber) ; $i++)
-                                    <i class="fa-regular fa-star"></i>
-                                @endfor
-
+                                @if ($averageRatingNumber === 0.5 ||$averageRatingNumber === 1.5 || $averageRatingNumber === 2.5 || $averageRatingNumber === 3.5 || $averageRatingNumber === 4.5 )
+                                    @for ($i = 0 ; $i <  round(5 - $averageRatingNumber)- 1  ; $i++)
+                                        <i class="fa-regular fa-star"></i>
+                                    @endfor
+                                @else
+                                    @for ($i = 0 ; $i <  round(5 - $averageRatingNumber)  ; $i++)
+                                        <i class="fa-regular fa-star"></i>
+                                    @endfor
+                                @endif
                             @endif
                         </div>
                         <span>({{ $averageRatingNumber }})</span>
@@ -294,7 +303,6 @@
                                         </div>
                                     @if($ratings)
                                         @foreach ($ratings as $rating )
-
                                             <div class="media-body" >
                                                 <h6>{{ $rating->username }}<small> - <i>{{ $rating->created_at->diffForHumans() }}</i></small></h6>
                                                 <div class="text-primary mb-2">
