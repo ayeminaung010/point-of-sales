@@ -12,7 +12,6 @@ class AuthController extends Controller
     //dashboard
     public function dashboard(){
         if(Auth::user()->role == 'admin'){
-
             return redirect()->route('admin#categoryList');
         }
 

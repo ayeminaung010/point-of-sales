@@ -46,8 +46,6 @@ class UserController extends Controller
 
         if(count($ratings) !== 0){
             $stars = Rating::select('rating_status')->where('product_id',$id)->get();
-            // $ratings = Rating::get();
-            // dd(count($ratings));
             $fullStars = count($ratings) * 5;
 
             $ratingStar = 0;
@@ -164,7 +162,7 @@ class UserController extends Controller
                     ->select('fav_products.*','products.*')
                     ->leftJoin('products','fav_products.product_id','products.id')
                     ->get();
-                    
+
         return view('user.fav.list',compact('favProducts'));
     }
 
