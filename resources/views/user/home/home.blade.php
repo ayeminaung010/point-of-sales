@@ -36,8 +36,8 @@
             <div class="bg-light p-4 mb-30">
                 <form>
                     <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                        <input type="checkbox" value="" class="custom-control-input allCategories" name="all"  id="category-all">
-                        <label class="custom-control-label" for="price-all">All Categories</label>
+                        <input type="checkbox" value="" class="form-check-input allCategories" name="category-all"  id="category-all">
+                        <label class="" for="category-all">All Categories</label>
                     </div>
 
                     @foreach ($categories as $category)
@@ -51,7 +51,7 @@
             <!-- category End -->
 
             <!-- Price Start -->
-            <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Filter by price</span></h5>
+            {{-- <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Filter by price</span></h5>
             <div class="bg-light p-4 mb-30">
                 <form>
                     <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
@@ -71,7 +71,7 @@
                         <label class="custom-control-label" for="price-3">10000 - 100000 Kyats</label>
                     </div>
                 </form>
-            </div>
+            </div> --}}
             <!-- Price End -->
 
         </div>
