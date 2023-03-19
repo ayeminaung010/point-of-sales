@@ -27,15 +27,19 @@ Route::get('/registerPage', function () {
 
 Route::get('/dashboard',[AuthController::class,'dashboard'])->name('dashboard');
 
+// axios
+Route::get('/filter/category',[UserController::class,'filterCategory'])->name('filterCategory'); //axios use
+Route::get('/filter/allCategories',[UserController::class,'allCategories'])->name('filterAllCategories'); //axios use
+Route::get('/sort/products',[UserController::class,'sorting'])->name('sortingProducts'); //axios use
+
 // user
 Route::prefix('user')->middleware('user_auth')->group(function () {
     Route::get('/home', [UserController::class,'home'])->name('user#home');
 
     Route::get('/product/detail/{id}',[UserController::class,'detail'])->name('user#productDetail');
-
     // axios
     Route::get('/filter/category',[UserController::class,'filterCategory'])->name('user#filterCategory'); //axios use
-    Route::get('/filter/allCategories',[UserController::class,'allCategories'])->name('user#filterallCategories'); //axios use
+    Route::get('/filter/allCategories',[UserController::class,'allCategories'])->name('user#filterAllCategories'); //axios use
     Route::get('/sort/products',[UserController::class,'sorting'])->name('user#sortingProducts'); //axios use
 
     Route::get('/addToCart',[AxiosController::class,'addToCart'])->name('user#addToCart'); //axios use

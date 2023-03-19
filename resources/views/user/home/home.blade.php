@@ -36,8 +36,8 @@
             <div class="bg-light p-4 mb-30">
                 <form>
                     <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                        <input type="checkbox" value="" class="form-check-input allCategories" name="category-all"  id="category-all">
-                        <label class="" for="category-all">All Categories</label>
+                        <input type="checkbox" value="" class="form-check-input allCategories" name="category-all"  id="allCategories">
+                        <label class="" for="allCategories">All Categories</label>
                     </div>
 
                     @foreach ($categories as $category)
@@ -320,7 +320,6 @@
     //all categories check
     allCategories.addEventListener('change',function(){
         let allSelectCategories = [];
-
         checkboxes.forEach(checkbox => {
             checkbox.checked = allCategories.checked;
             if(checkbox.checked){
@@ -335,10 +334,11 @@
         }
 
         if(allSelectCategories.length > 0){
-            axios.get('filter/category',  {
+            axios.get('filter/allCategories',  {
                 params: data
               })
               .then(function (response) {
+                console.log(response);
                 productList.classList.remove('justify-content-center','align-items-center');
                 let list = ``;
                 for (let i = 0; i <  response.data.length; i++) {

@@ -72,7 +72,8 @@ class UserController extends Controller
 
     //allCategories axios
     public function allCategories(Request $request){
-        $products = Product::whereIn('category_id',$request->categoryId)->get();
+        // $products = Product::whereIn('category_id',$request->categoryId)->get();
+        $products = Product::get();
         return response()->json($products,200);
     }
 
