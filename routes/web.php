@@ -31,7 +31,7 @@ Route::get('/dashboard',[AuthController::class,'dashboard'])->name('dashboard');
 Route::get('/filter/category',[UserController::class,'filterCategory'])->name('filterCategory'); //axios use
 Route::get('/filter/allCategories',[UserController::class,'allCategories'])->name('filterAllCategories'); //axios use
 Route::get('/sort/products',[UserController::class,'sorting'])->name('sortingProducts'); //axios use
-
+Route::get('/product/detail/{id}',[UserController::class,'detail'])->name('productDetail');
 // user
 Route::prefix('user')->middleware('user_auth')->group(function () {
     Route::get('/home', [UserController::class,'home'])->name('user#home');

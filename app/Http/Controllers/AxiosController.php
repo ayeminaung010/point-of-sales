@@ -18,7 +18,6 @@ class AxiosController extends Controller
     //addToCart
     public function addToCart(Request $request){
         $result = Cart::where('user_id',Auth::user()->id)->where('product_id',$request->productId)->get();
-
         if(count($result) == 0){
             $cart = new Cart();
             $cart->user_id = Auth::user()->id;

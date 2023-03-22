@@ -107,7 +107,6 @@
                                         <a class="btn btn-outline-dark btn-square" href="{{ route('user#productDetail',$product->id) }}" ><i class="fa-solid fa-info"></i></a>
                                         @if(Auth::check())
                                             @if (count($favProducts) > 0)
-
                                                 @for ($i = 0; $i < count($favProducts); $i++)
                                                     @if ($favProducts[$i]->product_id === $product->id)
                                                         <a class="btn btn-outline-dark btn-square"  id="heartBtn" >
@@ -120,7 +119,6 @@
                                                         <i class="far fa-heart"></i>
                                                     </a>
                                                 @endif
-
                                             @else
                                                 <a class="btn btn-outline-dark btn-square"  id="heartBtn" >
                                                     <i class="far fa-heart"></i>
@@ -129,7 +127,6 @@
                                         @else
                                             <a class="btn btn-outline-dark btn-square"  data-bs-toggle="modal" data-bs-target="#exampleModal" ><i class="far fa-heart"></i></a>
                                         @endif
-
                                     </div>
                                 </div>
                                 <div class="text-center py-4">
@@ -276,7 +273,7 @@
                                         </div>
                                     </div>
                                     <div class="text-center py-4">
-                                        <a class="h6 text-decoration-none text-truncate" href="">${response.data[i].name}</a>
+                                        <a class="h6 text-decoration-none text-truncate" href="product/detail/${response.data[i].id}">${response.data[i].name}</a>
                                         <div class=" ${response.data[i].discount_price ? 'd-flex flex-column align-items-center justify-content-center mt-2' : 'd-none ' }">
                                             <div class='d-flex'>
                                                 <h5>${ response.data[i].discount_price } Kyats</h5>
@@ -354,7 +351,7 @@
                                 </div>
                             </div>
                             <div class="text-center py-4">
-                                <a class="h6 text-decoration-none text-truncate" href="">${response.data[i].name}</a>
+                                <a class="h6 text-decoration-none text-truncate" href="product/detail/${response.data[i].id}">${response.data[i].name}</a>
                                 <div class=" ${response.data[i].discount_price ? 'd-flex flex-column align-items-center justify-content-center mt-2' : 'd-none ' }">
                                     <div class='d-flex'>
                                         <h5>${ response.data[i].discount_price } Kyats</h5>
@@ -422,7 +419,7 @@
                             </div>
                         </div>
                         <div class="text-center py-4">
-                            <a class="h6 text-decoration-none text-truncate" href="">${response.data[i].name}</a>
+                            <a class="h6 text-decoration-none text-truncate" href="product/detail/${response.data[i].id}">${response.data[i].name}</a>
                             <div class=" ${response.data[i].discount_price ? 'd-flex flex-column align-items-center justify-content-center mt-2' : 'd-none ' }">
                                 <div class='d-flex'>
                                     <h5>${ response.data[i].discount_price } Kyats</h5>
@@ -430,7 +427,6 @@
                                         <del>${response.data[i].price} Kyats</del>
                                     </h6>
                                 </div>
-
                                 <span>(${ response.data[i].discount_percentage } % OFF)</span>
                             </div>
                             <div class=" ${response.data[i].discount_price ?  'd-none'  : 'd-flex align-items-center justify-content-center mt-2'}">
