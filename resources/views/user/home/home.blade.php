@@ -125,7 +125,7 @@
                                                 </a>
                                             @endif
                                         @else
-                                            <a class="btn btn-outline-dark btn-square"  data-bs-toggle="modal" data-bs-target="#exampleModal" ><i class="far fa-heart"></i></a>
+                                            <a class="btn btn-outline-dark btn-square"  data-bs-toggle="modal" data-bs-target="#favModal" ><i class="far fa-heart"></i></a>
                                         @endif
                                     </div>
                                 </div>

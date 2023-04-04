@@ -31,7 +31,6 @@
                                                 <i class="far fa-heart"></i>
                                             </a>
                                         @endif
-
                                     @else
                                         <a class="btn btn-outline-dark btn-square"  id="heartBtn" >
                                             <i class="far fa-heart"></i>

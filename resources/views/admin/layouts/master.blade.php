@@ -73,9 +73,9 @@
                         <li  class="@if(Route::currentRouteName() == 'admin#contactMessage') active @endif">
                             <a href="{{ route('admin#contactMessage') }}" class="position-relative">
                                 <i class="fa-solid fa-comments"></i>Message Inbox
-                                <span class="ms-3    badge rounded-pill bg-danger">
+                                {{-- <span class="ms-3    badge rounded-pill bg-danger">
                                 99+
-                                </span>
+                                </span> --}}
                             </a>
                         </li>
                         <li class="@if(Route::currentRouteName() == 'admin#trashLists') active @endif">

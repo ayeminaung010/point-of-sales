@@ -209,7 +209,7 @@
                             <img class="img-fluid w-100" src="{{ asset('storage/img/product/'.$p->image )}}" style="height: 200px" alt="">
                             <div class="product-action">
                                 <a class="btn btn-outline-dark btn-square" href="{{ route('user#productDetail',$p->id) }}" ><i class="fa-solid fa-info"></i></a>
-                                <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
+                                {{-- <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a> --}}
                             </div>
                         </div>
                         <div class="text-center py-4">
