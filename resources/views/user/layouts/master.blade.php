@@ -27,8 +27,8 @@
 
     {{-- pusher  --}}
     <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
-      <script>
 
+      <script>
         // Enable pusher logging - don't include this in production
         Pusher.logToConsole = true;
 
@@ -38,8 +38,18 @@
 
         var channel = pusher.subscribe('my-channel');
         channel.bind('my-event', function(data) {
-          alert(JSON.stringify(data));
+          const result = JSON.stringify(data);
+          //alert event
+          const alert = document.querySelector('.alert-pusher');
+              const alertContainer = document.querySelector('.alertContainer');
+              alertContainer.classList.remove('d-none');
+              alert.innerHTML  =  data.message;
+              setTimeout(() => {
+                alertContainer.classList.add('d-none');
+              }, 2000);
         });
+
+
       </script>
 
 

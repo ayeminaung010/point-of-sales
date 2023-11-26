@@ -63,7 +63,7 @@
                         <tbody>
                                 @foreach ($products as $p )
                                 <tr class="tr-shadow ">
-                                    <td class="col-2 "> <img src="{{ asset('storage/img/product/'.$p->image) }}" class=" img-thumbnail shadow-sm " style="height: 150px; width:150px;"  alt=""> </td>
+                                    <td class="col-2 "> <img src="{{ asset('storage/img/product/'.$p->image) }}" class=" img-thumbnail shadow-sm " style="height: 100px; width:150px;"  alt=""> </td>
                                     <td class="col-3"> {{  $p->name }} </td>
                                     <td class="col-2"> {{  $p->category->name}}</td>
                                     <td class="col-2"> {{  $p->price }} Kyats</td>

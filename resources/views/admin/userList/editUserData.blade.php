@@ -20,7 +20,7 @@
                                 <div class="row">
                                     <div class="col-4 ">
                                         @if ( $user->image == null)
-                                             @if ($user->image->gender == 'male')
+                                             @if ($user->gender == 'male')
                                                 <div class="image">
                                                     <a href="#">
                                                         <img src="{{ asset('image/male.png')}}" class=" img-thumbnail rounded" />

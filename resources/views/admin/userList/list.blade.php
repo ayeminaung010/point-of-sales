@@ -69,18 +69,18 @@
                                         @endif
                                      </td>
                                     <td> {{ $u->name }}</td>
-                                    <td> {{ $u->email }}</td>
+                                    <td > {{ $u->email }}</td>
                                     <td> {{ $u->phone }}</td>
                                     <td> {{ $u->gender }}</td>
-                                    <td> {{ $u->address }}</td>
-                                    <td class="">
+                                    <td > {{ $u->address }}</td>
+                                    <td class=" w-100">
                                         <div class="table-data-feature">
-                                            <select name="role" id="" class="roleChange form-control">
+                                            <select name="role" id="" class="roleChange form-control ">
                                                 <option value="admin" @if($u->role == 'admin') selected @endif>Admin</option>
                                                 <option value="user" @if($u->role == 'user') selected @endif>User</option>
                                             </select>
 
-                                            <a href="{{ route('admin#detailUserAccount',$u->id) }}" class="me-2" >
+                                            <a href="{{ route('admin#detailUserAccount',$u->id) }}" class="ms-2" >
                                                 <button class="item" data-toggle="tooltip" data-placement="top" title="Detail">
                                                     <i class="fa-regular fa-eye"></i>
                                                 </button>

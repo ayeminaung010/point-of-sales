@@ -76,7 +76,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="" class="control-label mb-1">Discount Percent %</label>
-                                    <input id="" name="discount_percentage" type="number" value="{{ $products->discount_percentage}}" class="form-control @error('productPrice') is-invalid @enderror" aria-required="true" aria-invalid="false" placeholder="Enter discount percent %...">
+                                    <input id="" name="discount_percentage" type="number" value="{{ $products->discount_percentage}}" class="form-control @error('discount_percentage') is-invalid @enderror" aria-required="true" aria-invalid="false" placeholder="Enter discount percent %...">
                                     @error('discount_percentage')
                                         <small class=" invalid-feedback">{{ $message}}</small>
                                     @enderror

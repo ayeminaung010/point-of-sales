@@ -35,7 +35,7 @@
                                 <div class="col"> {{ $message->name}} </div>
                             </div>
                             <div class="row">
-                                <div class="col-5"><i class="fa-solid fa-envelope me-2"></i>Email</div>
+                                <div class="col-4"><i class="fa-solid fa-envelope me-2"></i>Email</div>
                                 <div class="col"> {{ $message->email}} </div>
                             </div>
 

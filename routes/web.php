@@ -11,11 +11,13 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RecycleController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use App\Events\TestEvent;
 
 
 Route::get('/',[UserController::class,'home']);
 
 Route::get('/loginPage', function () {
+
     return view('login');
 })->name('loginPage');
 
@@ -25,15 +27,19 @@ Route::get('/registerPage', function () {
 
 Route::get('/dashboard',[AuthController::class,'dashboard'])->name('dashboard');
 
+// axios
+Route::get('/filter/category',[UserController::class,'filterCategory'])->name('filterCategory'); //axios use
+Route::get('/filter/allCategories',[UserController::class,'allCategories'])->name('filterAllCategories'); //axios use
+Route::get('/sort/products',[UserController::class,'sorting'])->name('sortingProducts'); //axios use
+Route::get('/product/detail/{id}',[UserController::class,'detail'])->name('productDetail');
 // user
 Route::prefix('user')->middleware('user_auth')->group(function () {
     Route::get('/home', [UserController::class,'home'])->name('user#home');
 
     Route::get('/product/detail/{id}',[UserController::class,'detail'])->name('user#productDetail');
-
     // axios
     Route::get('/filter/category',[UserController::class,'filterCategory'])->name('user#filterCategory'); //axios use
-    Route::get('/filter/allCategories',[UserController::class,'allCategories'])->name('user#filterallCategories'); //axios use
+    Route::get('/filter/allCategories',[UserController::class,'allCategories'])->name('user#filterAllCategories'); //axios use
     Route::get('/sort/products',[UserController::class,'sorting'])->name('user#sortingProducts'); //axios use
 
     Route::get('/addToCart',[AxiosController::class,'addToCart'])->name('user#addToCart'); //axios use
@@ -43,7 +49,12 @@ Route::prefix('user')->middleware('user_auth')->group(function () {
     Route::get('/clearCart',[AxiosController::class,'clearCart'])->name('user#clearCart'); //axios use
 
     Route::get('/viewCount',[AxiosController::class,'increaseViewCount'])->name('user#viewCount');
+
+    Route::post('/review',[AxiosController::class,'review'])->name('user#review');
+    Route::post('/addToFav',[AxiosController::class,'addToFav'])->name('user#addToFav');
+    Route::post('/removeFromFav',[AxiosController::class,'removeFromFav'])->name('user#removeFromFav');
     //axios end
+    Route::get('/fav-lists',[UserController::class,'favLists'])->name('user#favLists');
 
     Route::get('/profile',[UserController::class,'profile'])->name('user#profile');
     Route::get('/profile/edit',[UserController::class,'editPage'])->name('user#editPage');

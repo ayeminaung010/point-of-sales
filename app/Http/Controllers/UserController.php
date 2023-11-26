@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Cart;
 use App\Models\User;
 use App\Models\Order;
+use App\Models\Rating;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\FavProducts;
 use Illuminate\Http\Request;
 use PhpParser\Node\Expr\FuncCall;
 use App\Http\Requests\UserRequest;
@@ -20,10 +22,12 @@ class UserController extends Controller
     public function home() {
         $products = Product::get();
         $categories = Category::get();
+
         if(Auth::user()){
+            $favProducts = FavProducts::where('user_id',Auth::user()->id)->get();
             $carts = Cart::where('user_id',Auth::user()->id)->get();
             $orders = Order::where('user_id',Auth::user()->id)->get();
-            return view('user.home.home',compact('products','categories','carts','orders'));
+            return view('user.home.home',compact('products','categories','carts','orders','favProducts'));
         }
         return view('user.home.home',compact('products','categories'));
     }
@@ -33,7 +37,30 @@ class UserController extends Controller
         $product = Product::where('id',$id)->first();
         $products = Product::where('id','!=',$id)->get();
 
-        return view('user.products.detail',compact('product','products'));
+        $ratings = Rating::where('product_id',$id)
+                        ->select('ratings.*','users.name as username')
+                        ->leftJoin('users','ratings.user_id','users.id')
+                        ->orderBy('created_at','desc')
+                        ->get();
+
+
+        if(count($ratings) !== 0){
+            $stars = Rating::select('rating_status')->where('product_id',$id)->get();
+            $fullStars = count($ratings) * 5;
+
+            $ratingStar = 0;
+            foreach( $stars as $star){
+                $ratingStar += $star->rating_status;
+            }
+            $averageRating = $ratingStar/$fullStars;
+            $averageRatingNumber = round($averageRating * 5, 1);
+            Product::where('id',$id)->update([
+                'rating_average' => $averageRatingNumber
+            ]);
+            return view('user.products.detail',compact('product','products','ratings','averageRatingNumber'));
+        }
+
+        return view('user.products.detail',compact('product','products','ratings'));
     }
 
 
@@ -45,15 +72,19 @@ class UserController extends Controller
 
     //allCategories axios
     public function allCategories(Request $request){
-        $products = Product::whereIn('category_id',$request->categoryId)->get();
+        // $products = Product::whereIn('category_id',$request->categoryId)->get();
+        $products = Product::get();
         return response()->json($products,200);
     }
 
     //sorting axios
     public function sorting(Request $request){
-        logger($request->sortType);
         if($request->sortType === 'lastestSort'){
             $data = Product::orderBy('created_at','desc')->get();
+        }else if($request->sortType === 'popularitySort'){
+            $data = Product::orderBy('view_count','desc')->get();
+        }else{
+            $data = Product::orderBy('rating_average','desc')->get();
         }
         return response()->json($data,200);
     }
@@ -125,5 +156,15 @@ class UserController extends Controller
         return back();
     }
 
+
+    //favLists
+    public function favLists(){
+        $favProducts = FavProducts::where('user_id',Auth::user()->id)
+                    ->select('fav_products.*','products.*')
+                    ->leftJoin('products','fav_products.product_id','products.id')
+                    ->get();
+
+        return view('user.fav.list',compact('favProducts'));
+    }
 
 }
